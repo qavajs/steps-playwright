@@ -1,0 +1,35 @@
+{
+  "name": "@qavajs/steps-playwright",
+  "version": "0.0.1",
+  "description": "steps to interact with playwright",
+  "main": "./index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qavajs/steps-playwright.git"
+  },
+  "authors": [
+    "Alexandr Galichenko"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/qavajs/steps-playwright/issues"
+  },
+  "homepage": "https://github.com/qavajs/steps-playwright#readme",
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.2.2",
+    "@types/chai": "^4.3.1",
+    "@types/jest": "^28.1.4",
+    "jest": "^28.1.2",
+    "ts-jest": "^28.0.5"
+  },
+  "dependencies": {
+    "@qavajs/memory": "^1.1.0",
+    "@qavajs/po-playwright": "^0.0.1",
+    "@qavajs/validation": "^0.0.2",
+    "playwright": "^1.26.1"
+  }
+}
