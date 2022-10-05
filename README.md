@@ -1,4 +1,4 @@
-# @qavajs/steps-wdio
+# @qavajs/steps-playwright
 Step library to work with playwright in qavajs framework
 
 ## installation
