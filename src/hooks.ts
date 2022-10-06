@@ -1,8 +1,9 @@
 import { After, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import { chromium, Browser, BrowserContext, Page } from 'playwright';
+import { chromium, firefox, webkit, Browser, BrowserContext, Page, BrowserType } from 'playwright';
 import { po } from '@qavajs/po-playwright';
 import { ScreenshotEvent } from './screenshotEvent';
+const browsers: any = { chromium, firefox, webkit };
 
 declare global {
     var browser: Browser;
@@ -18,11 +19,12 @@ Before(async function () {
         defaultTimeouts,
         ...driverConfig.timeout
     }
-    global.browser = await chromium.launch();
+    const browserName: string = driverConfig?.capabilities?.browserName ?? 'chromium';
+    global.browser = await (browsers[browserName] as BrowserType).launch(driverConfig.capabilities);
     global.context = await browser.newContext();
     global.page = await browser.newPage();
     global.driver = global.browser;
-    po.init(browser, { timeout: driverConfig.timeout.present });
+    po.init(page, { timeout: driverConfig.timeout.present });
     po.register(config.pageObject);
 });
 

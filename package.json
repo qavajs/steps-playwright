@@ -27,6 +27,7 @@
     "ts-jest": "^28.0.5"
   },
   "dependencies": {
+    "@playwright/test": "^1.26.1",
     "@qavajs/memory": "^1.1.0",
     "@qavajs/po-playwright": "^0.0.1",
     "@qavajs/validation": "^0.0.2",
