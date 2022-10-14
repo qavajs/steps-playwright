@@ -1,4 +1,3 @@
-@debug
 Feature: validations
 
   Background:

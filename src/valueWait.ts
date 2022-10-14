@@ -1,4 +1,32 @@
 import { expect } from '@playwright/test';
+
+function toSimpleEqual(this: any, actual: any, expected: any) {
+    const pass = actual == expected;
+    if (pass) {
+        return {
+            message: () =>
+                `expected ${this.utils.printReceived(
+                    actual,
+                )} not to be equal ${this.utils.printExpected(
+                    expected,
+                )}`,
+            pass: true,
+        };
+    } else {
+        return {
+            message: () =>
+                `expected ${this.utils.printReceived(
+                    actual,
+                )} to be equal ${this.utils.printExpected(
+                    expected,
+                )}`,
+            pass: false,
+        };
+    }
+}
+
+expect.extend({ toSimpleEqual });
+
 export const valueValidations = {
     EQUAL: 'equal',
     CONTAIN: 'contain',
@@ -14,10 +42,10 @@ export const valueWaitExtractRegexp = new RegExp(`^${notClause}${toBeClause}${va
 export const valueWaitRegexp = new RegExp(`(${notClause}${toBeClause}${validationClause})`);
 
 const waits = {
-    [valueValidations.EQUAL]: async (poll: any, expected: any) => poll.toBe(expected),
+    [valueValidations.EQUAL]: async (poll: any, expected: any) => poll.toSimpleEqual(expected),
     [valueValidations.CONTAIN]: async (poll: any, expected: any) => poll.toContain(expected),
-    [valueValidations.ABOVE]: async (poll: any, expected: any) => poll.toBeGreaterThan(expected),
-    [valueValidations.BELOW]: async (poll: any, expected: any) => poll.toBeLessThan(expected)
+    [valueValidations.ABOVE]: async (poll: any, expected: any) => poll.toBeGreaterThan(parseInt(expected)),
+    [valueValidations.BELOW]: async (poll: any, expected: any) => poll.toBeLessThan(parseInt(expected))
 }
 
 /**

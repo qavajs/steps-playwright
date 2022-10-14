@@ -32,10 +32,10 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "@playwright/test": "^1.26.1",
+    "@playwright/test": "^1.27.1",
     "@qavajs/memory": "^1.1.0",
     "@qavajs/po-playwright": "^0.0.1",
     "@qavajs/validation": "^0.0.2",
-    "playwright": "^1.26.1"
+    "playwright": "^1.27.1"
   }
 }

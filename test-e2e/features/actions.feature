@@ -24,9 +24,9 @@ Feature: actions
     When I clear 'Input'
     Then I expect 'value' property of 'Input' to be equal ''
 
-#  Scenario: click in collection by text
-#    When I click 'Button2' text in 'Buttons' collection
-#    Then I expect text of 'Action' to be equal 'Button2'
+  Scenario: click in collection by text
+    When I click 'Button2' text in 'Buttons' collection
+    Then I expect text of 'Action' to be equal 'Button2'
 
   Scenario: switch to frame
     When I expect 'Button' to be visible
@@ -50,19 +50,19 @@ Feature: actions
     Then I expect text of 'Action' to be equal 'test value'
     When I refresh page
     Then I expect text of 'Action' to be equal 'Nothing'
-#
-#  Scenario: press key
-#    When I press 'w' key
-#    Then I expect text of 'Action' to be equal 'keypress'
-#
-#  Scenario: hover
-#    When I hover over 'Button Hover'
-#    Then I expect text of 'Action' to be equal 'hover'
-#
-#  Scenario: select input by text
-#    When I select 'two' option from 'Select' dropdown
-#    Then I expect text of 'Action' to be equal 'select two'
-#
-#  Scenario: select input by index
-#    When I select 2 option from 'Select' dropdown
-#    Then I expect text of 'Action' to be equal 'select two'
+
+  Scenario: press key
+    When I press 'w' key
+    Then I expect text of 'Action' to be equal 'keypress'
+
+  Scenario: hover
+    When I hover over 'Button Hover'
+    Then I expect text of 'Action' to be equal 'hover'
+
+  Scenario: select input by text
+    When I select 'two' option from 'Select' dropdown
+    Then I expect text of 'Action' to be equal 'select two'
+
+  Scenario: select input by index
+    When I select 2 option from 'Select' dropdown
+    Then I expect text of 'Action' to be equal 'select two'

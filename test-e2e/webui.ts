@@ -6,9 +6,11 @@ export default {
     require: ['test-e2e/step-definitions/*.ts', 'src/*.ts'],
     browser: {
         logLevel: 'warn',
+        timeout: {
+            page: 5000
+        },
         capabilities: {
-            browserName: 'chromium',
-            headless: false
+            browserName: 'chromium'
         }
     },
     format: [

@@ -14,4 +14,13 @@ export default class App {
     FrameElement = $('#frameElement');
 
     NewTabLink = $('#newTabLink');
+
+    PresentElement = $('#present');
+    DetachElement = $('#detach');
+    VisibleElement = $('#visible');
+    HiddenElement = $('#hidden');
+
+    Loading = $('#loading');
+    LoadingInput = $('#loadingInput');
+    WaitCollection = $$('#waitCollection > div');
 }

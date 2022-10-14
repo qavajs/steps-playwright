@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="containerPresent"></div>
+<div id="containerDetach">
+    <div id="detach">Detach</div>
+</div>
+<div id="containerVisible">
+    <div id="visible" style="visibility: hidden;">Visible</div>
+</div>
+<div id="containerHidden">
+    <div id="hidden">Hidden</div>
+</div>
+<div id="loadingContainer">
+    <div id="loading">0%</div>
+</div>
+<div id="loadingInputContainer">
+    <label for="loadingInput">Loading Input</label>
+    <input type="text" name="loadingInput" id="loadingInput">
+</div>
+<div id="waitCollection"></div>
+
+<script>
+    const timeout = 1700;
+    const containerPresent = document.querySelector('#containerPresent');
+
+    setTimeout(() => {
+        const presentElement = document.createElement('div');
+        presentElement.innerText = 'Present';
+        presentElement.id = 'present';
+        containerPresent.appendChild(presentElement);
+    }, timeout);
+
+    setTimeout(() => {
+        const detachElement = document.querySelector('#detach');
+        detachElement.remove();
+    }, timeout);
+
+    setTimeout(() => {
+        const visibleElement = document.querySelector('#visible');
+        visibleElement.style = '';
+    }, timeout);
+
+    setTimeout(() => {
+        const hiddenElement = document.querySelector('#hidden');
+        hiddenElement.style = 'visibility: hidden;';
+    }, timeout);
+
+    let loading = 0;
+    const loadingElement = document.querySelector('#loading');
+    const loadingInterval = setInterval(() => {
+        loadingElement.innerText = loading + '%';
+        loading += 10;
+        if (loading > 100) clearInterval(loadingInterval);
+    }, 200);
+
+    let loadingInput = 0;
+    const loadingInputElement = document.querySelector('#loadingInput');
+    const loadingInputInterval = setInterval(() => {
+        loadingInputElement.value = loadingInput + '%';
+        loadingInput += 10;
+        if (loadingInput > 100) clearInterval(loadingInputInterval);
+    }, 200);
+
+    let waitCollection = 1;
+    const waitCollectionContainer = document.querySelector('#waitCollection');
+    const waitCollectionInterval = setInterval(() => {
+        const collectionElement = document.createElement('div');
+        collectionElement.innerText = 'element ' + waitCollection;
+        waitCollectionContainer.appendChild(collectionElement);
+        waitCollection++;
+        if (waitCollection > 10) clearInterval(waitCollectionInterval);
+    }, 200);
+</script>
+</body>
+</html>

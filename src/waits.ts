@@ -69,7 +69,10 @@ When(
         const wait = getValueWait(waitType);
         const element = await getElement(alias);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.evaluate((node: any) => node[propertyName]);
+        const getValueFn = async () => element.evaluate(
+            (node: any, propertyName: string) => node[propertyName],
+            propertyName
+        );
         await wait(getValueFn, expectedValue, config.browser.timeout.page);
     }
 );
