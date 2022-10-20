@@ -5,5 +5,7 @@ export default class Memory {
     actionsPage = file(resolve('./test-e2e/apps/actions.html'));
     framePage = file(resolve('./test-e2e/apps/frame.html'));
     waitsPage = file(resolve('./test-e2e/apps/waits.html'));
+
+    array = (...args: Array<any>) => args
 }
 
