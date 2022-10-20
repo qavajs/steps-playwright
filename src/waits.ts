@@ -69,7 +69,10 @@ When(
         const wait = getValueWait(waitType);
         const element = await getElement(alias);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.evaluate((node: any) => node[propertyName]);
+        const getValueFn = async () => element.evaluate(
+            (node: any, propertyName: string) => node[propertyName],
+            propertyName
+        );
         await wait(getValueFn, expectedValue, config.browser.timeout.page);
     }
 );
@@ -93,4 +96,16 @@ When(
         await wait(getValueFn, expectedValue, config.browser.timeout.page);
     }
 );
+
+/**
+ * Wait
+ * @param {number} ms - milliseconds
+ * @example I wait 1000 ms
+ */
+When('I wait {int} ms', async function (ms) {
+    await new Promise((resolve: Function): void => {
+        setTimeout(() => resolve(), ms)
+    });
+});
+
 

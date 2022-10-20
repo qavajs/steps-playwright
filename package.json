@@ -1,11 +1,12 @@
 {
   "name": "@qavajs/steps-playwright",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "steps to interact with playwright",
   "main": "./index.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:e2e": "ts-node node_modules/.bin/qavajs run --config test-e2e/webui.ts"
   },
   "repository": {
     "type": "git",
@@ -21,16 +22,20 @@
   "homepage": "https://github.com/qavajs/steps-playwright#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^8.2.2",
+    "@qavajs/cli": "^0.0.9",
+    "@qavajs/po": "^1.0.2",
+    "@qavajs/xunit-formatter": "^0.0.1",
     "@types/chai": "^4.3.1",
     "@types/jest": "^28.1.4",
     "jest": "^28.1.2",
-    "ts-jest": "^28.0.5"
+    "ts-jest": "^28.0.5",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "@playwright/test": "^1.26.1",
+    "@playwright/test": "^1.27.1",
     "@qavajs/memory": "^1.1.0",
     "@qavajs/po-playwright": "^0.0.1",
     "@qavajs/validation": "^0.0.2",
-    "playwright": "^1.26.1"
+    "playwright": "^1.27.1"
   }
 }

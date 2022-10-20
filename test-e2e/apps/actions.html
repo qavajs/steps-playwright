@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Actions</title>
+</head>
+<body>
+  <span id="action">Nothing</span>
+  <button id="button">Click Me!</button>
+  <button id="buttonHover">Hover Me!</button>
+  <label for="input"></label><input type="text" id="input"/>
+  <button class="button">Button1</button>
+  <button class="button">Button2</button>
+  <button class="button">Button3</button>
+
+  <iframe src="frame.html" frameborder="1"></iframe>
+  <a id="newTabLink" href="frame.html" target="_blank">New tab</a>
+  <label for="select"></label><select name="select" id="select">
+    <option value="select one">one</option>
+    <option value="select two">two</option>
+    <option value="select three">three</option>
+  </select>
+  <script>
+    const action = document.querySelector('#action');
+    const button = document.querySelector('#button');
+    const buttonHover = document.querySelector('#buttonHover');
+    const input = document.querySelector('#input');
+    const buttons = document.querySelectorAll('.button');
+    const body = document.body;
+    const select = document.querySelector('#select');
+
+    button.addEventListener('click', function () {
+      action.innerText = 'click';
+    });
+
+    button.addEventListener('dblclick', function () {
+      action.innerText = 'dblclick';
+    });
+
+    button.addEventListener('contextmenu', function () {
+      action.innerText = 'rightclick';
+    });
+
+    buttonHover.addEventListener('mouseenter', function () {
+      action.innerText = 'hover';
+    });
+
+    input.addEventListener('input', function () {
+      action.innerText = input.value;
+    });
+
+    buttons.forEach(b => {
+       b.addEventListener('click', function () {
+           action.innerText = b.innerText;
+       })
+    });
+
+    body.addEventListener('keypress', function () {
+      action.innerText = 'keypress'
+    });
+
+    select.addEventListener('change', function () {
+      action.innerText = select.value;
+    });
+
+  </script>
+</body>
+</html>
