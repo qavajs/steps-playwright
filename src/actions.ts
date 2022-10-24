@@ -1,6 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
+import { expect } from '@playwright/test';
 
 /**
  * Opens provided url
@@ -79,6 +80,10 @@ When('I switch to parent frame', async function () {
  * @example I switch to 2 frame
  */
 When('I switch to {int} frame', async function (index: number) {
+    await expect.poll(
+        () => page.frames()?.length,
+        { timeout: config.browser.timeout.page }
+    ).toBeGreaterThan(index);
     // @ts-ignore
     po.driver = page.frames()[index];
 });
@@ -89,7 +94,15 @@ When('I switch to {int} frame', async function (index: number) {
  * @example I switch to 2 window
  */
 When('I switch to {int} window', async function (index: number) {
+    await expect.poll(
+        () => browser.contexts()?.length,
+        { timeout: config.browser.timeout.page }
+    ).toBeGreaterThan(index - 1);
     global.context = browser.contexts()[index - 1];
+    await expect.poll(
+        () => context.pages()?.length,
+        { timeout: config.browser.timeout.page }
+    ).toBeGreaterThan(index - 1);
     global.page = context.pages()[index - 1];
     //@ts-ignore
     po.driver = page;
