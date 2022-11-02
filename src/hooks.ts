@@ -22,7 +22,7 @@ Before(async function () {
     const browserName: string = driverConfig?.capabilities?.browserName ?? 'chromium';
     global.browser = await (browsers[browserName] as BrowserType).launch(driverConfig.capabilities);
     global.context = await browser.newContext();
-    global.page = await browser.newPage();
+    global.page = await browser.newPage({ viewport: null });
     global.driver = global.browser;
     po.init(page, { timeout: driverConfig.timeout.present });
     po.register(config.pageObject);
