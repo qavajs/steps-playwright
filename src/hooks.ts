@@ -52,5 +52,7 @@ AfterStep(async function (step) {
 });
 
 After(async function () {
-    await browser.close();
+    if (browser) {
+        await browser.close();
+    }
 });
