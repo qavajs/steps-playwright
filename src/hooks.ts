@@ -20,7 +20,15 @@ Before(async function () {
         ...driverConfig.timeout
     }
     const browserName: string = driverConfig?.capabilities?.browserName ?? 'chromium';
-    global.browser = await (browsers[browserName] as BrowserType).launch(driverConfig.capabilities);
+    const browserType: BrowserType = browsers[browserName];
+    if (driverConfig?.capabilities?.wsEndpoint) {
+        global.browser = await browserType.connect(
+            driverConfig?.capabilities?.wsEndpoint,
+            driverConfig.capabilities
+        )
+    } else {
+        global.browser = await browserType.launch(driverConfig.capabilities);
+    }
     global.context = await browser.newContext();
     global.page = await browser.newPage({ viewport: null });
     global.driver = global.browser;
@@ -52,7 +60,7 @@ AfterStep(async function (step) {
 });
 
 After(async function () {
-    if (browser) {
+    if (global.browser) {
         await browser.close();
     }
 });
