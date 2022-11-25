@@ -207,7 +207,10 @@ Then(
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
         const validation = getValidation(validationType);
-        const actualValue = await element.evaluate((node: any, propertyName: any) => getComputedStyle(node)[propertyName], propertyName);
+        const actualValue = await element.evaluate(
+            (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
+            propertyName
+        );
         validation(actualValue, expectedValue);
     }
 );
