@@ -48,3 +48,7 @@ Feature: validations
   Scenario: collection property of elements
     Then I expect 'nodeName' property of every element in 'Simple Text List Items' collection to equal 'LI'
     Then I expect 'nodeName' property of every element in 'Simple Text List Items' collection not to contain 'A'
+
+  Scenario: element css property
+    Then I expect 'background-color' css property of 'Simple Text Input' to be equal 'rgb(95, 158, 160)'
+    Then I expect 'font-size' css property of '#1 of Simple Text List Items' to be equal '20px'
