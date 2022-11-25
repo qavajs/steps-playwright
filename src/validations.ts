@@ -191,3 +191,24 @@ Then(
     }
 );
 
+/**
+ * Verify that css property of element satisfies condition
+ * @param {string} property - element to verify
+ * @param {string} alias - element to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42)'
+ * @example I expect 'font-family' css property of 'Label' to contain 'Fira'
+ */
+Then(
+    'I expect {string} css property of {string} {playwrightValidation} {string}',
+    async function (property: string, alias: string, validationType: string, value: string) {
+        const propertyName = await getValue(property);
+        const expectedValue = await getValue(value);
+        const element = await getElement(alias);
+        const validation = getValidation(validationType);
+        const actualValue = await element.evaluate((node: any, propertyName: any) => getComputedStyle(node)[propertyName], propertyName);
+        validation(actualValue, expectedValue);
+    }
+);
+

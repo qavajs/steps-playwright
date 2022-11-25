@@ -137,3 +137,18 @@ When('I save screenshot as {string}', async function(key: string) {
     const screenshot = await page.screenshot();
     memory.setValue(key, screenshot);
 });
+
+/**
+ * Save css property of element to memory
+ * @param {string} property - property to store
+ * @param {string} alias - element to get value
+ * @param {string} key - key to store value
+ * @example I save 'color' css property of 'Checkbox' as 'checkboxColor'
+ * @example I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
+ */
+When('I save {string} css property of {string} as {string}', async function (property, alias, key) {
+    const element = await getElement(alias);
+    const propertyName = await getValue(property);
+    const value = await element.evaluate((node: any, propertyName: any) => getComputedStyle(node)[propertyName], propertyName);
+    memory.setValue(key, value);
+});
