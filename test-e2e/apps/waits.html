@@ -75,6 +75,11 @@
         waitCollection++;
         if (waitCollection > 10) clearInterval(waitCollectionInterval);
     }, 200);
+
+    setTimeout(() => {
+        window.document.title = 'title changed';
+        window.document.location.href = '#anchor';
+    }, 1234);
 </script>
 </body>
 </html>
