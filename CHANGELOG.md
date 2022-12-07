@@ -2,6 +2,7 @@
 - :rocket: added capability to connect via CDP
 - :rocket: added I wait until current url step
 - :rocket: added I wait until page title step
+- :rocket: added I execute steps allow to execute client functions
 
 ## 0.0.6
 - :beetle: fixed issue in After hook if browser is not started
