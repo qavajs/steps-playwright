@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  node16:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,3 +16,25 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run test:e2e
+      - name: junit report
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        with:
+          report_paths: './test-e2e/report.xml'
+          fail_on_failure: true
+  node18:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:e2e
+      - name: junit report
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        with:
+          report_paths: './test-e2e/report.xml'
+          fail_on_failure: true
