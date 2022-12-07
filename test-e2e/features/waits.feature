@@ -30,3 +30,9 @@ Feature: waits
       | to be equal | 10       |
       | to be above | 8        |
       | to be below | 5        |
+
+  Scenario: wait for current url
+    Then I wait until current url to contain '#anchor'
+
+  Scenario: wait for title
+    Then I wait until page title to be equal 'title changed'

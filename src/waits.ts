@@ -108,4 +108,39 @@ When('I wait {int} ms', async function (ms) {
     });
 });
 
+/**
+ * Wait for url condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @example I wait until current url to be equal 'https://qavajs.github.io/'
+ * @example I wait until current url not to contain 'java'
+ */
+When(
+    'I wait until current url {playwrightValueWait} {string}',
+    async function (waitType: string, value: string) {
+        const wait = getValueWait(waitType);
+        const expectedValue = await getValue(value);
+        const getValueFn = () => page.url();
+        await wait(getValueFn, expectedValue, config.browser.timeout.page);
+    }
+);
+
+/**
+ * Wait for title condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @example I wait until page title to be equal 'qavajs'
+ * @example I wait until page title not to contain 'java'
+ */
+When(
+    'I wait until page title {playwrightValueWait} {string}',
+    async function (waitType: string, value: string) {
+        const wait = getValueWait(waitType);
+        const expectedValue = await getValue(value);
+        const getValueFn = async () => page.title();
+        await wait(getValueFn, expectedValue, config.browser.timeout.page);
+    }
+);
+
+
 
