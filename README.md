@@ -3,11 +3,11 @@
 # @qavajs/steps-playwright
 Step library to work with playwright in qavajs framework
 
-## installation
+## Installation
 
 `npm install @qavajs/steps-playwright`
 
-## configuration
+## Configuration
 ```javascript
 const App = require('./page_object');
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
                 visible: 20000    
             },
             capabilities: {
-                browserName: 'chrome'
+                browserName: 'chromium'
             }
         },
         pageObject: new App()
@@ -29,7 +29,29 @@ module.exports = {
 }
 ```
 
-## screenshot strategy
+## Connect to playwright server
+In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
+```typescript
+{
+    capabilities: {
+        browserName: 'chromium',
+        wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'    
+    }
+}
+```
+
+## Connect to cdp endpoint
+In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object 
+```typescript
+{
+    capabilities: {
+        browserName: 'chromium',
+        cdpEndpoint: 'http://localhost:9222/'    
+    }
+}
+```
+
+## Screenshot strategy
 @qavajs/steps-playwright has build-in capability to take screenshot on particular event. If you need to add 
 screenshot to your report add _screenshot_ property to profile config.
 Supported events:
