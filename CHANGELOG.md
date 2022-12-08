@@ -1,4 +1,6 @@
 ## Current
+
+## 0.0.7
 - :rocket: added capability to connect via CDP
 - :rocket: added I wait until current url step
 - :rocket: added I wait until page title step
