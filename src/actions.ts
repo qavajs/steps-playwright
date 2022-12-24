@@ -95,11 +95,6 @@ When('I switch to {int} frame', async function (index: number) {
  */
 When('I switch to {int} window', async function (index: number) {
     await expect.poll(
-        () => browser.contexts()?.length,
-        { timeout: config.browser.timeout.page }
-    ).toBeGreaterThan(index - 1);
-    global.context = browser.contexts()[index - 1];
-    await expect.poll(
         () => context.pages()?.length,
         { timeout: config.browser.timeout.page }
     ).toBeGreaterThan(index - 1);

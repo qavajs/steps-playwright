@@ -20,8 +20,8 @@ Before(async function () {
         ...driverConfig.timeout
     }
     global.browser = await driverProvider(driverConfig);
-    global.context = await browser.newContext();
-    global.page = await browser.newPage({ viewport: null });
+    global.context = await browser.newContext({ viewport: null });
+    global.page = await context.newPage();
     global.driver = global.browser;
     po.init(page, { timeout: driverConfig.timeout.present });
     po.register(config.pageObject);
