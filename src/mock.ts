@@ -15,7 +15,7 @@ When('I create mock for {string} as {string}', async function (urlTemplate: stri
     memory.setValue(memoryKey, url);
 });
 
-async function respondWith(mockKey: string, statusCode: string, body: string) {
+async function respondWith(mockKey: string, statusCode: string, body: string): Promise<void> {
     const mockUrl: string = await getValue(mockKey);
     const responseStatusCode: number = parseInt(await getValue(statusCode));
     const responseBody = await getValue(body);
