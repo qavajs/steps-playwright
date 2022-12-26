@@ -5,6 +5,7 @@ export default class Memory {
     actionsPage = file(resolve('./test-e2e/apps/actions.html'));
     framePage = file(resolve('./test-e2e/apps/frame.html'));
     waitsPage = file(resolve('./test-e2e/apps/waits.html'));
+    mockPage = file(resolve('./test-e2e/apps/mock.html'));
 
     array = (...args: Array<any>) => args;
 
@@ -19,5 +20,13 @@ export default class Memory {
 
     // @ts-ignore
     getInnerText = target => target.innerText;
+
+    userFromMemory = 'Mock 3';
+
+    users = JSON.stringify([
+        {"name": "Memory Mock 1"},
+        {"name": "Memory Mock 2"},
+        {"name": "Memory Mock 3"}
+    ]);
 }
 
