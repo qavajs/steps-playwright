@@ -1,5 +1,6 @@
-## Current
+## 0.0.8
 - :beetle: fixed issue that opens page from browser, not from context
+- :rocket: added mock steps
 
 ## 0.0.7
 - :rocket: added capability to connect via CDP

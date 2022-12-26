@@ -1,4 +1,4 @@
-Feature: Memory
+Feature: memory
 
   Background:
     When I open '$valuesPage' url

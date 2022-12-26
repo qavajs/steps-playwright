@@ -23,4 +23,6 @@ export default class App {
     Loading = $('#loading');
     LoadingInput = $('#loadingInput');
     WaitCollection = $$('#waitCollection > div');
+
+    Users = $$('#users > li');
 }
