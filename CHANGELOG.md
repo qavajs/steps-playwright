@@ -1,4 +1,5 @@
 ## Current
+- :beetle: fixed issue that opens page from browser, not from context
 
 ## 0.0.7
 - :rocket: added capability to connect via CDP
