@@ -14,6 +14,7 @@ const common = {
         }
     },
     format: [
+        'json:test-e2e/report.json',
         '@qavajs/xunit-formatter:test-e2e/report.xml'
     ],
     memory: new Memory(),
@@ -35,6 +36,11 @@ export const debug = {
         capabilities: {
             browserName: 'chromium',
             headless: false
+        },
+        trace: {
+            event: 'onFail',
+            dir: 'customDir',
+            attach: true
         }
     }
 }

@@ -13,7 +13,7 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-playwright'
+            'node_modules/@qavajs/steps-playwright'
         ],
         browser: {
             timeout: {
@@ -63,6 +63,20 @@ Supported events:
 module.exports = {
     default: {
         screenshot: 'onFail'
+    }
+}
+```
+
+## Playwright traces
+@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+```typescript
+{
+    browser: {
+        trace: {
+            event: 'onFail', // Event to save trace. Possible value onFail or AfterScenario 
+            dir: 'dirToStoreTraces' // Dir to store traces. Default is traces/
+            attach: true // Define if trace need to be attached to cucumber report. Default false
+        }
     }
 }
 ```
