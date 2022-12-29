@@ -1,9 +1,10 @@
-import { After, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
+import { After, AfterStep, Before, BeforeStep } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
 import { Browser, BrowserContext, Page } from 'playwright';
 import { po } from '@qavajs/po-playwright';
-import { ScreenshotEvent } from './screenshotEvent';
 import { driverProvider } from './driverProvider';
+import { saveScreenshotAfterStep, saveScreenshotBeforeStep, saveTrace, traceArchive } from './utils/utils';
+import { readFile } from 'fs/promises';
 
 declare global {
     var browser: Browser;
@@ -19,16 +20,23 @@ Before(async function () {
         defaultTimeouts,
         ...driverConfig.timeout
     }
-    global.browser = await driverProvider(driverConfig);
+    config.driverConfig = driverConfig;
+    global.browser = await driverProvider(config.driverConfig);
     global.context = await browser.newContext({ viewport: null });
+    if (config.driverConfig.trace) {
+        await context.tracing.start({
+            screenshots: true,
+            snapshots: true
+        })
+    }
     global.page = await context.newPage();
     global.driver = global.browser;
-    po.init(page, { timeout: driverConfig.timeout.present });
+    po.init(page, { timeout: config.driverConfig.timeout.present });
     po.register(config.pageObject);
 });
 
 BeforeStep(async function () {
-    if (config.screenshot === ScreenshotEvent.BEFORE_STEP) {
+    if (saveScreenshotBeforeStep(config)) {
         try {
             this.attach(await page.screenshot(), 'image/png');
         } catch (err) {
@@ -39,10 +47,7 @@ BeforeStep(async function () {
 
 AfterStep(async function (step) {
     try {
-        if (
-            (config.screenshot === ScreenshotEvent.ON_FAIL && step.result.status === Status.FAILED) ||
-            config.screenshot === ScreenshotEvent.AFTER_STEP
-        ) {
+        if (saveScreenshotAfterStep(config, step)) {
             this.attach(await page.screenshot(), 'image/png');
         }
     } catch (err) {
@@ -50,7 +55,15 @@ AfterStep(async function (step) {
     }
 });
 
-After(async function () {
+After(async function (scenario) {
+    if (saveTrace(config.driverConfig, scenario)) {
+        const path = traceArchive(config.driverConfig, scenario);
+        await context.tracing.stop({ path });
+        if (config.driverConfig?.trace.attach) {
+            const zipBuffer: Buffer = await readFile(path);
+            this.attach(zipBuffer.toString('base64'), 'base64:application/zip');
+        }
+    }
     if (global.browser) {
         await browser.close();
     }
