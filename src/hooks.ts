@@ -1,4 +1,4 @@
-import { After, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
+import { After, AfterStep, Before, BeforeStep } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
 import { Browser, BrowserContext, Page } from 'playwright';
 import { po } from '@qavajs/po-playwright';
