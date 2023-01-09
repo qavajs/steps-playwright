@@ -2,6 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect } from '@playwright/test';
+import { parseCoords } from './utils/utils';
 
 /**
  * Opens provided url
@@ -167,3 +168,31 @@ When(
         await collection.getByText(value).click();
     }
 );
+
+/**
+ * Scroll by provided offset
+ * @param {string} - offset string in 'x, y' format
+ * @example
+ * When I scroll by '0, 100'
+ */
+When('I scroll by {string}', async function (offset: string) {
+    const [x, y] = parseCoords(await getValue(offset));
+    await page.evaluate(function (coords) {
+        window.scrollBy(...coords as [number, number]);
+    }, [x, y]);
+});
+
+/**
+ * Scroll by provided offset in element
+ * @param {string} - offset string in 'x, y' format
+ * @param {string} - element alias
+ * @example
+ * When I scroll by '0, 100' in 'Overflow Container'
+ */
+When('I scroll by {string} in {string}', async function (offset: string, alias: string) {
+    const coords = parseCoords(await getValue(offset));
+    const element = await getElement(alias);
+    await element.evaluate(function (element, coords) {
+        element.scrollBy(...coords as [number, number]);
+    }, coords);
+});

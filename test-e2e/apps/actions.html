@@ -1,68 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Actions</title>
+  <meta charset="UTF-8">
+  <title>Actions</title>
 </head>
-<body>
-  <span id="action">Nothing</span>
-  <button id="button">Click Me!</button>
-  <button id="buttonHover">Hover Me!</button>
-  <label for="input"></label><input type="text" id="input"/>
-  <button class="button">Button1</button>
-  <button class="button">Button2</button>
-  <button class="button">Button3</button>
+<body style="height: 1000px">
+<span id="action">Nothing</span>
+<button id="button">Click Me!</button>
+<button id="buttonHover">Hover Me!</button>
+<label for="input"></label><input type="text" id="input"/>
+<button class="button">Button1</button>
+<button class="button">Button2</button>
+<button class="button">Button3</button>
 
-  <iframe src="frame.html" frameborder="1"></iframe>
-  <a id="newTabLink" href="frame.html" target="_blank">New tab</a>
-  <label for="select"></label><select name="select" id="select">
-    <option value="select one">one</option>
-    <option value="select two">two</option>
-    <option value="select three">three</option>
-  </select>
-  <script>
-    const action = document.querySelector('#action');
-    const button = document.querySelector('#button');
-    const buttonHover = document.querySelector('#buttonHover');
-    const input = document.querySelector('#input');
-    const buttons = document.querySelectorAll('.button');
-    const body = document.body;
-    const select = document.querySelector('#select');
+<iframe src="frame.html" style="border: 1px solid black"></iframe>
+<a id="newTabLink" href="frame.html" target="_blank">New tab</a>
+<label for="select"></label><select name="select" id="select">
+  <option value="select one">one</option>
+  <option value="select two">two</option>
+  <option value="select three">three</option>
+</select>
+<div>
+  <span id="pressCounter">no press</span>
+</div>
+<div id="overflowContainer" style="height: 200px; width: 150px; overflow-x: scroll">
+  <ul>
+    <li>row 1</li>
+    <li>row 2</li>
+    <li>row 3</li>
+    <li>row 4</li>
+    <li>row 5</li>
+    <li>row 6</li>
+    <li>row 7</li>
+    <li>row 8</li>
+    <li>row 9</li>
+    <li>row 10</li>
+    <li>row 11</li>
+    <li>row 12</li>
+    <li>row 13</li>
+    <li>row 14</li>
+    <li>row 15</li>
+  </ul>
+</div>
 
-    button.addEventListener('click', function () {
-      action.innerText = 'click';
-    });
+<script>
+  const action = document.querySelector('#action');
+  const button = document.querySelector('#button');
+  const buttonHover = document.querySelector('#buttonHover');
+  const input = document.querySelector('#input');
+  const buttons = document.querySelectorAll('.button');
+  const body = document.body;
+  const select = document.querySelector('#select');
+  const pressCounter = document.querySelector('#pressCounter');
+  let presses = 0;
 
-    button.addEventListener('dblclick', function () {
-      action.innerText = 'dblclick';
-    });
+  button.addEventListener('click', function () {
+    action.innerText = 'click';
+  });
 
-    button.addEventListener('contextmenu', function () {
-      action.innerText = 'rightclick';
-    });
+  button.addEventListener('dblclick', function () {
+    action.innerText = 'dblclick';
+  });
 
-    buttonHover.addEventListener('mouseenter', function () {
-      action.innerText = 'hover';
-    });
+  button.addEventListener('contextmenu', function () {
+    action.innerText = 'rightclick';
+  });
 
-    input.addEventListener('input', function () {
-      action.innerText = input.value;
-    });
+  buttonHover.addEventListener('mouseenter', function () {
+    action.innerText = 'hover';
+  });
 
-    buttons.forEach(b => {
-       b.addEventListener('click', function () {
-           action.innerText = b.innerText;
-       })
-    });
+  input.addEventListener('input', function () {
+    action.innerText = input.value;
+  });
 
-    body.addEventListener('keypress', function () {
-      action.innerText = 'keypress'
-    });
+  buttons.forEach(b => {
+    b.addEventListener('click', function () {
+      action.innerText = b.innerText;
+    })
+  });
 
-    select.addEventListener('change', function () {
-      action.innerText = select.value;
-    });
+  body.addEventListener('keypress', function () {
+    action.innerText = 'keypress'
+  });
 
-  </script>
+  body.addEventListener('keypress', function (event) {
+    presses++;
+    pressCounter.innerText = `pressed ${event.code} ${presses} times`;
+  });
+
+  select.addEventListener('change', function () {
+    action.innerText = select.value;
+  });
+
+</script>
 </body>
 </html>
