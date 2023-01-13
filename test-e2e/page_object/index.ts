@@ -1,4 +1,4 @@
-import { $, $$, Component } from '@qavajs/po-playwright';
+import { $, $$ } from '@qavajs/po-playwright';
 export default class App {
     SimpleTextElement = $('#textValue');
     SimpleTextListItems = $$('#textValueList li');
@@ -25,4 +25,5 @@ export default class App {
     WaitCollection = $$('#waitCollection > div');
 
     Users = $$('#users > li');
+    OverflowContainer = $('#overflowContainer');
 }

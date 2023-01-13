@@ -1,3 +1,6 @@
+## Current
+- :rocket: added scroll by offset steps
+ 
 ## 0.0.8
 - :beetle: fixed issue that opens page from browser, not from context
 - :rocket: added mock steps
