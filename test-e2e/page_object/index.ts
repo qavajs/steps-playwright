@@ -1,4 +1,4 @@
-import { $, $$ } from '@qavajs/po-playwright';
+import { $, $$, Component } from '@qavajs/po-playwright';
 export default class App {
     SimpleTextElement = $('#textValue');
     SimpleTextListItems = $$('#textValueList li');
@@ -27,12 +27,10 @@ export default class App {
     Users = $$('#users > li');
     OverflowContainer = $('#overflowContainer');
 
-    IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent());
+    IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent('#ignoreHierarchyComponent'));
 
 }
 
-class IgnoreHierarchyComponent {
-    selector = '#ignoreHierarchyComponent';
-
+class IgnoreHierarchyComponent extends Component {
     Input = $('#input', { ignoreHierarchy: true });
 }
