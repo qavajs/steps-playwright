@@ -26,4 +26,13 @@ export default class App {
 
     Users = $$('#users > li');
     OverflowContainer = $('#overflowContainer');
+
+    IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent());
+
+}
+
+class IgnoreHierarchyComponent {
+    selector = '#ignoreHierarchyComponent';
+
+    Input = $('#input', { ignoreHierarchy: true });
 }

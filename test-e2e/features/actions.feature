@@ -80,3 +80,7 @@ Feature: actions
     And I execute 'document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$number(0)'
     Then I expect '$scrollY' memory value to be equal '$number(50)'
+
+  Scenario: type in ignore hierarchy component
+    When I type 'test value' to 'IgnoreHierarchyComponent > Input'
+    Then I expect text of 'Action' to be equal 'test value'
