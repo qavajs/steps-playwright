@@ -1,3 +1,7 @@
+## 0.0.11
+- :rocket: removed po package dependency
+- :rocket: added util functions exports to build custom steps
+- 
 ## 0.0.9
 - :rocket: added scroll by offset steps
 - :rocket: updated po dependency to support ignoreHierarchy options
