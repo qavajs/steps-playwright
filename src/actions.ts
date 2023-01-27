@@ -196,3 +196,16 @@ When('I scroll by {string} in {string}', async function (offset: string, alias: 
         element.scrollBy(...coords as [number, number]);
     }, coords);
 });
+
+
+/**
+ * Provide file url to upload input
+ * @param {string} alias - element to upload file
+ * @param {string} value - file path
+ * @example I upload '/folder/file.txt' to 'File Input'
+ */
+When('I upload {string} file to {string}', async function (value: string, alias: string) {
+    const element = await getElement(alias);
+    const filePath = await getValue(value);
+    await element.setInputFiles(filePath);
+});

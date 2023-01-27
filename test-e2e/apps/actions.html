@@ -9,6 +9,7 @@
 <button id="button">Click Me!</button>
 <button id="buttonHover">Hover Me!</button>
 <label for="input"></label><input type="text" id="input"/>
+<input type="file" id="fileInput"/>
 <button class="button">Button1</button>
 <button class="button">Button2</button>
 <button class="button">Button3</button>
@@ -50,6 +51,7 @@
   const button = document.querySelector('#button');
   const buttonHover = document.querySelector('#buttonHover');
   const input = document.querySelector('#input');
+  const fileInput = document.querySelector('#fileInput');
   const buttons = document.querySelectorAll('.button');
   const body = document.body;
   const select = document.querySelector('#select');
@@ -74,6 +76,10 @@
 
   input.addEventListener('input', function () {
     action.innerText = input.value;
+  });
+
+  fileInput.addEventListener('input', function () {
+    action.innerText = 'file:' + fileInput.value;
   });
 
   buttons.forEach(b => {

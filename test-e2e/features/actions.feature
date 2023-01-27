@@ -84,3 +84,12 @@ Feature: actions
   Scenario: type in ignore hierarchy component
     When I type 'test value' to 'IgnoreHierarchyComponent > Input'
     Then I expect text of 'Action' to be equal 'test value'
+
+  Scenario: type in component without selector
+    When I type 'test value' to 'Component Without Selector > Input'
+    Then I expect text of 'Action' to be equal 'test value'
+
+  Scenario: upload file
+    When I upload '$uploadFile' file to 'File Input'
+    Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
+
