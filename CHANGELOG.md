@@ -1,3 +1,7 @@
+## 0.0.13
+- :rocket: added JS alert steps
+- :rocket: added _I press button given number of times_ step
+
 ## 0.0.12
 - :rocket: added _I upload file_ step
 

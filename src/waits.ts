@@ -1,5 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getValueWait, getConditionWait } from './transformers';
+import { getValidation } from '@qavajs/validation';
 
 /**
  * Wait for element condition
@@ -139,6 +140,22 @@ When(
         const expectedValue = await getValue(value);
         const getValueFn = async () => page.title();
         await wait(getValueFn, expectedValue, config.browser.timeout.page);
+    }
+);
+
+/**
+ * Verify that text of an alert meets expectation
+ * @param {string} validationType - validation
+ * @param {string} value - expected text value
+ * @example I expect text of alert does not contain 'coffee'
+ */
+When('I wait until text of alert {playwrightValidation} {string}', async function (validationType: string, expectedValue: string) {
+      let alertText;
+      page.once('dialog', async (dialog) => {
+        alertText = dialog.message();
+      });
+      const validation = getValidation(validationType);
+      validation(alertText, expectedValue);
     }
 );
 

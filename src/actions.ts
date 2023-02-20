@@ -122,6 +122,18 @@ When('I press {string} key', async function (key: string) {
 });
 
 /**
+ * Press button given number of times
+ * @param {string} key - key to press
+ * @param {number} num - number of times
+ * @example I press 'Enter' key 5 times
+ */
+When('I press {string} key {int} time(s)', async function (key: string, num: number) {
+    for (let i: number = 0; i < num; i++) {
+        await page.keyboard.press(key);
+    }
+});
+
+/**
  * Hover over element
  * @param {string} alias - element to hover over
  * @example I hover over 'Google Button'
@@ -197,7 +209,6 @@ When('I scroll by {string} in {string}', async function (offset: string, alias: 
     }, coords);
 });
 
-
 /**
  * Provide file url to upload input
  * @param {string} alias - element to upload file
@@ -208,4 +219,38 @@ When('I upload {string} file to {string}', async function (value: string, alias:
     const element = await getElement(alias);
     const filePath = await getValue(value);
     await element.setInputFiles(filePath);
+});
+
+/**
+ * Accept alert
+ * @example I accept alert
+ */
+When('I accept alert', async function () {
+    await new Promise<void>((resolve)=> page.once('dialog', async (dialog) => {
+        await dialog.accept();
+        resolve();
+    }))
+});
+
+/**
+ * Dismiss alert
+ * Playwright automatically dismisses all dialogs. This step is just to make it implicitly.
+ * @example I dismiss alert
+ */
+When('I dismiss alert', async function () {
+    await new Promise<void>((resolve)=> page.once('dialog', async (dialog) => {
+        await dialog.dismiss();
+        resolve();
+    }));
+});
+
+/**
+ * I type {string} to alert
+ * @example I type 'coffee' to alert
+ */
+When('I type {string} to alert', async function (value: string) {
+    await new Promise<void>((resolve)=> page.once('dialog', async (dialog) => {
+        await dialog.accept(value);
+        resolve();
+    }))
 });
