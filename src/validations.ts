@@ -215,3 +215,17 @@ Then(
     }
 );
 
+/**
+ * Verify that text of an alert meets expectation
+ * @param {string} validationType - validation
+ * @param {string} value - expected text value
+ * @example I expect text of alert does not contain 'coffee'
+ */
+Then('I expect text of alert {playwrightValidation} {string}', async function (validationType: string, expectedValue: string) {
+      const alertText = await new Promise<string>(resolve => page.once('dialog', async (dialog) => {
+        resolve(dialog.message());
+      }));
+      const validation = getValidation(validationType);
+      validation(alertText, expectedValue);
+    }
+);

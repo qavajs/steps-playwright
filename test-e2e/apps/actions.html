@@ -13,6 +13,8 @@
 <button class="button">Button1</button>
 <button class="button">Button2</button>
 <button class="button">Button3</button>
+<button id="confirm">Show alert in 3 sec</button>
+<button id="prompt">Show prompt</button>
 
 <iframe src="frame.html" style="border: 1px solid black"></iframe>
 <a id="newTabLink" href="frame.html" target="_blank">New tab</a>
@@ -56,6 +58,8 @@
   const body = document.body;
   const select = document.querySelector('#select');
   const pressCounter = document.querySelector('#pressCounter');
+  const confirm = document.querySelector('#confirm');
+  const prompt = document.querySelector('#prompt');
   let presses = 0;
 
   button.addEventListener('click', function () {
@@ -99,6 +103,14 @@
 
   select.addEventListener('change', function () {
     action.innerText = select.value;
+  });
+
+  confirm.addEventListener('click', function () {
+    setTimeout(()=> action.innerText = window.confirm('Are you robot?'), 3000);
+  });
+
+  prompt.addEventListener('click', () => {
+    setTimeout(()=> action.innerText = window.prompt('Are you robot?'), 500);
   });
 
 </script>

@@ -5,6 +5,8 @@ export default class App {
     SimpleTextInput = $('#textInput');
     FileInput = $('#fileInput');
     Action = $('#action');
+    AlertButton = $('#confirm');
+    PromptButton = $('#prompt');
     Button = $('#button');
     ButtonHover = $('#buttonHover');
     Input = $('#input');
@@ -23,6 +25,7 @@ export default class App {
     Loading = $('#loading');
     LoadingInput = $('#loadingInput');
     WaitCollection = $$('#waitCollection > div');
+    PressCounter = $('#pressCounter');
 
     Users = $$('#users > li');
     OverflowContainer = $('#overflowContainer');

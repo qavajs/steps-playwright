@@ -55,6 +55,15 @@ Feature: actions
     When I press 'w' key
     Then I expect text of 'Action' to be equal 'keypress'
 
+  Scenario Outline: press <Key> key multiple times
+    When I press '<Key>' key <Times> time<Postfix>
+    Then I expect text of 'Press Counter' to be equal '<Result>'
+
+    Examples:
+      | Key   | Times | Postfix | Result                |
+      | Enter | 1     |         | pressed Enter 1 times |
+      | Space | 5     | s       | pressed Space 5 times |
+
   Scenario: hover
     When I hover over 'Button Hover'
     Then I expect text of 'Action' to be equal 'hover'
@@ -93,3 +102,22 @@ Feature: actions
     When I upload '$uploadFile' file to 'File Input'
     Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
 
+  Scenario: accept alert
+    When I click "Alert Button"
+    And I accept alert
+    Then I expect text of 'Action' to be equal 'true'
+
+  Scenario: dismiss alert
+    When I click "Alert Button"
+    And I dismiss alert
+    Then I expect text of 'Action' to be equal 'false'
+
+  Scenario: type text to alert
+    When I expect text of 'Action' to be equal 'Nothing'
+    And I click "Prompt Button"
+    And I type 'I am not a robot' to alert
+    Then I expect text of 'Action' to be equal 'I am not a robot'
+
+  Scenario: expect text of alert
+    When I click "Prompt Button"
+    Then I expect text of alert to be equal 'Are you robot?'
