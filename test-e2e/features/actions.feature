@@ -112,7 +112,6 @@ Feature: actions
     And I dismiss alert
     Then I expect text of 'Action' to be equal 'false'
 
-  @debug
   Scenario: type text to alert
     When I expect text of 'Action' to be equal 'Nothing'
     And I click "Prompt Button"

@@ -158,6 +158,3 @@ When('I wait until text of alert {playwrightValidation} {string}', async functio
       validation(alertText, expectedValue);
     }
 );
-
-
-
