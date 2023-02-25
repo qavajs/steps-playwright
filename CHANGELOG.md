@@ -1,3 +1,6 @@
+## 0.0.14
+- :rocket: added custom timeout parameter
+
 ## 0.0.13
 - :rocket: added JS alert steps
 - :rocket: added _I press button given number of times_ step
