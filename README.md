@@ -18,7 +18,8 @@ module.exports = {
         browser: {
             timeout: {
                 present: 10000,
-                visible: 20000    
+                visible: 20000,
+                page: 10000
             },
             capabilities: {
                 browserName: 'chromium'

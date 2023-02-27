@@ -42,5 +42,6 @@ export const debug = {
             dir: 'customDir',
             attach: true
         }
-    }
+    },
+    retry: 1
 }
