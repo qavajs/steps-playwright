@@ -1,3 +1,6 @@
+## 0.0.15
+- :rocket: added validation logs
+
 ## 0.0.14
 - :rocket: added custom timeout parameter
 

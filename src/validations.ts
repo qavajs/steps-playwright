@@ -1,6 +1,6 @@
-import { Then } from '@cucumber/cucumber';
-import { getValue, getElement, getConditionWait } from './transformers';
-import { getValidation } from '@qavajs/validation';
+import {Then} from '@cucumber/cucumber';
+import {getValue, getElement, getConditionWait} from './transformers';
+import {getValidation} from '@qavajs/validation';
 
 /**
  * Verify element condition
@@ -31,6 +31,8 @@ Then(
         const element = await getElement(alias);
         const validation = getValidation(validationType);
         const elementText: string = await element.innerText();
+        this.log(`AR: ${elementText}`);
+        this.log(`ER: ${expectedValue}`);
         validation(elementText, expectedValue);
     }
 );
@@ -52,6 +54,8 @@ Then(
         const element = await getElement(alias);
         const validation = getValidation(validationType);
         const actualValue = await element.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
+        this.log(`AR: ${actualValue}`);
+        this.log(`ER: ${expectedValue}`);
         validation(actualValue, expectedValue);
     }
 );
@@ -72,6 +76,8 @@ Then(
         const element = await getElement(alias);
         const validation = getValidation(validationType);
         const actualValue = await element.getAttribute(attributeName);
+        this.log(`AR: ${actualValue}`);
+        this.log(`ER: ${expectedValue}`);
         validation(actualValue, expectedValue);
     }
 );
@@ -89,6 +95,8 @@ Then(
         const validation = getValidation(validationType);
         const expectedUrl = await getValue(expected);
         const actualUrl = page.url();
+        this.log(`AR: ${actualUrl}`);
+        this.log(`ER: ${expectedUrl}`);
         validation(actualUrl, expectedUrl);
     }
 );
@@ -108,7 +116,10 @@ Then(
         const expectedValue = await getValue(value);
         const collection = await getElement(alias);
         const validation = getValidation(validationType);
-        validation(await collection.count(), expectedValue);
+        const actualCount = await collection.count();
+        this.log(`AR: ${actualCount}`);
+        this.log(`ER: ${expectedValue}`);
+        validation(actualCount, expectedValue);
     }
 );
 
@@ -124,6 +135,8 @@ Then(
         const validation = getValidation(validationType);
         const expectedTitle = await getValue(expected);
         const actualTitle = await page.title();
+        this.log(`AR: ${actualTitle}`);
+        this.log(`ER: ${expectedTitle}`);
         validation(actualTitle, expectedTitle);
     }
 );
@@ -211,6 +224,8 @@ Then(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
             propertyName
         );
+        this.log(`AR: ${actualValue}`);
+        this.log(`ER: ${expectedValue}`);
         validation(actualValue, expectedValue);
     }
 );
@@ -222,10 +237,13 @@ Then(
  * @example I expect text of alert does not contain 'coffee'
  */
 Then('I expect text of alert {playwrightValidation} {string}', async function (validationType: string, expectedValue: string) {
-      const alertText = await new Promise<string>(resolve => page.once('dialog', async (dialog) => {
-        resolve(dialog.message());
-      }));
-      const validation = getValidation(validationType);
-      validation(alertText, expectedValue);
+        const alertText = await new Promise<string>(resolve => page.once('dialog', async (dialog) => {
+            resolve(dialog.message());
+        }));
+        const expected = await getValue(expectedValue);
+        const validation = getValidation(validationType);
+        this.log(`AR: ${alertText}`);
+        this.log(`ER: ${expected}`);
+        validation(alertText, expectedValue);
     }
 );
