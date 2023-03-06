@@ -33,6 +33,7 @@ Before(async function () {
     global.driver = global.browser;
     po.init(page, { timeout: config.driverConfig.timeout.present });
     po.register(config.pageObject);
+    this.log(`browser instance started:\n${JSON.stringify(config.driverConfig, null, 2)}`);
 });
 
 BeforeStep(async function () {
@@ -66,5 +67,6 @@ After(async function (scenario) {
     }
     if (global.browser) {
         await browser.close();
+        this.log('browser instance closed');
     }
 });

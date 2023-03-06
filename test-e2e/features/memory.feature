@@ -20,8 +20,8 @@ Feature: memory
     Then I expect '$memory' memory value to be equal 'textInputName'
 
   Scenario: current url
-    When I save current url as '$valuesPage'
-    Then I expect '$memory' memory value to be equal 'textInputName'
+    When I save current url as 'memory'
+    Then I expect '$memory' memory value to be equal '$valuesPage'
 
   Scenario: page title
     Then I save page title as 'memory'
