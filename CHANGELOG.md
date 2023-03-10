@@ -1,3 +1,6 @@
+## 0.0.16
+- :beetle: fixed optional params templates in wait steps
+
 ## 0.0.15
 - :rocket: added validation logs
 
