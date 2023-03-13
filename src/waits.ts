@@ -12,7 +12,7 @@ import { getValue, getElement, getValueWait, getConditionWait } from './transfor
  * @example I wait until 'Search Bar > Submit Button' to be clickable (timeout: 3000)
  */
 When(
-    'I wait until {string} {playwrightConditionWait}{playwrightTimeout}',
+    'I wait until {string} {playwrightConditionWait}( ){playwrightTimeout}',
         async function (alias: string, waitType: string, timeout: number | null) {
         const wait = getConditionWait(waitType);
         const element = await getElement(alias);
@@ -31,7 +31,7 @@ When(
  * @example I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
  */
 When(
-    'I wait until text of {string} {playwrightValueWait} {string}{playwrightTimeout}',
+    'I wait until text of {string} {playwrightValueWait} {string}( ){playwrightTimeout}',
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const element = await getElement(alias);
@@ -53,7 +53,7 @@ When(
  * @example I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
  */
 When(
-    'I wait until number of elements in {string} collection {playwrightValueWait} {string}{playwrightTimeout}',
+    'I wait until number of elements in {string} collection {playwrightValueWait} {string}( ){playwrightTimeout}',
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const collection = await getElement(alias);
@@ -74,7 +74,7 @@ When(
  * @example I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
  */
 When(
-    'I wait until {string} property of {string} {playwrightValueWait} {string}{playwrightTimeout}',
+    'I wait until {string} property of {string} {playwrightValueWait} {string}( ){playwrightTimeout}',
     async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const propertyName = await getValue(property);
         const wait = getValueWait(waitType);
@@ -99,7 +99,7 @@ When(
  * @example I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (timeout: 3000)
  */
 When(
-    'I wait until {string} attribute of {string} {playwrightValueWait} {string}{playwrightTimeout}',
+    'I wait until {string} attribute of {string} {playwrightValueWait} {string}( ){playwrightTimeout}',
     async function (attribute: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const attributeName = await getValue(attribute);
         const wait = getValueWait(waitType);
@@ -131,7 +131,7 @@ When('I wait {int} ms', async function (ms) {
  * @example I wait until current url not to contain 'java' (timeout: 3000)
  */
 When(
-    'I wait until current url {playwrightValueWait} {string}{playwrightTimeout}',
+    'I wait until current url {playwrightValueWait} {string}( ){playwrightTimeout}',
     async function (waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);
@@ -150,7 +150,7 @@ When(
  * @example I wait until page title to be equal 'qavajs' (timeout: 3000)
  */
 When(
-    'I wait until page title {playwrightValueWait} {string}{playwrightTimeout}',
+    'I wait until page title {playwrightValueWait} {string}( ){playwrightTimeout}',
     async function (waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);

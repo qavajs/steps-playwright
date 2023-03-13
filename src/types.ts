@@ -23,7 +23,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'playwrightTimeout',
-    regexp: /| \(timeout: (\d+)\)/,
+    regexp: /(?:\(timeout: (\d+)\))?/,
     transformer: p => p ? parseInt(p) : null,
     useForSnippets: false
 });
