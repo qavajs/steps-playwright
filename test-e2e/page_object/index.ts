@@ -32,7 +32,7 @@ export default class App {
 
     IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent('#ignoreHierarchyComponent'));
     ComponentWithoutSelector = $(new ComponentWithoutSelector());
-
+    KeyDump = $('#keywordevent');
 }
 
 class IgnoreHierarchyComponent extends Component {

@@ -20,13 +20,15 @@ const common = {
     memory: new Memory(),
     pageObject: new App(),
     parallel: 4,
-    publishQuiet: true
+    publishQuiet: true,
+    retry: 1
 }
 
 export default common;
 
 export const debug = {
     ...common,
+    retry: 0,
     tags: '@debug',
     browser: {
         logLevel: 'warn',
@@ -42,6 +44,5 @@ export const debug = {
             dir: 'customDir',
             attach: true
         }
-    },
-    retry: 1
+    }
 }

@@ -55,6 +55,11 @@ Feature: actions
     When I press 'w' key
     Then I expect text of 'Action' to be equal 'keypress'
 
+  Scenario: press key with modifier
+    And I press 'Alt+a' key
+    Then I expect text of 'Key Dump' to contain '"keyCode":65'
+    Then I expect text of 'Key Dump' to contain '"altKey":true'
+
   Scenario Outline: press <Key> key multiple times
     When I press '<Key>' key <Times> time<Postfix>
     Then I expect text of 'Press Counter' to be equal '<Result>'
