@@ -47,7 +47,10 @@
 </div>
 
 <div id="ignoreHierarchyComponent"></div>
-
+<div contenteditable="true" id="contentEditable">this is content editable text</div>
+<div>
+  <pre id="keywordevent"></pre>
+</div>
 <script>
   const action = document.querySelector('#action');
   const button = document.querySelector('#button');
@@ -60,6 +63,7 @@
   const pressCounter = document.querySelector('#pressCounter');
   const confirm = document.querySelector('#confirm');
   const prompt = document.querySelector('#prompt');
+  const keywordEvent = document.querySelector('#keywordevent');
   let presses = 0;
 
   button.addEventListener('click', function () {
@@ -90,6 +94,17 @@
     b.addEventListener('click', function () {
       action.innerText = b.innerText;
     })
+  });
+
+  body.addEventListener('keydown', function (event) {
+    keywordEvent.innerText = JSON.stringify({
+      code: event.code,
+      keyCode: event.keyCode,
+      metaKey: event.metaKey,
+      shiftKey: event.shiftKey,
+      ctrlKey: event.ctrlKey,
+      altKey: event.altKey
+    });
   });
 
   body.addEventListener('keypress', function () {

@@ -116,8 +116,9 @@ When('I refresh page', async function () {
  * Press button
  * @param {string} key - key to press
  * @example I press 'Enter' key
+ * @example I press 'Control+C' keys
  */
-When('I press {string} key', async function (key: string) {
+When('I press {string} key(s)', async function (key: string) {
     await page.press('body', key);
 });
 
@@ -126,8 +127,9 @@ When('I press {string} key', async function (key: string) {
  * @param {string} key - key to press
  * @param {number} num - number of times
  * @example I press 'Enter' key 5 times
+ * @example I press 'Control+V' keys 5 times
  */
-When('I press {string} key {int} time(s)', async function (key: string, num: number) {
+When('I press {string} key(s) {int} time(s)', async function (key: string, num: number) {
     for (let i: number = 0; i < num; i++) {
         await page.keyboard.press(key);
     }
