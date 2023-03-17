@@ -14,7 +14,7 @@ const common = {
         }
     },
     format: [
-        'json:test-e2e/report.json',
+        '@qavajs/console-formatter',
         '@qavajs/xunit-formatter:test-e2e/report.xml'
     ],
     memory: new Memory(),

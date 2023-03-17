@@ -37,6 +37,16 @@ When('I click {string}', async function (alias: string) {
 });
 
 /**
+ * Click element via script
+ * @param {string} alias - element to click
+ * @example I force click 'Google Button'
+ */
+When('I force click {string}', async function (alias: string) {
+    const element = await getElement(alias);
+    await element.evaluate((e: HTMLElement) => e.click());
+});
+
+/**
  * Right click element
  * @param {string} alias - element to right click
  * @example I right click 'Google Button'

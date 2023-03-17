@@ -7,6 +7,10 @@ Feature: actions
     When I click 'Button'
     Then I expect text of 'Action' to be equal 'click'
 
+  Scenario: force click
+    When I force click 'Button'
+    Then I expect text of 'Action' to be equal 'click'
+
   Scenario: right click
     When I right click 'Button'
     Then I expect text of 'Action' to be equal 'rightclick'

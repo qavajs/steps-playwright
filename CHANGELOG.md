@@ -1,3 +1,6 @@
+## 0.0.17
+- :rocket: added _I force click_ step
+
 ## 0.0.16
 - :beetle: fixed optional params templates in wait steps
 
