@@ -10,6 +10,7 @@ Feature: validations
     Then I expect text of 'Simple Text Element' not to contain 'not text val'
     Then I expect text of '#2 of Simple Text List Items' to be equal 'second value'
     Then I expect text of '#third in Simple Text List Items' to be equal 'third value'
+    Then I expect text of 'Simple Text Element' to match '^text.+$'
 
   Scenario: collection number of elements
     Then I expect number of elements in 'Simple Text List Items' collection to be equal '3'

@@ -135,7 +135,7 @@ When(
     async function (waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);
-        const getValueFn = () => page.url();
+        const getValueFn = async () => page.url();
         await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
     }
 );
