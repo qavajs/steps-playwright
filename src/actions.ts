@@ -184,12 +184,14 @@ When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function
  * @param {string} expectedText - text to click
  * @param {string} alias - collection to search text
  * @example I click 'google' text in 'Search Engines' collection
+ * @example I click '$someVarWithText' text in 'Search Engines' collection
  */
 When(
     'I click {string} text in {string} collection',
     async function (value: string, alias: string) {
+        const resolvedValue = await getValue(value);
         const collection = await getElement(alias);
-        await collection.getByText(value).click();
+        await collection.getByText(resolvedValue).click();
     }
 );
 

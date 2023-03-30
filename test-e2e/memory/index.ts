@@ -30,5 +30,7 @@ export default class Memory {
     ]);
 
     uploadFile = resolve('./test-e2e/apps/actions.html');
+
+    button2 = 'Button2';
 }
 

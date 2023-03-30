@@ -28,9 +28,14 @@ Feature: actions
     When I clear 'Input'
     Then I expect 'value' property of 'Input' to be equal ''
 
-  Scenario: click in collection by text
-    When I click 'Button2' text in 'Buttons' collection
+  Scenario Outline: click in collection by text (<value>)
+    When I click '<value>' text in 'Buttons' collection
     Then I expect text of 'Action' to be equal 'Button2'
+
+    Examples:
+      | value    |
+      | Button2  |
+      | $button2 |
 
   Scenario: switch to frame
     When I expect 'Button' to be visible
