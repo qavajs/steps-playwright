@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.19]
+- :rocket: added to match value wait
+
 ## [0.0.18]
 - :rocket: added interceptor steps
 - :rocket: added support of multiple events for taking screenshots

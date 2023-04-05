@@ -9,7 +9,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'playwrightValueWait',
-    regexp: /((not )?to (?:be )?(equal|contain|above|below))/,
+    regexp: /((not )?to (?:be )?(equal|contain|above|below|match))/,
     transformer: p => p,
     useForSnippets: false
 });
