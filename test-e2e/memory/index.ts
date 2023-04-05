@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import { Response } from '@playwright/test';
 const file = (path: string) => `file://${path}`
 export default class Memory {
     valuesPage = file(resolve('./test-e2e/apps/values.html'));
@@ -6,6 +7,7 @@ export default class Memory {
     framePage = file(resolve('./test-e2e/apps/frame.html'));
     waitsPage = file(resolve('./test-e2e/apps/waits.html'));
     mockPage = file(resolve('./test-e2e/apps/mock.html'));
+    storagePage = file(resolve('./test-e2e/apps/storage.html'));
 
     array = (...args: Array<any>) => args;
 
@@ -32,5 +34,7 @@ export default class Memory {
     uploadFile = resolve('./test-e2e/apps/actions.html');
 
     button2 = 'Button2';
+
+    userInterceptionPredicate = (response: Response) => response.url().includes('users');
 }
 

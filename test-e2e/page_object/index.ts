@@ -33,6 +33,11 @@ export default class App {
     IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent('#ignoreHierarchyComponent'));
     ComponentWithoutSelector = $(new ComponentWithoutSelector());
     KeyDump = $('#keywordevent');
+
+    Cookie = $('#cookie');
+    LocalStorage = $('#localStorage');
+    SessionStorage = $('#sessionStorage');
+
 }
 
 class IgnoreHierarchyComponent extends Component {
