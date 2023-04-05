@@ -1,5 +1,6 @@
 import Memory from './memory';
 import App from './page_object';
+import localServer from './support/server';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
@@ -11,6 +12,11 @@ const common = {
         },
         capabilities: {
             browserName: 'chromium'
+        },
+        trace: {
+            event: ['onFail'],
+            dir: 'dirToStoreTraces',
+            attach: true
         }
     },
     format: [
@@ -21,7 +27,9 @@ const common = {
     pageObject: new App(),
     parallel: 4,
     publishQuiet: true,
-    retry: 1
+    retry: 1,
+    service: [localServer],
+    screenshot: ['onFail']
 }
 
 export default common;

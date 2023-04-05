@@ -5,3 +5,6 @@ require('./lib/waits.js');
 require('./lib/validations.js');
 require('./lib/memory.js');
 require('./lib/execute.js');
+require('./lib/intercept.js');
+require('./lib/cookies.js');
+require('./lib/localSessionStorage.js');

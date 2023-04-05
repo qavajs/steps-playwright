@@ -63,7 +63,7 @@ Supported events:
 ```javascript
 module.exports = {
     default: {
-        screenshot: 'onFail'
+        screenshot: ['onFail']
     }
 }
 ```
@@ -74,8 +74,8 @@ module.exports = {
 {
     browser: {
         trace: {
-            event: 'onFail', // Event to save trace. Possible value onFail or AfterScenario 
-            dir: 'dirToStoreTraces' // Dir to store traces. Default is traces/
+            event: ['onFail'], // Events to save trace. Possible value onFail or AfterScenario 
+            dir: 'dirToStoreTraces', // Dir to store traces. Default is traces/
             attach: true // Define if trace need to be attached to cucumber report. Default false
         }
     }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Storage</title>
+</head>
+<body>
+  <div id="cookie"></div>
+  <div id="localStorage"></div>
+  <div id="sessionStorage"></div>
+  <script>
+    document.cookie = 'fooCookie=barCookie;'
+    window.localStorage.setItem('fooLocal', 'barLocal');
+    window.sessionStorage.setItem('fooSession', 'barSession');
+
+    setInterval(() => {
+        document.getElementById('cookie').innerText = document.cookie;
+        document.getElementById('localStorage').innerText = JSON.stringify(window.localStorage);
+        document.getElementById('sessionStorage').innerText = JSON.stringify(window.sessionStorage);
+    }, 500)
+  </script>
+</body>
+</html>

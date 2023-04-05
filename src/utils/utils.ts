@@ -4,18 +4,19 @@ import { Status, ITestStepHookParameter, ITestCaseHookParameter } from '@cucumbe
 import { join } from 'path';
 
 export function saveScreenshotAfterStep(config: any, step: ITestStepHookParameter): boolean {
-    return (config.screenshot === ScreenshotEvent.ON_FAIL && step.result.status === Status.FAILED) ||
-    config.screenshot === ScreenshotEvent.AFTER_STEP
+    const isAfterStepScreenshot = equalOrIncludes(config.screenshot, ScreenshotEvent.AFTER_STEP);
+    const isOnFailScreenshot = equalOrIncludes(config.screenshot, ScreenshotEvent.ON_FAIL);
+    return (isOnFailScreenshot && step.result.status === Status.FAILED) || isAfterStepScreenshot
 }
 
 export function saveScreenshotBeforeStep(config: any): boolean {
-    return config.screenshot === ScreenshotEvent.BEFORE_STEP
+    return equalOrIncludes(config.screenshot, ScreenshotEvent.BEFORE_STEP)
 }
 
 export function saveTrace(driverConfig: any, scenario: ITestCaseHookParameter): boolean {
     return driverConfig?.trace && (
-        (driverConfig?.trace.event === TraceEvent.AFTER_SCENARIO) ||
-        (scenario.result?.status === Status.FAILED && driverConfig?.trace.event === TraceEvent.ON_FAIL)
+        (equalOrIncludes(driverConfig?.trace.event, TraceEvent.AFTER_SCENARIO)) ||
+        (scenario.result?.status === Status.FAILED && equalOrIncludes(driverConfig?.trace.event, TraceEvent.ON_FAIL))
     )
 }
 
@@ -37,4 +38,10 @@ export function traceArchive(driverConfig: any, scenario: ITestCaseHookParameter
  */
 export function parseCoords(coords: string): number[] {
     return coords.split(/\s?,\s?/).map((c: string) => parseFloat(c ?? 0))
+}
+
+export function equalOrIncludes(value: string | string[], argument: string) {
+    return Array.isArray(value)
+        ? value.includes(argument)
+        : value === argument;
 }
