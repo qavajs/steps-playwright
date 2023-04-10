@@ -27,11 +27,19 @@ function toSimpleEqual(this: any, actual: any, expected: any) {
 
 expect.extend({ toSimpleEqual });
 
+function regexp(regexpLike: string | RegExp) {
+    if (typeof regexpLike === 'string') {
+        return new RegExp(regexpLike, 'gmi')
+    }
+    return regexpLike
+}
+
 export const valueValidations = {
     EQUAL: 'equal',
     CONTAIN: 'contain',
     ABOVE: 'above',
-    BELOW: 'below'
+    BELOW: 'below',
+    MATCH: 'match'
 }
 
 const notClause = '(not )?';
@@ -45,7 +53,8 @@ const waits = {
     [valueValidations.EQUAL]: async (poll: any, expected: any) => poll.toSimpleEqual(expected),
     [valueValidations.CONTAIN]: async (poll: any, expected: any) => poll.toContain(expected),
     [valueValidations.ABOVE]: async (poll: any, expected: any) => poll.toBeGreaterThan(parseInt(expected)),
-    [valueValidations.BELOW]: async (poll: any, expected: any) => poll.toBeLessThan(parseInt(expected))
+    [valueValidations.BELOW]: async (poll: any, expected: any) => poll.toBeLessThan(parseInt(expected)),
+    [valueValidations.MATCH]: async (poll: any, expected: any) => poll.toMatch(regexp(expected))
 }
 
 /**
