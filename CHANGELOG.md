@@ -6,6 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.19]
 - :rocket: added to match value wait
+- :rocket: added in viewport validation
 
 ## [0.0.18]
 - :rocket: added interceptor steps

@@ -12,6 +12,7 @@ Feature: waits
       | Detach Element  | not to be present |
       | Visible Element | to be visible     |
       | Hidden Element  | to be invisible   |
+      | Visible Element | to be in viewport |
 
   Scenario Outline: wait for text (<condition>)
     Then I wait until text of 'Loading' <condition> '<expectation>'

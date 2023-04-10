@@ -1,7 +1,7 @@
-import { ScreenshotEvent } from './screenshotEvent';
-import { TraceEvent } from './traceEvent';
-import { Status, ITestStepHookParameter, ITestCaseHookParameter } from '@cucumber/cucumber';
-import { join } from 'path';
+import {ScreenshotEvent} from './screenshotEvent';
+import {TraceEvent} from './traceEvent';
+import {Status, ITestStepHookParameter, ITestCaseHookParameter} from '@cucumber/cucumber';
+import {join} from 'path';
 
 export function saveScreenshotAfterStep(config: any, step: ITestStepHookParameter): boolean {
     const isAfterStepScreenshot = equalOrIncludes(config.screenshot, ScreenshotEvent.AFTER_STEP);
@@ -44,4 +44,16 @@ export function equalOrIncludes(value: string | string[], argument: string) {
     return Array.isArray(value)
         ? value.includes(argument)
         : value === argument;
+}
+
+export async function throwTimeoutError(fn: Function, message: string) {
+    try {
+        await fn()
+    } catch (err: any) {
+        if (err.message.includes('exceeded while waiting on the predicate')) {
+            throw new Error(message);
+        }
+        throw err
+    }
+
 }
