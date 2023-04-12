@@ -1,6 +1,6 @@
-import {Then} from '@cucumber/cucumber';
-import {getValue, getElement, getConditionWait} from './transformers';
-import {getValidation} from '@qavajs/validation';
+import { Then } from '@cucumber/cucumber';
+import { getValue, getElement, getConditionWait } from './transformers';
+import { getValidation } from '@qavajs/validation';
 
 /**
  * Verify element condition

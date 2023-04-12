@@ -1,10 +1,13 @@
-import { Locator } from "playwright";
+import { Locator } from 'playwright';
+import { expect } from '@playwright/test';
+import {throwTimeoutError} from './utils/utils';
 
 export const conditionValidations = {
     PRESENT: 'present',
     // CLICKABLE: 'clickable',
     VISIBLE: 'visible',
     INVISIBLE: 'invisible',
+    IN_VIEWPORT: 'in viewport',
     // ENABLED: 'enabled',
     // DISABLED: 'disabled'
 }
@@ -34,7 +37,16 @@ const waits = {
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => element.waitFor({state: reverse ? 'visible' : 'hidden', timeout})
+    ) => element.waitFor({state: reverse ? 'visible' : 'hidden', timeout}),
+    [conditionValidations.IN_VIEWPORT]: (
+        element: Locator,
+        reverse: boolean,
+        timeout: number,
+        timeoutMsg: string
+    ) => throwTimeoutError(() => expect(async () => {
+        const e = reverse ? expect(element).not : expect(element);
+        await e.toBeInViewport();
+    }).toPass({ timeout }), timeoutMsg)
 }
 /**
  * Wait for condition

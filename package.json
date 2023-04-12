@@ -24,7 +24,7 @@
   "homepage": "https://github.com/qavajs/steps-playwright#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^9.1.0",
-    "@qavajs/cli": "^0.0.20",
+    "@qavajs/cli": "^0.0.21",
     "@qavajs/console-formatter": "^0.2.1",
     "@qavajs/memory": "^1.2.1",
     "@qavajs/po-playwright": "^0.0.8",
