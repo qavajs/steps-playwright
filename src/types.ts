@@ -22,6 +22,13 @@ defineParameterType({
 });
 
 defineParameterType({
+    name: 'playwrightPoType',
+    regexp: /(element|collection)/,
+    transformer: p => p,
+    useForSnippets: false
+});
+
+defineParameterType({
     name: 'playwrightTimeout',
     regexp: /(?:\(timeout: (\d+)\))?/,
     transformer: p => p ? parseInt(p) : null,
