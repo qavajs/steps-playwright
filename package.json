@@ -40,8 +40,8 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@playwright/test": "^1.32.3",
+    "@playwright/test": "^1.33.0",
     "@qavajs/validation": "^0.0.5",
-    "playwright": "^1.32.3"
+    "playwright": "^1.33.0"
   }
 }
