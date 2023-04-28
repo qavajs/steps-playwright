@@ -1,4 +1,12 @@
-import { After, AfterStep, Before, BeforeStep } from '@cucumber/cucumber';
+import {
+    After,
+    AfterAll,
+    AfterStep,
+    Before,
+    BeforeStep,
+    ITestCaseHookParameter,
+    ITestStepHookParameter
+} from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
 import { Browser, BrowserContext, Page } from 'playwright';
 import { po } from '@qavajs/po-playwright';
@@ -21,7 +29,8 @@ Before(async function () {
         ...driverConfig.timeout
     }
     config.driverConfig = driverConfig;
-    global.browser = await driverProvider(config.driverConfig);
+
+    global.browser = global.browser ? global.browser : await driverProvider(config.driverConfig);
     global.context = await browser.newContext(config?.driverConfig?.capabilities);
     if (config.driverConfig.trace) {
         await context.tracing.start({
@@ -46,7 +55,7 @@ BeforeStep(async function () {
     }
 });
 
-AfterStep(async function (step) {
+AfterStep(async function (step: ITestStepHookParameter) {
     try {
         if (saveScreenshotAfterStep(config, step)) {
             this.attach(await page.screenshot(), 'image/png');
@@ -56,7 +65,7 @@ AfterStep(async function (step) {
     }
 });
 
-After(async function (scenario) {
+After(async function (scenario: ITestCaseHookParameter) {
     if (saveTrace(config.driverConfig, scenario)) {
         const path = traceArchive(config.driverConfig, scenario);
         await context.tracing.stop({ path });
@@ -66,7 +75,13 @@ After(async function (scenario) {
         }
     }
     if (global.browser) {
+        await context.close();
+        this.log('browser context closed');
+    }
+});
+
+AfterAll(async function () {
+    if (global.browser) {
         await browser.close();
-        this.log('browser instance closed');
     }
 });

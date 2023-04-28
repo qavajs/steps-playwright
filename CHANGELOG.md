@@ -6,6 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.20]
 - :rocket: enabled all options in new context
+- :rocket: implemented context reload instead browser
 
 ## [0.0.19]
 - :rocket: added to match value wait
