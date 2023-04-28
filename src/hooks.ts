@@ -22,7 +22,7 @@ Before(async function () {
     }
     config.driverConfig = driverConfig;
     global.browser = await driverProvider(config.driverConfig);
-    global.context = await browser.newContext({ viewport: null });
+    global.context = await browser.newContext(config?.driverConfig?.capabilities);
     if (config.driverConfig.trace) {
         await context.tracing.start({
             screenshots: true,
