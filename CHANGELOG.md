@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.21]
+- :rocket: added I drag and drop... step
+
 ## [0.0.20]
 - :rocket: enabled all options in new context
 - :rocket: implemented context reload instead browser

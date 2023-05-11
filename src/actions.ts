@@ -268,3 +268,16 @@ When('I type {string} to alert', async function (value: string) {
         resolve();
     }))
 });
+
+/**
+ * Drag&Drop one element to another
+ * @param {string} elementAlias - element to drag
+ * @param {string} targetAlias - target
+ * @example I drag and drop 'Bishop' to 'E4'
+ */
+When('I drag and drop {string} to {string}', async function (elementAlias, targetAlias) {
+    const element = await getElement(elementAlias);
+    const target = await getElement(targetAlias);
+    await element.dragTo(target);
+});
+

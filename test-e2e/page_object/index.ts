@@ -38,6 +38,10 @@ export default class App {
     LocalStorage = $('#localStorage');
     SessionStorage = $('#sessionStorage');
 
+    DropZone = $('div#div1');
+    DragElement = $('div#drag1');
+    DragElementInDropZone = $('div#div1 div#drag1');
+
 }
 
 class IgnoreHierarchyComponent extends Component {
