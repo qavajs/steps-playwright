@@ -8,6 +8,7 @@ export default class Memory {
     waitsPage = file(resolve('./test-e2e/apps/waits.html'));
     mockPage = file(resolve('./test-e2e/apps/mock.html'));
     storagePage = file(resolve('./test-e2e/apps/storage.html'));
+    dragDropPage = file(resolve('./test-e2e/apps/dragdrop.html'));
 
     array = (...args: Array<any>) => args;
 
