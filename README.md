@@ -81,3 +81,16 @@ module.exports = {
     }
 }
 ```
+
+## Typescript
+To properly use globals exposed by @qavajs/steps-playwright add corresponding types to tsconfig.json
+```json
+{
+  "compilerOptions": {
+    "types": [
+      "@qavajs/steps-wdio/globals"
+    ]
+  }
+}
+```
+
