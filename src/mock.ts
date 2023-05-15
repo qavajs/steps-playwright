@@ -33,7 +33,7 @@ async function respondWith(mockKey: string, statusCode: string, body: string): P
  * @param {string} statusCode - status code
  * @param {string} body - response body
  * @example
- * When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+ * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to respond '200' with:
  * """
  * {
@@ -49,7 +49,7 @@ When('I set {string} mock to respond {string} with:', respondWith);
  * @param {string} statusCode - status code
  * @param {string} body - response body
  * @example
- * When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+ * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to respond '200' with '$response'
  */
 When('I set {string} mock to respond {string} with {string}', respondWith);
@@ -59,7 +59,7 @@ When('I set {string} mock to respond {string} with {string}', respondWith);
  * @param {string} mockKey - memory key to get mock instance
  * @param {string} reason - reason string see https://playwright.dev/docs/api/class-route#route-abort
  * @example
- * When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+ * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to abort with 'Failed' reason
  */
 When('I set {string} mock to abort with {string} reason', async function (mockKey: string, reason: string) {

@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.22]
+- :beetle: fixed exports of mock and poDefine
+
 ## [0.0.21]
 - :rocket: added I drag and drop... step
 
