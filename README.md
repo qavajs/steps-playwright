@@ -88,7 +88,7 @@ To properly use globals exposed by @qavajs/steps-playwright add corresponding ty
 {
   "compilerOptions": {
     "types": [
-      "@qavajs/steps-wdio/globals"
+      "@qavajs/steps-playwright/globals"
     ]
   }
 }
