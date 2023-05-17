@@ -100,6 +100,19 @@ When('I switch to {int} frame', async function (index: number) {
 });
 
 /**
+ * Switch to frame by alias
+ * @param {string} index - alias to switch
+ * @example I switch to 'IFrame' frame
+ */
+When('I switch to {string} frame', async function (frameAlias: string) {
+    const frame = await getElement(frameAlias);
+    const frameHandle = await frame.elementHandle();
+    if (!frameHandle) throw new Error(`Frame '${frameHandle}' does not exist!`);
+    // @ts-ignore
+    po.driver = await frameHandle.contentFrame();
+});
+
+/**
  * Switch to window by index
  * @param {number} index - index to switch
  * @example I switch to 2 window

@@ -47,6 +47,50 @@ Feature: actions
     When I expect 'Button' to be visible
     When I expect 'Frame Element' not to be visible
 
+  Scenario: switch to page object frame
+    When I expect 'Button' to be visible
+    When I expect 'Frame Element' not to be visible
+    When I switch to 'IFrame' frame
+    When I expect 'Button' not to be visible
+    When I expect 'Frame Element' to be visible
+    When I switch to parent frame
+    When I expect 'Button' to be visible
+    When I expect 'Frame Element' not to be visible
+
+  Scenario: switch to frame in frame
+    When I expect 'Button' to be visible
+    When I expect 'Frame Element' not to be visible
+    When I expect 'Inner Frame Element' not to be visible
+    When I switch to 1 frame
+    When I expect 'Button' not to be visible
+    When I expect 'Frame Element' to be visible
+    When I expect 'Inner Frame Element' not to be visible
+    When I switch to 2 frame
+    When I expect 'Button' not to be visible
+    When I expect 'Frame Element' not to be visible
+    When I expect 'Inner Frame Element' to be visible
+    When I switch to parent frame
+    When I expect 'Button' to be visible
+    When I expect 'Frame Element' not to be visible
+    When I expect 'Inner Frame Element' not to be visible
+
+  Scenario: switch to frame in frame using page object
+    When I expect 'Button' to be visible
+    When I expect 'Frame Element' not to be visible
+    When I expect 'Inner Frame Element' not to be visible
+    When I switch to 'IFrame' frame
+    When I expect 'Button' not to be visible
+    When I expect 'Frame Element' to be visible
+    When I expect 'Inner Frame Element' not to be visible
+    When I switch to 'Inner IFrame' frame
+    When I expect 'Button' not to be visible
+    When I expect 'Frame Element' not to be visible
+    When I expect 'Inner Frame Element' to be visible
+    When I switch to parent frame
+    When I expect 'Button' to be visible
+    When I expect 'Frame Element' not to be visible
+    When I expect 'Inner Frame Element' not to be visible
+
   Scenario: switch to tab by index
     When I click 'New Tab Link'
     When I wait 1000 ms
