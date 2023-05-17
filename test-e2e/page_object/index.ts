@@ -12,9 +12,10 @@ export default class App {
     Input = $('#input');
     Select = $('#select');
     Buttons = $$('.button');
-
+    IFrame = $('iframe#firstIframe');
+    InnerIFrame = $('iframe#innerIframe');
     FrameElement = $('#frameElement');
-
+    InnerFrameElement = $('#innerFrameElement');
     NewTabLink = $('#newTabLink');
 
     PresentElement = $('#present');
