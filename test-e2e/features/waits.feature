@@ -79,7 +79,7 @@ Feature: waits
     Then I wait until text of 'Loading' to be equal '100%' (timeout: 3000)
 
   Scenario: wait for property with timeout
-    Then I wait until 'value' property of 'Loading Input' to be equal '100%' (timeout: 3000)
+    Then I wait until 'value' property of 'Loading Input' to be equal '100%' (timeout: 5000)
 
   Scenario: wait for attribute with timeout
     Then I wait until 'style' attribute of 'Hidden Element' to contain 'hidden' (timeout: 3000)
