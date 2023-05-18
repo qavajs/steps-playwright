@@ -7,6 +7,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.23]
 - :rocket: added types to global members
 - :rocket: added _I switch to 'IFrame' frame_
+- :rocket: added _I switch to 'window name or title' window_
 
 ## [0.0.22]
 - :beetle: fixed exports of mock and poDefine

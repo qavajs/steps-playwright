@@ -128,6 +128,25 @@ When('I switch to {int} window', async function (index: number) {
 });
 
 /**
+ * Switch to window by title or url
+ * @param {string} matcher - url or title of window to switch
+ * @example I switch to 'google' window
+ */
+When('I switch to {string} window', async function (matcher: string) {
+    const urlOrTitle = await getValue(matcher);
+    const pages = context.pages();
+    for (const p of pages) {
+        if (p.url().includes(urlOrTitle) || (await p.title()).includes(urlOrTitle)) {
+            global.page = p;
+            //@ts-ignore
+            po.driver = p;
+            return;
+        }
+    }
+    throw new Error(`Page matching '${matcher}' is not found`);
+});
+
+/**
  * Refresh current page
  * @example I refresh page
  */

@@ -91,12 +91,18 @@ Feature: actions
     When I expect 'Frame Element' not to be visible
     When I expect 'Inner Frame Element' not to be visible
 
-  Scenario: switch to tab by index
+  Scenario Outline: switch to tab by <test>
     When I click 'New Tab Link'
     When I wait 1000 ms
-    When I switch to 2 window
+    When I switch to <param> window
     Then I expect current url to be equal '$framePage'
     When I expect 'Frame Element' to be visible
+
+    Examples:
+     | test  | param        |
+     | index | 2            |
+     | title | 'Frame'      |
+     | url   | 'frame.html' |
 
   Scenario: refresh page
     When I type 'test value' to 'Input'
