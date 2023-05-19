@@ -141,6 +141,7 @@ When('I switch to {string} window', async function (matcher: string) {
             global.page = p;
             //@ts-ignore
             po.driver = p;
+            await page.bringToFront();
             return;
         }
     }
