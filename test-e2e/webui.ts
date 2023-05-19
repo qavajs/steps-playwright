@@ -21,7 +21,8 @@ const common = {
     },
     format: [
         '@qavajs/console-formatter',
-        '@qavajs/xunit-formatter:test-e2e/report.xml'
+        '@qavajs/xunit-formatter:test-e2e/report.xml',
+        '@qavajs/html-formatter:test-e2e/report.html'
     ],
     memory: new Memory(),
     pageObject: new App(),

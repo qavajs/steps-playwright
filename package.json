@@ -26,6 +26,7 @@
     "@cucumber/cucumber": "^9.1.2",
     "@qavajs/cli": "^0.0.23",
     "@qavajs/console-formatter": "^0.2.1",
+    "@qavajs/html-formatter": "^0.0.11",
     "@qavajs/memory": "^1.4.1",
     "@qavajs/po-playwright": "^0.0.9",
     "@qavajs/webstorm-adapter": "^8.0.0",
