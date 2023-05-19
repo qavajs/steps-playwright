@@ -97,7 +97,6 @@ When('I switch to {int} frame', async function (index: number) {
     ).toBeGreaterThan(index);
     // @ts-ignore
     po.driver = page.frames()[index];
-    await page.bringToFront();
 });
 
 /**
@@ -126,6 +125,7 @@ When('I switch to {int} window', async function (index: number) {
     global.page = context.pages()[index - 1];
     //@ts-ignore
     po.driver = page;
+    await page.bringToFront();
 });
 
 /**
