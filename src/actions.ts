@@ -125,6 +125,7 @@ When('I switch to {int} window', async function (index: number) {
     global.page = context.pages()[index - 1];
     //@ts-ignore
     po.driver = page;
+    await page.bringToFront();
 });
 
 /**
@@ -140,6 +141,7 @@ When('I switch to {string} window', async function (matcher: string) {
             global.page = p;
             //@ts-ignore
             po.driver = p;
+            await page.bringToFront();
             return;
         }
     }
