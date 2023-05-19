@@ -97,6 +97,7 @@ When('I switch to {int} frame', async function (index: number) {
     ).toBeGreaterThan(index);
     // @ts-ignore
     po.driver = page.frames()[index];
+    await page.bringToFront();
 });
 
 /**
