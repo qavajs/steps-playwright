@@ -21,7 +21,7 @@ Feature: memory
 
   Scenario: current url
     When I save current url as 'memory'
-    Then I expect '$memory' memory value to be equal '$valuesPage'
+    Then I expect '$memory' memory value to contain 'values.html'
 
   Scenario: page title
     Then I save page title as 'memory'

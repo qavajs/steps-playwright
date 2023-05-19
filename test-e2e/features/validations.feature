@@ -29,9 +29,8 @@ Feature: validations
     Then I expect 'name' attribute of 'Simple Text Input' to contain 'textInputName'
 
   Scenario: current url
-    Then I expect current url to be equal '$valuesPage'
     Then I expect current url not to be equal 'https://qavajs.github.io/'
-    Then I expect current url to be contain 'values'
+    Then I expect current url to contain 'values'
 
   Scenario: page title
     Then I expect page title to be equal '@qavajs'

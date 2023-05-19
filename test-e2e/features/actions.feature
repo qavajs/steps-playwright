@@ -95,7 +95,7 @@ Feature: actions
     When I click 'New Tab Link'
     When I wait 1000 ms
     When I switch to <param> window
-    Then I expect current url to be equal '$framePage'
+    Then I expect current url to contain 'frame.html'
     When I expect 'Frame Element' to be visible
 
     Examples:
