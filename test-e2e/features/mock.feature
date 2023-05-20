@@ -25,9 +25,9 @@ Feature: mock
     Then I expect text of '#1 of Users' to be equal 'Memory Mock 1'
     And I expect text of '#2 of Users' to be equal 'Memory Mock 2'
     And I expect text of '#3 of Users' to be equal 'Memory Mock 3'
-
+  @debug
   Scenario: mock abort
     When I create mock for '**/users' as 'usersService'
     And I set '$usersService' mock to abort with 'failed' reason
     And I open '$mockPage' url
-    Then I expect text of '#1 of Users' to be equal 'Failed to fetch'
+    Then I expect text of '#1 of Users' to be equal 'Failed to load!'

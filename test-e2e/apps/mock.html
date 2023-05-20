@@ -21,9 +21,8 @@
           list.appendChild(li);
         })
       } catch (err) {
-        console.log(err)
         const li = document.createElement('li');
-        li.innerText = err.message;
+        li.innerText = 'Failed to load!';
         list.appendChild(li);
       }
     }
