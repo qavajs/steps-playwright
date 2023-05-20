@@ -320,5 +320,5 @@ When('I drag and drop {string} to {string}', async function (elementAlias, targe
  * @example I open new tab
  */
 When('I open new tab', async function () {
-    await page.evaluate(() => window.open('about:blank', '_blank'));
+    await page.evaluate(() => { window.open('about:blank', '_blank') });
 });
