@@ -30,6 +30,17 @@ module.exports = {
 }
 ```
 
+## Global variables
+@qavajs/steps-playwright exposes following global variables
+         
+| variable   | type                                        | description                                  |
+|------------|---------------------------------------------|----------------------------------------------|
+| `browser`  | `Browser`                                   | browser instance                             |
+| `driver`   | `Browser`                                   | browser instance (alias for browser)         |
+| `context`  | `BrowserContext`                            | current browser context                      |
+| `page`     | `Page`                                      | current context page                         |
+| `contexts` | `{ [contextName: string]: BrowserContext }` | Map of opened contexts in multi browser mode |
+
 ## Connect to playwright server
 In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
 ```typescript

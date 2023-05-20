@@ -25,6 +25,7 @@ When('I open new browser context as {string}', async function (browserContextNam
  * And I switch to 'default' browser context
  */
 When('I switch to {string} browser context', async function (browserContextName: string) {
+    if (!global.contexts) throw new Error('No other browser context launched');
     const targetContext = global.contexts[browserContextName];
     if (!targetContext) throw new Error(`'${browserContextName}' context is not defined`);
     global.context = targetContext;
@@ -38,9 +39,13 @@ When('I switch to {string} browser context', async function (browserContextName:
  * When I close to 'browser2' browser context
  */
 When('I close {string} browser context', async function (browserContextName: string) {
-    await global.contexts[browserContextName].close();
-    global.context = contexts.default;
+    if (!global.contexts) throw new Error('No other browser context launched');
+    const targetContext = global.contexts[browserContextName];
+    if (!targetContext) throw new Error(`'${browserContextName}' context is not defined`);
+    await targetContext.close();
+    global.context = global.contexts.default;
     global.page = context.pages()[0];
+    delete global.contexts[browserContextName];
 });
 
 

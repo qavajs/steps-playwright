@@ -22,7 +22,7 @@ declare global {
     var config: any;
     var contexts: {
         [contextName: string]: BrowserContext
-    };
+    } | null;
 }
 
 Before(async function () {
@@ -83,6 +83,7 @@ After(async function (scenario: ITestCaseHookParameter) {
                 await global.contexts[contextName].close();
                 this.log(`${contextName} context closed`);
             }
+            global.contexts = null;
         } else {
             await context.close();
             this.log('browser context closed');
