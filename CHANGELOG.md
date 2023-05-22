@@ -5,6 +5,7 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [0.0.24]
+- :rocket: added _I open new tab_
 - :rocket: added steps to work with multiple browser contexts
 
 ## [0.0.23]
