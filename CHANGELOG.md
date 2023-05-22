@@ -6,7 +6,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.24]
 - :rocket: added _I open new tab_
-- 
+- :rocket: added steps to work with multiple browser contexts
+
 ## [0.0.23]
 - :rocket: added types to global members
 - :rocket: added _I switch to 'IFrame' frame_

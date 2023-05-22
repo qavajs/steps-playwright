@@ -5,4 +5,7 @@ declare global {
     var driver: Browser;
     var context: BrowserContext;
     var page: Page;
+    var contexts: {
+        [contextName: string]: BrowserContext
+    };
 }

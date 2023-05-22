@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-playwright",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "steps to interact with playwright",
   "main": "./index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "@cucumber/cucumber": "^9.1.2",
     "@qavajs/cli": "^0.0.23",
     "@qavajs/console-formatter": "^0.2.1",
+    "@qavajs/html-formatter": "^0.0.11",
     "@qavajs/memory": "^1.4.1",
     "@qavajs/po-playwright": "^0.0.9",
     "@qavajs/webstorm-adapter": "^8.0.0",
@@ -40,8 +41,8 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@playwright/test": "^1.33.0",
+    "@playwright/test": "^1.34.0",
     "@qavajs/validation": "^0.0.5",
-    "playwright": "^1.33.0"
+    "playwright": "^1.34.0"
   }
 }
