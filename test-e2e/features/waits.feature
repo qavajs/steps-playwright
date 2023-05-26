@@ -13,6 +13,8 @@ Feature: waits
       | Visible Element | to be visible     |
       | Hidden Element  | to be invisible   |
       | Visible Element | to be in viewport |
+      | Enabled Button  | to be enabled     |
+      | Disabled Button | to be disabled    |
 
   Scenario Outline: wait for text (<condition>)
     Then I wait until text of 'Loading' <condition> '<expectation>'

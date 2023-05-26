@@ -1,6 +1,6 @@
 import { Locator } from 'playwright';
 import { expect } from '@playwright/test';
-import {throwTimeoutError} from './utils/utils';
+import { throwTimeoutError } from './utils/utils';
 
 export const conditionValidations = {
     PRESENT: 'present',
@@ -8,8 +8,8 @@ export const conditionValidations = {
     VISIBLE: 'visible',
     INVISIBLE: 'invisible',
     IN_VIEWPORT: 'in viewport',
-    // ENABLED: 'enabled',
-    // DISABLED: 'disabled'
+    ENABLED: 'enabled',
+    DISABLED: 'disabled'
 }
 
 const notClause = '(not )?';
@@ -46,6 +46,24 @@ const waits = {
     ) => throwTimeoutError(() => expect(async () => {
         const e = reverse ? expect(element).not : expect(element);
         await e.toBeInViewport();
+    }).toPass({ timeout }), timeoutMsg),
+    [conditionValidations.ENABLED]: (
+        element: Locator,
+        reverse: boolean,
+        timeout: number,
+        timeoutMsg: string
+    ) => throwTimeoutError(() => expect(async () => {
+        const e = reverse ? expect(element).not : expect(element);
+        await e.toBeEnabled();
+    }).toPass({ timeout }), timeoutMsg),
+    [conditionValidations.DISABLED]: (
+        element: Locator,
+        reverse: boolean,
+        timeout: number,
+        timeoutMsg: string
+    ) => throwTimeoutError(() => expect(async () => {
+        const e = reverse ? expect(element).not : expect(element);
+        await e.toBeDisabled();
     }).toPass({ timeout }), timeoutMsg)
 }
 /**

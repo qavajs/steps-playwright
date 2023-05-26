@@ -6,10 +6,10 @@ on:
       - main
 
 jobs:
-  unix:
+  test:
     strategy:
       matrix:
-        version: [ 16, 18 ]
+        version: [ 16, 18, 20 ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

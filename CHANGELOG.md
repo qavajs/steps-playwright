@@ -4,6 +4,10 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.25.0]
+- :rocket: added enabled/disabled validation
+- :beetle: fixed issue with default timeouts
+
 ## [0.0.24]
 - :rocket: added _I open new tab_
 - :rocket: added steps to work with multiple browser contexts

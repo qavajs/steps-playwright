@@ -28,11 +28,11 @@ declare global {
 Before(async function () {
     const driverConfig = config.browser ?? config.driver;
     driverConfig.timeout = {
-        defaultTimeouts,
+        ...defaultTimeouts,
         ...driverConfig.timeout
     }
     config.driverConfig = driverConfig;
-
+    console.log(driverConfig)
     global.browser = global.browser ? global.browser : await driverProvider(config.driverConfig);
     global.context = await browser.newContext(config?.driverConfig?.capabilities);
     if (config.driverConfig.trace) {

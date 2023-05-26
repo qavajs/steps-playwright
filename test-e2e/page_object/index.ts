@@ -17,7 +17,8 @@ export default class App {
     FrameElement = $('#frameElement');
     InnerFrameElement = $('#innerFrameElement');
     NewTabLink = $('#newTabLink');
-
+    EnabledButton = $('#enabledButton');
+    DisabledButton = $('#disabledButton');
     PresentElement = $('#present');
     DetachElement = $('#detach');
     VisibleElement = $('#visible');
