@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest --coverage run",
-    "test:e2e": "ts-node -project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config test-e2e/webui.ts",
+    "test:e2e": "ts-node --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config test-e2e/webui.ts",
     "debug:e2e": "ts-node --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config test-e2e/webui.ts --profile debug"
   },
   "repository": {
