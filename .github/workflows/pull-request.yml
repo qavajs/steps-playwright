@@ -6,11 +6,12 @@ on:
       - main
 
 jobs:
-  unix:
+  test:
     strategy:
       matrix:
-        version: [ 16, 18 ]
-    runs-on: ubuntu-latest
+        version: [ 16, 18, 20 ]
+        os: [ windows-latest, ubuntu-latest ]
+    runs-on: ${{ matrix.version }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
