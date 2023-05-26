@@ -6,6 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.25.0]
 - :rocket: added enabled/disabled validation
+- :beetle: fixed issue with default timeouts
 
 ## [0.0.24]
 - :rocket: added _I open new tab_
