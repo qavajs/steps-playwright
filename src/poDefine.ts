@@ -17,7 +17,7 @@ When('I define {string} as {string} {playwrightPoType}', async function (
     selectorKey: string, aliasKey: string, poType: string
 ) {
     const selector = await getValue(selectorKey);
-    const alias = (await getValue(aliasKey)).replace(/\s/, '');
+    const alias = (await getValue(aliasKey)).replace(/\s/g, '');
     const defineElement = poType === 'element' ? $ : $$;
     po.register({ [alias]: defineElement(selector) });
 });
