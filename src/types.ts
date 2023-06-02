@@ -34,3 +34,10 @@ defineParameterType({
     transformer: p => p ? parseInt(p) : null,
     useForSnippets: false
 });
+
+defineParameterType({
+    name: 'playwrightMouseButton',
+    regexp: /(left|right|middle)/,
+    transformer: p => p,
+    useForSnippets: false
+});

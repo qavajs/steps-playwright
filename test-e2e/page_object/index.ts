@@ -44,6 +44,9 @@ export default class App {
     DragElement = $('div#drag1');
     DragElementInDropZone = $('div#div1 div#drag1');
 
+    EventHandler = $('#mouseEvent');
+    KeyboardEventHandler = $('#keyboardEvent');
+
 }
 
 class IgnoreHierarchyComponent extends Component {

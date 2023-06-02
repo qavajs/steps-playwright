@@ -11,3 +11,5 @@ require('./lib/localSessionStorage.js');
 require('./lib/mock.js');
 require('./lib/poDefine.js');
 require('./lib/multiBrowser.js');
+require('./lib/mouseActions.js');
+require('./lib/keyboardActions.js');

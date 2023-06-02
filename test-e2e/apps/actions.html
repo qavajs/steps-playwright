@@ -51,6 +51,10 @@
 <div>
   <pre id="keywordevent"></pre>
 </div>
+
+<div id="mouseEvent" style="height: 200px; width: 200px; background-color: #0f9e9e"></div>
+<input id="keyboardEvent" style="height: 200px; width: 200px; background-color: #0f9e9e"></input>
+
 <script>
   const action = document.querySelector('#action');
   const button = document.querySelector('#button');
@@ -64,6 +68,9 @@
   const confirm = document.querySelector('#confirm');
   const prompt = document.querySelector('#prompt');
   const keywordEvent = document.querySelector('#keywordevent');
+  const mouseEvent = document.querySelector('#mouseEvent');
+  const keyboardEvent = document.querySelector('#keyboardEvent');
+
   let presses = 0;
 
   button.addEventListener('click', function () {
@@ -126,6 +133,70 @@
 
   prompt.addEventListener('click', () => {
     setTimeout(()=> action.innerText = window.prompt('Are you robot?'), 500);
+  });
+
+  mouseEvent.addEventListener('mousedown', function (event) {
+    mouseEvent.innerText = JSON.stringify({
+      type: event.type,
+      screenX: event.screenX,
+      screenY: event.screenY,
+      buttons: event.buttons
+    });
+    event.preventDefault();
+  });
+
+  mouseEvent.addEventListener('mouseup', function (event) {
+    mouseEvent.innerText = JSON.stringify({
+      type: event.type,
+      screenX: event.screenX,
+      screenY: event.screenY,
+      buttons: event.buttons
+    });
+    event.preventDefault();
+  });
+
+  mouseEvent.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+  });
+
+  mouseEvent.addEventListener('wheel', function (event) {
+    console.log(event)
+    mouseEvent.innerText = JSON.stringify({
+      type: event.type,
+      screenX: event.screenX,
+      screenY: event.screenY,
+      buttons: event.buttons,
+      deltaY: event.deltaY
+    });
+    event.preventDefault();
+  });
+
+  mouseEvent.addEventListener('mousemove', function (event) {
+    mouseEvent.innerText = JSON.stringify({
+      type: event.type,
+      screenX: event.screenX,
+      screenY: event.screenY,
+      buttons: event.buttons
+    });
+    event.preventDefault();
+  });
+
+  keyboardEvent.addEventListener('keydown', function (event) {
+    console.log(event)
+    keyboardEvent.value = JSON.stringify({
+      type: event.type,
+      code: event.code
+    });
+    event.preventDefault();
+  });
+
+  keyboardEvent.addEventListener('keyup', function (event) {
+    console.log(event)
+    keyboardEvent.value = JSON.stringify({
+      type: event.type,
+      code: event.code
+    });
+    event.preventDefault();
   });
 
 </script>
