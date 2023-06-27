@@ -11,7 +11,13 @@ import defaultTimeouts from './defaultTimeouts';
 import { Browser, BrowserContext, Page } from 'playwright';
 import { po } from '@qavajs/po-playwright';
 import { driverProvider } from './driverProvider';
-import { saveScreenshotAfterStep, saveScreenshotBeforeStep, saveTrace, traceArchive } from './utils/utils';
+import {
+    saveScreenshotAfterStep,
+    saveScreenshotBeforeStep,
+    saveTrace,
+    saveVideo,
+    traceArchive
+} from './utils/utils';
 import { readFile } from 'fs/promises';
 
 declare global {
@@ -33,6 +39,9 @@ Before(async function () {
     }
     config.driverConfig = driverConfig;
     global.browser = global.browser ? global.browser : await driverProvider(config.driverConfig);
+    if (config.driverConfig.video) {
+        config.driverConfig.capabilities.recordVideo = config.driverConfig.video;
+    }
     global.context = await browser.newContext(config?.driverConfig?.capabilities);
     if (config.driverConfig.trace) {
         await context.tracing.start({
@@ -68,6 +77,7 @@ AfterStep(async function (step: ITestStepHookParameter) {
 });
 
 After(async function (scenario: ITestCaseHookParameter) {
+    const videoPath = await page.video()?.path() ?? '';
     if (saveTrace(config.driverConfig, scenario)) {
         const path = traceArchive(config.driverConfig, scenario);
         await context.tracing.stop({ path });
@@ -86,6 +96,12 @@ After(async function (scenario: ITestCaseHookParameter) {
         } else {
             await context.close();
             this.log('browser context closed');
+        }
+    }
+    if (saveVideo(config.driverConfig, scenario)) {
+        if (config.driverConfig?.video.attach) {
+            const zipBuffer: Buffer = await readFile(videoPath);
+            this.attach(zipBuffer.toString('base64'), 'base64:video/webm');
         }
     }
 });

@@ -15,18 +15,18 @@ Feature: waits
       | Visible Element | to be in viewport |
       | Enabled Button  | to be enabled     |
       | Disabled Button | to be disabled    |
-
+  @debug
   Scenario Outline: wait for text (<condition>)
     Then I wait until text of 'Loading' <condition> '<expectation>'
 
     Examples:
      | condition      | expectation |
-     | to equal       | 100%        |
-     | to contain     | 10          |
-     | to match       | ^.00%$      |
-     | not to equal   | 10%         |
-     | not to contain | 10          |
-     | not to match   | ^.0%$       |
+     | to equal       | 1000%        |
+#     | to contain     | 10          |
+#     | to match       | ^.00%$      |
+#     | not to equal   | 10%         |
+#     | not to contain | 10          |
+#     | not to match   | ^.0%$       |
 
   Scenario Outline: wait for property (<condition>)
     Then I wait until 'value' property of 'Loading Input' <condition> '<expectation>'

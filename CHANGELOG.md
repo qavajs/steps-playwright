@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.27.0]
+- :rocket: added video recording
+ 
 ## [0.26.0]
 - :rocket: added mouse and keyboard actions steps
 

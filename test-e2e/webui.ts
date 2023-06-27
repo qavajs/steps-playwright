@@ -17,6 +17,12 @@ const common = {
             event: ['onFail'],
             dir: 'dirToStoreTraces',
             attach: true
+        },
+        video: {
+            event: ['onFail'],
+            dir: 'dirToStoreVideos',
+            size: { width: 800, height: 600 },
+            attach: true
         }
     },
     format: [
@@ -51,6 +57,12 @@ export const debug = {
         trace: {
             event: 'onFail',
             dir: 'customDir',
+            attach: true
+        },
+        video: {
+            event: ['onFail'],
+            dir: 'video',
+            size: { width: 800, height: 600 },
             attach: true
         }
     }
