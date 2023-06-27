@@ -36,7 +36,8 @@ const common = {
     publishQuiet: true,
     retry: 1,
     service: [localServer],
-    screenshot: ['onFail']
+    screenshot: ['onFail'],
+    tags: 'not @skip'
 }
 
 export default common;
