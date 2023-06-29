@@ -1,5 +1,6 @@
 import {ScreenshotEvent} from './screenshotEvent';
 import {TraceEvent} from './traceEvent';
+import {VideoEvent} from './videoEvent';
 import {Status, ITestStepHookParameter, ITestCaseHookParameter} from '@cucumber/cucumber';
 import {join} from 'path';
 
@@ -17,6 +18,13 @@ export function saveTrace(driverConfig: any, scenario: ITestCaseHookParameter): 
     return driverConfig?.trace && (
         (equalOrIncludes(driverConfig?.trace.event, TraceEvent.AFTER_SCENARIO)) ||
         (scenario.result?.status === Status.FAILED && equalOrIncludes(driverConfig?.trace.event, TraceEvent.ON_FAIL))
+    )
+}
+
+export function saveVideo(driverConfig: any, scenario: ITestCaseHookParameter): boolean {
+    return driverConfig?.trace && (
+        (equalOrIncludes(driverConfig?.trace.event, VideoEvent.AFTER_SCENARIO)) ||
+        (scenario.result?.status === Status.FAILED && equalOrIncludes(driverConfig?.trace.event, VideoEvent.ON_FAIL))
     )
 }
 
