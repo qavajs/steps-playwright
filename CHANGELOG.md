@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.28.0]
+- :rocket: added _I expect every element in {string} collection {wdioConditionWait}_ step
+
 ## [0.27.0]
 - :rocket: added video recording
  

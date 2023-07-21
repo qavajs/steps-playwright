@@ -7,26 +7,20 @@ Feature: waits
     Then I wait until '<element>' <condition>
 
     Examples:
-      | element         | condition         |
-      | Present Element | to be present     |
-      | Detach Element  | not to be present |
-      | Visible Element | to be visible     |
-      | Hidden Element  | to be invisible   |
-      | Visible Element | to be in viewport |
-      | Enabled Button  | to be enabled     |
-      | Disabled Button | to be disabled    |
+      | element         | condition     |
+      | Present Element | to be present |
 
   Scenario Outline: wait for text (<condition>)
     Then I wait until text of 'Loading' <condition> '<expectation>'
 
     Examples:
-     | condition      | expectation |
-     | to equal       | 100%        |
-     | to contain     | 10          |
-     | to match       | ^.00%$      |
-     | not to equal   | 10%         |
-     | not to contain | 10          |
-     | not to match   | ^.0%$       |
+      | condition      | expectation |
+      | to equal       | 100%        |
+      | to contain     | 10          |
+      | to match       | ^.00%$      |
+      | not to equal   | 10%         |
+      | not to contain | 10          |
+      | not to match   | ^.0%$       |
 
   Scenario Outline: wait for property (<condition>)
     Then I wait until 'value' property of 'Loading Input' <condition> '<expectation>'

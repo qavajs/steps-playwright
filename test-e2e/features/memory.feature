@@ -9,7 +9,7 @@ Feature: memory
 
   Scenario: collection number of elements
     When I save number of elements in 'Simple Text List Items' collection as 'memory'
-    Then I expect '$memory' memory value to be equal '$number(3)'
+    Then I expect '$memory' memory value to be equal '$js(3)'
 
   Scenario: element property
     When I save 'value' property of 'Simple Text Input' as 'memory'
