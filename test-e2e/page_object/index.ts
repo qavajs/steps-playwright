@@ -20,6 +20,7 @@ export default class App {
     EnabledButton = $('#enabledButton');
     DisabledButton = $('#disabledButton');
     PresentElement = $('#present');
+    PresentCollection = $$('#present');
     DetachElement = $('#detach');
     VisibleElement = $('#visible');
     HiddenElement = $('#hidden');

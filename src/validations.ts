@@ -1,6 +1,7 @@
 import { Then } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
 import { getValidation } from '@qavajs/validation';
+import {Locator} from 'playwright';
 
 /**
  * Verify element condition
@@ -140,6 +141,23 @@ Then(
         validation(actualTitle, expectedTitle);
     }
 );
+
+/**
+ * Verify collection condition
+ * @param {string} alias - collection to wait condition
+ * @param {string} condition - wait condition
+ * @example I expect every element in 'Header > Links' collection to be visible
+ * @example I expect every element in 'Loading Bars' collection not to be present
+ */
+Then('I expect every element in {string} collection {playwrightConditionWait}', async function (alias: string, condition: string) {
+    const collection = await getElement(alias);
+    const wait = getConditionWait(condition);
+    const conditionWait = (element: Locator) => wait(element, config.browser.timeout.page);
+    for (let i = 0; i < await collection.count(); i++) {
+        const element = collection.nth(i);
+        await conditionWait(element);
+    }
+});
 
 /**
  * Verify that all texts in collection satisfy condition

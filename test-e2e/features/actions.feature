@@ -144,15 +144,15 @@ Feature: actions
     When I scroll by '0, 100'
     And I execute 'window.scrollX' function and save result as 'scrollX'
     And I execute 'window.scrollY' function and save result as 'scrollY'
-    Then I expect '$scrollX' memory value to be equal '$number(0)'
-    Then I expect '$scrollY' memory value to be equal '$number(100)'
+    Then I expect '$scrollX' memory value to be equal '$js(0)'
+    Then I expect '$scrollY' memory value to be equal '$js(100)'
 
   Scenario: scroll in element
     When I scroll by '0, 50' in 'Overflow Container'
     And I execute 'document.querySelector("#overflowContainer").scrollLeft' function and save result as 'scrollX'
     And I execute 'document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
-    Then I expect '$scrollX' memory value to be equal '$number(0)'
-    Then I expect '$scrollY' memory value to be equal '$number(50)'
+    Then I expect '$scrollX' memory value to be equal '$js(0)'
+    Then I expect '$scrollY' memory value to be equal '$js(50)'
 
   Scenario: type in ignore hierarchy component
     When I type 'test value' to 'IgnoreHierarchyComponent > Input'
