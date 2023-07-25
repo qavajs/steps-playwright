@@ -44,3 +44,11 @@ Feature: memory
     When I save 'font-size' css property of '#1 of Simple Text List Items' as 'fontSize'
     Then I expect '$color' memory value to be equal 'rgb(95, 158, 160)'
     Then I expect '$fontSize' memory value to be equal '20px'
+
+  Scenario: page screenshot
+    When I save screenshot as 'pageScreenshot'
+    Then I expect '$pageScreenshot[0]' memory value to be equal '$js(137)'
+
+  Scenario: element screenshot
+    When I save screenshot of 'Simple Text Input' as 'elementScreenshot'
+    Then I expect '$elementScreenshot[0]' memory value to be equal '$js(137)'
