@@ -22,3 +22,10 @@ Then('I expect {string} memory value to contain {string}', async function(actual
     const expectedValue = memory.getValue(expected);
     expect(actualValue).to.contain(expectedValue);
 });
+
+Then('I expect {string} memory value to have type {string}', async function(actual, expected) {
+    const actualValue = memory.getValue(actual);
+    const expectedValue = memory.getValue(expected);
+    expect(actualValue).to.be.a(expectedValue);
+});
+

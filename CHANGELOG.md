@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.29.0]
+- :rocket: added _I save screenshot of {string} as {string}_ step
+
 ## [0.28.0]
 - :rocket: added _I expect every element in {string} collection {playwrightConditionWait}_ step
 
