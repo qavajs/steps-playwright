@@ -23,7 +23,8 @@ const common = {
             dir: 'dirToStoreVideos',
             size: { width: 800, height: 600 },
             attach: true
-        }
+        },
+        screenshot: ['onFail'],
     },
     format: [
         '@qavajs/console-formatter',
@@ -36,7 +37,6 @@ const common = {
     publishQuiet: true,
     retry: 1,
     service: [localServer],
-    screenshot: ['onFail'],
     tags: 'not @skip'
 }
 

@@ -74,7 +74,9 @@ Supported events:
 ```javascript
 module.exports = {
     default: {
-        screenshot: ['onFail']
+        browser: {
+            screenshot: ['onFail']
+        }
     }
 }
 ```
