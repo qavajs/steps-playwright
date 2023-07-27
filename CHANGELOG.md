@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.29.1]
+- :beetle: fixed video attachment
+
 ## [0.29.0]
 - :rocket: added _I save screenshot of {string} as {string}_ step
 

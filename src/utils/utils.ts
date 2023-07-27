@@ -22,9 +22,9 @@ export function saveTrace(driverConfig: any, scenario: ITestCaseHookParameter): 
 }
 
 export function saveVideo(driverConfig: any, scenario: ITestCaseHookParameter): boolean {
-    return driverConfig?.trace && (
-        (equalOrIncludes(driverConfig?.trace.event, VideoEvent.AFTER_SCENARIO)) ||
-        (scenario.result?.status === Status.FAILED && equalOrIncludes(driverConfig?.trace.event, VideoEvent.ON_FAIL))
+    return driverConfig?.video && (
+        (equalOrIncludes(driverConfig?.video.event, VideoEvent.AFTER_SCENARIO)) ||
+        (scenario.result?.status === Status.FAILED && equalOrIncludes(driverConfig?.video.event, VideoEvent.ON_FAIL))
     )
 }
 

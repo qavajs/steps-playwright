@@ -81,12 +81,14 @@ module.exports = {
 
 ## Playwright traces
 @qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+Trace Viewer - https://trace.playwright.dev/
+
 ```typescript
 export default {
     //...
     browser: {
         trace: {
-            event: ['onFail'], // Events to save trace. Possible value onFail or AfterScenario 
+            event: ['onFail'], // Events to save trace. Possible value onFail or afterScenario 
             dir: 'dirToStoreTraces', // Dir to store traces. Default is traces/
             attach: true // Define if trace need to be attached to cucumber report. Default false
         }
@@ -101,7 +103,7 @@ export default {
     //...
     browser: {
         video: {
-            event: ['onFail'], // Events to save video. Possible value onFail or AfterScenario 
+            event: ['onFail'], // Events to save video. Possible value onFail or afterScenario 
             dir: 'dirToStoreVideo', // Dir to store video. Default is video/
             size: { width: 640, height: 480 }, // Video resolution
             attach: true // Define if trace need to be attached to cucumber report. Default false

@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-playwright",
-  "version": "0.29.0",
+  "version": "0.29.1",
   "description": "steps to interact with playwright",
   "main": "./index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "@qavajs/cli": "^0.27.0",
     "@qavajs/console-formatter": "^0.5.0",
     "@qavajs/html-formatter": "^0.13.0",
-    "@qavajs/memory": "^1.6.0",
+    "@qavajs/memory": "^1.6.1",
     "@qavajs/po-playwright": "^0.11.0",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@qavajs/xunit-formatter": "^0.0.4",
