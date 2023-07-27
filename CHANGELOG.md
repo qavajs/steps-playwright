@@ -4,6 +4,15 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+:rocket: - new feature
+:beetle: - bugfix
+:x: - deprecation
+
+## [0.30.0]
+Deprecated:
+- :x: screenshot property moved to browser/driver config.
+  Screenshot under root is marked as deprecated and will be removed in future releases.
+ 
 ## [0.29.1]
 - :beetle: fixed video attachment
 

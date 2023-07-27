@@ -5,13 +5,13 @@ import {Status, ITestStepHookParameter, ITestCaseHookParameter} from '@cucumber/
 import {join} from 'path';
 
 export function saveScreenshotAfterStep(config: any, step: ITestStepHookParameter): boolean {
-    const isAfterStepScreenshot = equalOrIncludes(config.screenshot, ScreenshotEvent.AFTER_STEP);
-    const isOnFailScreenshot = equalOrIncludes(config.screenshot, ScreenshotEvent.ON_FAIL);
+    const isAfterStepScreenshot = equalOrIncludes(config?.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.AFTER_STEP);
+    const isOnFailScreenshot = equalOrIncludes(config?.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.ON_FAIL);
     return (isOnFailScreenshot && step.result.status === Status.FAILED) || isAfterStepScreenshot
 }
 
 export function saveScreenshotBeforeStep(config: any): boolean {
-    return equalOrIncludes(config.screenshot, ScreenshotEvent.BEFORE_STEP)
+    return equalOrIncludes(config?.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.BEFORE_STEP)
 }
 
 export function saveTrace(driverConfig: any, scenario: ITestCaseHookParameter): boolean {
