@@ -9,7 +9,7 @@ export default class Memory {
     mockPage = file(resolve('./test-e2e/apps/mock.html'));
     storagePage = file(resolve('./test-e2e/apps/storage.html'));
     dragDropPage = file(resolve('./test-e2e/apps/dragdrop.html'));
-
+    scrollPage = file(resolve('./test-e2e/apps/scroll.html'));
     array = (...args: Array<any>) => args;
 
     // @ts-ignore

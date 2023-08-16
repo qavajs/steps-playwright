@@ -48,6 +48,7 @@ export default class App {
     EventHandler = $('#mouseEvent');
     KeyboardEventHandler = $('#keyboardEvent');
 
+    ScrollElement = $('#scrollElement');
 }
 
 class IgnoreHierarchyComponent extends Component {

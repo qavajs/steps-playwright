@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.31.0]
+- :rocket: added _I scroll to {string}_ step
+
 ## [0.30.0]
 Deprecated:
 - :x: screenshot property moved to browser/driver config.

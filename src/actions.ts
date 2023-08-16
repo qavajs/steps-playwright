@@ -243,6 +243,16 @@ When('I scroll by {string}', async function (offset: string) {
 });
 
 /**
+ * Scroll to element
+ * @param {string} alias - alias of element
+ * @example I scroll to 'Element'
+ */
+When('I scroll to {string}', async function (alias) {
+    const element = await getElement(alias);
+    await element.scrollIntoViewIfNeeded();
+});
+
+/**
  * Scroll by provided offset in element
  * @param {string} - offset string in 'x, y' format
  * @param {string} - element alias
