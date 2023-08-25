@@ -7,6 +7,7 @@ export default class App {
     Action = $('#action');
     AlertButton = $('#confirm');
     PromptButton = $('#prompt');
+    Body = $('body');
     Button = $('#button');
     ButtonHover = $('#buttonHover');
     Input = $('#input');
