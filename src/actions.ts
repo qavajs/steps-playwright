@@ -2,7 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect } from '@playwright/test';
-import {parseCoords, parseCoordsAsObject} from './utils/utils';
+import { parseCoords, parseCoordsAsObject } from './utils/utils';
 
 /**
  * Opens provided url
