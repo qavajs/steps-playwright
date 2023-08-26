@@ -2,7 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect } from '@playwright/test';
-import { parseCoords } from './utils/utils';
+import { parseCoords, parseCoordsAsObject } from './utils/utils';
 
 /**
  * Opens provided url
@@ -331,4 +331,17 @@ When('I drag and drop {string} to {string}', async function (elementAlias, targe
  */
 When('I open new tab', async function () {
     await page.evaluate(() => { window.open('about:blank', '_blank') });
+});
+
+/**
+ * Click certain coordinates in element
+ * @param {string} coords - x, y coordinates to click
+ * @param {string} alias - element to click
+ * @example When I click '0, 20' coordinates in 'Element'
+ */
+When('I click {string} coordinates in {string}', async function (coords: string, alias: string) {
+    const coordinates = await getValue(coords);
+    const element = await getElement(alias);
+    const coordsObject = typeof coordinates === 'string' ? parseCoordsAsObject(coordinates) : coordinates;
+    await element.click({position: coordsObject});
 });

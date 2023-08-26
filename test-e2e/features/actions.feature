@@ -19,6 +19,12 @@ Feature: actions
     When I double click 'Button'
     Then I expect text of 'Action' to be equal 'dblclick'
 
+  Scenario: click on coordinates
+    When I execute 'document.querySelector(".button4").getBoundingClientRect().x' function and save result as 'x'
+    And I execute 'document.querySelector(".button4").getBoundingClientRect().y' function and save result as 'y'
+    And I click '{$x}, {$y}' coordinates in 'Body'
+    Then I expect text of 'Action' to be equal 'Button4'
+
   Scenario: type
     When I type 'test value' to 'Input'
     Then I expect text of 'Action' to be equal 'test value'
