@@ -1,4 +1,4 @@
-import { Then, When } from '@cucumber/cucumber';
+import { Then } from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import { Browser, BrowserContext, Page } from 'playwright';
 import { expect } from 'chai';
@@ -29,3 +29,8 @@ Then('I expect {string} memory value to have type {string}', async function(actu
     expect(actualValue).to.be.a(expectedValue);
 });
 
+Then('I expect viewport size to equal {string}', async function (expectedSize) {
+    const expectedValue = await memory.getValue(expectedSize);
+    const actualValue = page.viewportSize();
+    expect(actualValue).to.deep.equal(expectedValue, 'Viewport size do not match');
+})

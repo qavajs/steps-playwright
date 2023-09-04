@@ -5,4 +5,5 @@ test-e2e/report.*
 .idea/
 customDir/
 dirToStoreTraces/
+dirToStoreVideos/
 video/

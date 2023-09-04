@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.33.0]
+- :rocket: added _I set window size {string}_ step
+
 ## [0.32.0]
 - :rocket: added _I click {string} coordinates in {string}_ step
 

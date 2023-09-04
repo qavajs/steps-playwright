@@ -3,6 +3,7 @@ import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect } from '@playwright/test';
 import { parseCoords, parseCoordsAsObject } from './utils/utils';
+import memory from "@qavajs/memory";
 
 /**
  * Opens provided url
@@ -344,4 +345,15 @@ When('I click {string} coordinates in {string}', async function (coords: string,
     const element = await getElement(alias);
     const coordsObject = typeof coordinates === 'string' ? parseCoordsAsObject(coordinates) : coordinates;
     await element.click({position: coordsObject});
+});
+
+/**
+ * Resize browser's window
+ * @param {string} size - desired size
+ * @example I set window size '1366,768'
+ */
+When('I set window size {string}', async function (size: string) {
+    const viewPort = await memory.getValue(size);
+    const {x, y} = parseCoordsAsObject(viewPort);
+    await page.setViewportSize({width: x, height: y});
 });
