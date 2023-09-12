@@ -200,3 +200,9 @@ Feature: actions
     When I switch to 1 window
     Then I expect current url to contain 'actions.html'
 
+  Scenario: resize browser's window
+    When I open new tab
+    And I set window size '800,600'
+    Then I expect viewport size to equal '$js({ width: 800, height: 600 })'
+    When I set window size '1440,900'
+    Then I expect viewport size to equal '$js({ width: 1440, height: 900 })'

@@ -345,3 +345,14 @@ When('I click {string} coordinates in {string}', async function (coords: string,
     const coordsObject = typeof coordinates === 'string' ? parseCoordsAsObject(coordinates) : coordinates;
     await element.click({position: coordsObject});
 });
+
+/**
+ * Resize browser's window
+ * @param {string} size - desired size
+ * @example I set window size '1366,768'
+ */
+When('I set window size {string}', async function (size: string) {
+    const viewPort = await getValue(size);
+    const {x, y} = parseCoordsAsObject(viewPort);
+    await page.setViewportSize({width: x, height: y});
+});
