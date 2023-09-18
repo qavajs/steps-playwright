@@ -172,6 +172,10 @@ Feature: actions
     When I upload '$uploadFile' file to 'File Input'
     Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
 
+  Scenario: upload file via file chooser
+    When I upload '$uploadFile' file by clicking 'File Input'
+    Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
+
   Scenario: accept alert
     When I click "Alert Button"
     And I accept alert

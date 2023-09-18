@@ -18,6 +18,7 @@ jobs:
           node-version: ${{ matrix.version }}
       - run: npm ci
       - run: npm run build
+      - run: npm run install:browsers
       - run: npm run test:e2e
       - name: junit report
         uses: mikepenz/action-junit-report@v3

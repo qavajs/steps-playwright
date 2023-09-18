@@ -280,6 +280,21 @@ When('I upload {string} file to {string}', async function (value: string, alias:
 });
 
 /**
+ * Provide file url to file chooser
+ * @param {string} alias - element that invokes upload file chooser
+ * @param {string} value - file path
+ * @example I upload '/folder/file.txt' by clicking 'Upload Button'
+ */
+When('I upload {string} file by clicking {string}', async function (value: string, alias: string) {
+    const fileChooserPromise = page.waitForEvent('filechooser');
+    const button = await getElement(alias);
+    await button.click();
+    const fileChooser = await fileChooserPromise;
+    const filePath = await getValue(value);
+    await fileChooser.setFiles(filePath);
+});
+
+/**
  * Accept alert
  * @example I accept alert
  */
