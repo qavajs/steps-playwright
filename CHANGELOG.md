@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.35.0]
+- :rocket: added _I save bounding rect of {string} as {string}_ step
+
 ## [0.34.0]
 - :rocket: added _I upload {string} file by clicking {string}_ step
 
