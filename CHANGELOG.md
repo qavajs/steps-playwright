@@ -8,8 +8,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+
 ## [0.34.0]
 - :rocket: added _I upload {string} file by clicking {string}_ step
+- :rocket: added _I save bounding rect of {string} as {string}_ step
 
 ## [0.33.0]
 - :rocket: added _I set window size {string}_ step
