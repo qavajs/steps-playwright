@@ -9,6 +9,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 
 
+## [0.35.0]
+- :rocket: added _I click {playwrightBrowserButton} button_ step
+
 ## [0.34.0]
 - :rocket: added _I upload {string} file by clicking {string}_ step
 - :rocket: added _I save bounding rect of {string} as {string}_ step
