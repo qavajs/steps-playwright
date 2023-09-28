@@ -52,3 +52,7 @@ Feature: memory
   Scenario: element screenshot
     When I save screenshot of 'Simple Text Input' as 'elementScreenshot'
     Then I expect '$elementScreenshot[0]' memory value to be equal '$js(137)'
+
+  Scenario: bounding rect
+    When I save bounding rect of 'Simple Text Element' as 'boundingRect'
+    Then I expect '$boundingRect.height' memory value to be equal '$js(20)'
