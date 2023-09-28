@@ -41,3 +41,10 @@ defineParameterType({
     transformer: p => p,
     useForSnippets: false
 });
+
+defineParameterType({
+    name: 'playwrightBrowserButton',
+    regexp: /(back|forward)/,
+    transformer: p => p,
+    useForSnippets: false
+});

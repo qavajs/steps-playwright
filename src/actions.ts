@@ -371,3 +371,14 @@ When('I set window size {string}', async function (size: string) {
     const {x, y} = parseCoordsAsObject(viewPort);
     await page.setViewportSize({width: x, height: y});
 });
+
+/**
+ * Click browser button
+ * @param {string} button - browser button
+ * @example I click back button
+ * @example I click forward button
+ */
+When('I click {playwrightBrowserButton} button', async function (button: 'back' | 'forward') {
+    if (button === 'back') return page.goBack();
+    if (button === 'forward') return page.goForward();
+});

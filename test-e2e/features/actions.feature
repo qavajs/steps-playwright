@@ -210,3 +210,10 @@ Feature: actions
     Then I expect viewport size to equal '$js({ width: 800, height: 600 })'
     When I set window size '1440,900'
     Then I expect viewport size to equal '$js({ width: 1440, height: 900 })'
+
+  Scenario: browser back and forward
+    When I open '$valuesPage' url
+    When I click back button
+    Then I expect current url to contain 'actions.html'
+    When I click forward button
+    Then I expect current url to contain 'values.html'
