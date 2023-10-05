@@ -49,6 +49,10 @@ Feature: memory
     When I save screenshot as 'pageScreenshot'
     Then I expect '$pageScreenshot[0]' memory value to be equal '$js(137)'
 
+  Scenario: full page screenshot
+    When I save full page screenshot as 'fullPageScreenshot'
+    Then I expect '$fullPageScreenshot[0]' memory value to be equal '$js(137)'
+
   Scenario: element screenshot
     When I save screenshot of 'Simple Text Input' as 'elementScreenshot'
     Then I expect '$elementScreenshot[0]' memory value to be equal '$js(137)'

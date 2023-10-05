@@ -139,6 +139,16 @@ When('I save screenshot as {string}', async function(key: string) {
 });
 
 /**
+ * Save full page screenshot into memory
+ * @param {string} key - key to store value
+ * @example I save full page screenshot as 'screenshot'
+ */
+When('I save full page screenshot as {string}', async function(key: string) {
+    const screenshot = await page.screenshot({ fullPage: true });
+    memory.setValue(key, screenshot);
+});
+
+/**
  * Save element screenshot into memory
  * @param {string} alias - element to get screenshot
  * @param {string} key - key to store value

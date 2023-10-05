@@ -8,6 +8,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.36.0]
+- :rocket: added _I save full page screenshot as {string}_ step
 
 ## [0.35.0]
 - :rocket: added _I click {playwrightBrowserButton} button_ step
