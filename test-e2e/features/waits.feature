@@ -46,6 +46,9 @@ Feature: waits
       | not to contain | displayed              |
       | not to match   | displayed;$            |
 
+  Scenario: wait for css property
+    Then I wait until 'visibility' css property of 'Hidden Element' to be equal 'hidden'
+
   Scenario Outline: wait for number of elements in collection
     Then I wait until number of elements in 'Wait Collection' collection <condition> '<expected>'
 
@@ -79,6 +82,9 @@ Feature: waits
 
   Scenario: wait for attribute with timeout
     Then I wait until 'style' attribute of 'Hidden Element' to contain 'hidden' (timeout: 5000)
+
+  Scenario: wait for css property with timeout
+    Then I wait until 'visibility' css property of 'Hidden Element' to be equal 'hidden' (timeout: 5000)
 
   Scenario Outline: wait for number of elements in collection with timeout
     Then I wait until number of elements in 'Wait Collection' collection <condition> '<expected>' (timeout: 5000)

@@ -31,6 +31,11 @@ const common = {
         'junit:test-e2e/report.xml',
         '@qavajs/html-formatter:test-e2e/report.html'
     ],
+    formatOptions: {
+        console: {
+            showLogs: true
+        }
+    },
     memory: new Memory(),
     pageObject: new App(),
     parallel: 4,

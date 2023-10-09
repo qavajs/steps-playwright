@@ -89,6 +89,31 @@ When(
 );
 
 /**
+ * Wait for element css property condition
+ * @param {string} property - css property
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I wait until 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42)'
+ * @example I wait until 'font-family' css property of 'Search Input' to be equal 'Fira' (timeout: 3000)
+ */
+When(
+    'I wait until {string} css property of {string} {playwrightValueWait} {string}( ){playwrightTimeout}',
+    async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
+        const propertyName = await getValue(property);
+        const wait = getValueWait(waitType);
+        const element = await getElement(alias);
+        const expectedValue = await getValue(value);
+        const getValueFn = async () => element.evaluate(
+            (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
+            propertyName
+        );
+        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
+    }
+);
+
+/**
  * Wait for element attribute condition
  * @param {string} attribute - attribute
  * @param {string} alias - element to wait condition
