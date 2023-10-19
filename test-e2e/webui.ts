@@ -72,3 +72,21 @@ export const debug = {
         }
     }
 }
+
+export const electron = {
+    ...common,
+    paths: ['test-e2e/features/electron/*.feature'],
+    retry: 0,
+    tags: '@debug',
+    browser: {
+        logLevel: 'warn',
+        timeout: {
+            page: 5000
+        },
+        capabilities: {
+            browserName: 'electron',
+            args: ['test-e2e/apps/electron/main.js'],
+            headless: false
+        }
+    }
+}

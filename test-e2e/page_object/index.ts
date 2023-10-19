@@ -50,6 +50,10 @@ export default class App {
     KeyboardEventHandler = $('#keyboardEvent');
 
     ScrollElement = $('#scrollElement');
+
+    // Electron
+    OpenNewWindowElectronButton = $('#electronButton');
+    CloseCurrentWindowElectronButton = $('#closeCurrentWindow');
 }
 
 class IgnoreHierarchyComponent extends Component {

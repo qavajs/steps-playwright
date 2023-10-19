@@ -8,7 +8,7 @@ import {
     ITestStepHookParameter
 } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import { Browser, BrowserContext, Page } from 'playwright';
+import {Browser, BrowserContext, ElectronApplication, Page} from 'playwright';
 import { po } from '@qavajs/po-playwright';
 import { driverProvider } from './driverProvider';
 import {
@@ -21,7 +21,7 @@ import {
 import { readFile } from 'fs/promises';
 
 declare global {
-    var browser: Browser;
+    var browser: Browser
     var driver: Browser;
     var context: BrowserContext;
     var page: Page;
@@ -33,6 +33,7 @@ declare global {
 
 Before(async function () {
     const driverConfig = config.browser ?? config.driver;
+    driverConfig.isElectron = driverConfig.capabilities.browserName === 'electron';
     driverConfig.timeout = {
         ...defaultTimeouts,
         ...driverConfig.timeout
@@ -42,18 +43,24 @@ Before(async function () {
     if (config.driverConfig.video) {
         config.driverConfig.capabilities.recordVideo = config.driverConfig.video;
     }
-    global.context = await browser.newContext(config?.driverConfig?.capabilities);
+    global.context = driverConfig.isElectron
+        //@ts-ignore
+        ? browser.context()
+        : await browser.newContext(config?.driverConfig?.capabilities);
     if (config.driverConfig.trace) {
         await context.tracing.start({
             screenshots: true,
             snapshots: true
-        })
+        });
     }
-    global.page = await context.newPage();
+    global.page = driverConfig.isElectron
+        //@ts-ignore
+        ? browser.firstWindow()
+        : await context.newPage();
     global.driver = global.browser;
     po.init(page, { timeout: config.driverConfig.timeout.present });
     po.register(config.pageObject);
-    this.log(`browser instance started:\n${JSON.stringify(config.driverConfig, null, 2)}`);
+    this.log(`driver instance started:\n${JSON.stringify(config.driverConfig, null, 2)}`);
 });
 
 BeforeStep(async function () {
@@ -77,7 +84,6 @@ AfterStep(async function (step: ITestStepHookParameter) {
 });
 
 After(async function (scenario: ITestCaseHookParameter) {
-    const videoPath = await page.video()?.path() ?? '';
     if (saveTrace(config.driverConfig, scenario)) {
         const path = traceArchive(config.driverConfig, scenario);
         await context.tracing.stop({ path });
@@ -95,11 +101,12 @@ After(async function (scenario: ITestCaseHookParameter) {
             global.contexts = null;
         } else {
             await context.close();
-            this.log('browser context closed');
+            this.log('context closed');
         }
     }
     if (saveVideo(config.driverConfig, scenario)) {
         if (config.driverConfig?.video.attach) {
+            const videoPath = await page.video()?.path() ?? '';
             const zipBuffer: Buffer = await readFile(videoPath);
             this.attach(zipBuffer.toString('base64'), 'base64:video/webm');
         }
