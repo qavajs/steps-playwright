@@ -3,6 +3,15 @@ import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect } from '@playwright/test';
 import { parseCoords, parseCoordsAsObject } from './utils/utils';
+import {Browser, BrowserContext, Page} from 'playwright';
+
+declare global {
+    var browser: Browser;
+    var driver: Browser;
+    var context: BrowserContext;
+    var page: Page;
+    var config: any;
+}
 
 /**
  * Opens provided url
