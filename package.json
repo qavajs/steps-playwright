@@ -32,18 +32,18 @@
     "@qavajs/memory": "^1.6.2",
     "@qavajs/po-playwright": "^0.11.1",
     "@qavajs/webstorm-adapter": "^8.0.0",
-    "@types/chai": "^4.3.7",
-    "@types/express": "^4.17.19",
+    "@types/chai": "^4.3.9",
+    "@types/express": "^4.17.20",
     "@vitest/coverage-v8": "^0.34.6",
-    "electron": "^27.0.0",
+    "electron": "^27.0.1",
     "express": "^4.18.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6"
   },
   "dependencies": {
-    "@playwright/test": "^1.38.1",
+    "@playwright/test": "^1.39.0",
     "@qavajs/validation": "^0.6.0",
-    "playwright": "^1.38.1"
+    "playwright": "^1.39.0"
   }
 }

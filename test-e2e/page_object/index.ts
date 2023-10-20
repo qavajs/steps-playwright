@@ -54,6 +54,10 @@ export default class App {
     // Electron
     OpenNewWindowElectronButton = $('#electronButton');
     CloseCurrentWindowElectronButton = $('#closeCurrentWindow');
+
+    //JS Selector
+    SimpleTextElementByJS = $('js=document.querySelectorAll("#textValue")');
+    SimpleTextListItemsByJS = $$('js=document.querySelectorAll("#textValueList li")');
 }
 
 class IgnoreHierarchyComponent extends Component {
