@@ -10,6 +10,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 - :rocket: added _I wait until {string} css property of {string} {playwrightValueWait} {string}( ){playwrightTimeout}_ step
+- :rocket: added experimental electron support
+- :rocket: added js selector strategy (you can pass js expression that returns iterator of document nodes)
+
+```javascript
+class YourComponent {
+    Element = $('js=document.querySelectorAll("div.class")')
+}
+```
 
 ## [0.36.0]
 - :rocket: added _I save full page screenshot as {string}_ step

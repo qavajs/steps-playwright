@@ -1,4 +1,5 @@
 import {
+    BeforeAll,
     After,
     AfterAll,
     AfterStep,
@@ -8,7 +9,7 @@ import {
     ITestStepHookParameter
 } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import {Browser, BrowserContext, ElectronApplication, Page} from 'playwright';
+import { Browser, BrowserContext, Page } from 'playwright';
 import { po } from '@qavajs/po-playwright';
 import { driverProvider } from './driverProvider';
 import {
@@ -18,7 +19,8 @@ import {
     saveVideo,
     traceArchive
 } from './utils/utils';
-import { readFile } from 'fs/promises';
+import { readFile } from 'node:fs/promises';
+import { createJSEngine } from './selectorEngines';
 
 declare global {
     var browser: Browser
@@ -30,6 +32,10 @@ declare global {
         [contextName: string]: BrowserContext
     } | null;
 }
+
+BeforeAll(async function () {
+    await createJSEngine();
+});
 
 Before(async function () {
     const driverConfig = config.browser ?? config.driver;
