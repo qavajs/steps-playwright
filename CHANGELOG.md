@@ -8,7 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
-## [Unreleased]
+## [0.37.0]
 - :rocket: added _I wait until {string} css property of {string} {playwrightValueWait} {string}( ){playwrightTimeout}_ step
 - :rocket: added experimental electron support
 - :rocket: added js selector strategy (you can pass js expression that returns iterator of document nodes)
