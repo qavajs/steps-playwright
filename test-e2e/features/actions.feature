@@ -105,10 +105,10 @@ Feature: actions
     When I expect 'Frame Element' to be visible
 
     Examples:
-     | test  | param        |
-     | index | 2            |
-     | title | 'Frame'      |
-     | url   | 'frame.html' |
+      | test  | param        |
+      | index | 2            |
+      | title | 'Frame'      |
+      | url   | 'frame.html' |
 
   Scenario: refresh page
     When I type 'test value' to 'Input'
@@ -191,6 +191,13 @@ Feature: actions
     And I click "Prompt Button"
     And I type 'I am not a robot' to alert
     Then I expect text of 'Action' to be equal 'I am not a robot'
+
+  Scenario: close current browser tab
+    When I expect current url to contain 'actions.html'
+    And I open new tab
+    And I switch to 2 window
+    And I close current tab
+    Then I expect current url to contain 'actions.html'
 
   Scenario: expect text of alert
     When I click "Prompt Button"
