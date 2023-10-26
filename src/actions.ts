@@ -358,6 +358,21 @@ When('I open new tab', async function () {
 });
 
 /**
+ * Close current tab
+ * @example
+ * Then I close current tab
+ */
+When('I close current tab', async function () {
+    await page.close()
+    global.page = context.pages()[0]
+    if (global.page) {
+        //@ts-ignore
+        po.driver = page;
+        await page.bringToFront();
+    }
+});
+
+/**
  * Click certain coordinates in element
  * @param {string} coords - x, y coordinates to click
  * @param {string} alias - element to click
