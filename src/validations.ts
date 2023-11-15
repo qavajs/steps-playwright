@@ -1,7 +1,7 @@
 import { Then } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
 import { getValidation } from '@qavajs/validation';
-import {Locator} from 'playwright';
+import { Locator } from 'playwright';
 
 /**
  * Verify element condition
@@ -165,7 +165,7 @@ Then('I expect every element in {string} collection {playwrightConditionWait}', 
  * @param {string} validationType - validation
  * @param {string} value - expected result
  * @example I expect text of every element in 'Search Results' collection equals to 'google'
- * @example I expect text of every element in 'Search Results' collection does not contain 'yandex'
+ * @example I expect text of every element in 'Search Results' collection does not contain 'google'
  */
 Then(
     'I expect text of every element in {string} collection {playwrightValidation} {string}',
