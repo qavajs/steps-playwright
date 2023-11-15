@@ -64,7 +64,7 @@ Before(async function () {
         ? browser.firstWindow()
         : await context.newPage();
     global.driver = global.browser;
-    po.init(page, { timeout: config.driverConfig.timeout.present });
+    po.init(page, { timeout: config.driverConfig.timeout.present, logger: this });
     po.register(config.pageObject);
     this.log(`driver instance started:\n${JSON.stringify(config.driverConfig, null, 2)}`);
 });
