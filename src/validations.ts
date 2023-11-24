@@ -1,6 +1,6 @@
 import { Then } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
-import { getValidation } from '@qavajs/validation';
+import { getValidation, getPollValidation } from '@qavajs/validation';
 import { Locator } from 'playwright';
 
 /**
@@ -30,11 +30,12 @@ Then(
     async function (alias: string, validationType: string, value: any) {
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
-        const validation = getValidation(validationType);
-        const elementText: string = await element.innerText();
-        this.log(`AR: ${elementText}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(elementText, expectedValue);
+        const validation = getPollValidation(validationType);
+        const elementText = () => element.innerText();
+        await validation(elementText, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -53,11 +54,12 @@ Then(
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
-        const validation = getValidation(validationType);
-        const actualValue = await element.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
-        this.log(`AR: ${actualValue}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(actualValue, expectedValue);
+        const validation = getPollValidation(validationType);
+        const actualValue = () => element.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
+        await validation(actualValue, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -75,11 +77,12 @@ Then(
         const attributeName = await getValue(attribute);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
-        const validation = getValidation(validationType);
-        const actualValue = await element.getAttribute(attributeName);
-        this.log(`AR: ${actualValue}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(actualValue, expectedValue);
+        const validation = getPollValidation(validationType);
+        const actualValue = () => element.getAttribute(attributeName);
+        await validation(actualValue, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -93,12 +96,13 @@ Then(
 Then(
     'I expect current url {playwrightValidation} {string}',
     async function (validationType: string, expected: string) {
-        const validation = getValidation(validationType);
+        const validation = getPollValidation(validationType);
         const expectedUrl = await getValue(expected);
-        const actualUrl = page.url();
-        this.log(`AR: ${actualUrl}`);
-        this.log(`ER: ${expectedUrl}`);
-        validation(actualUrl, expectedUrl);
+        const actualUrl = () => page.url();
+        await validation(actualUrl, expectedUrl, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -116,11 +120,12 @@ Then(
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
         const collection = await getElement(alias);
-        const validation = getValidation(validationType);
-        const actualCount = await collection.count();
-        this.log(`AR: ${actualCount}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(actualCount, expectedValue);
+        const validation = getPollValidation(validationType);
+        const actualCount = () => collection.count();
+        await validation(actualCount, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -133,12 +138,13 @@ Then(
 Then(
     'I expect page title {playwrightValidation} {string}',
     async function (validationType: string, expected: string) {
-        const validation = getValidation(validationType);
+        const validation = getPollValidation(validationType);
         const expectedTitle = await getValue(expected);
-        const actualTitle = await page.title();
-        this.log(`AR: ${actualTitle}`);
-        this.log(`ER: ${expectedTitle}`);
-        validation(actualTitle, expectedTitle);
+        const actualTitle = () => page.title();
+        await validation(actualTitle, expectedTitle, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -237,14 +243,15 @@ Then(
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
-        const validation = getValidation(validationType);
-        const actualValue = await element.evaluate(
+        const validation = getPollValidation(validationType);
+        const actualValue = () => element.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
             propertyName
         );
-        this.log(`AR: ${actualValue}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(actualValue, expectedValue);
+        await validation(actualValue, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -260,8 +267,6 @@ Then('I expect text of alert {playwrightValidation} {string}', async function (v
         }));
         const expected = await getValue(expectedValue);
         const validation = getValidation(validationType);
-        this.log(`AR: ${alertText}`);
-        this.log(`ER: ${expected}`);
-        validation(alertText, expectedValue);
+        validation(alertText, expected);
     }
 );
