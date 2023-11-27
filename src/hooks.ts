@@ -37,7 +37,7 @@ BeforeAll(async function () {
     await createJSEngine();
 });
 
-Before(async function () {
+Before({name: 'context init'}, async function () {
     const driverConfig = config.browser ?? config.driver;
     driverConfig.isElectron = driverConfig.capabilities.browserName === 'electron';
     driverConfig.timeout = {
@@ -89,7 +89,7 @@ AfterStep(async function (step: ITestStepHookParameter) {
     }
 });
 
-After(async function (scenario: ITestCaseHookParameter) {
+After({name: 'context teardown'}, async function (scenario: ITestCaseHookParameter) {
     if (saveTrace(config.driverConfig, scenario)) {
         const path = traceArchive(config.driverConfig, scenario);
         await context.tracing.stop({ path });

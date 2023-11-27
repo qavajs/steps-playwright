@@ -8,6 +8,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.40.0]
+- :rocket: changed simple expects to poll expects
+- :rocket: replaced _wdioValueWait_ type with more generic _wdioValidation_ allowing more wait types
+  Breaking change: value waits now depends on _value_ timeout
+
 ## [0.39.0]
 - :rocket: enabled logger for page objects
 
