@@ -3,7 +3,7 @@ import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect } from '@playwright/test';
 import { parseCoords, parseCoordsAsObject } from './utils/utils';
-import {Browser, BrowserContext, Page} from 'playwright';
+import { Browser, BrowserContext, Page } from 'playwright';
 
 declare global {
     var browser: Browser;
@@ -144,17 +144,25 @@ When('I switch to {int} window', async function (index: number) {
  */
 When('I switch to {string} window', async function (matcher: string) {
     const urlOrTitle = await getValue(matcher);
-    const pages = context.pages();
-    for (const p of pages) {
-        if (p.url().includes(urlOrTitle) || (await p.title()).includes(urlOrTitle)) {
-            global.page = p;
-            //@ts-ignore
-            po.driver = p;
-            await page.bringToFront();
-            return;
+    const poll = async () => {
+        const pages = context.pages();
+        for (const currentPage of pages) {
+            if (currentPage.url().includes(urlOrTitle) || (await currentPage.title()).includes(urlOrTitle)) {
+                return currentPage
+            }
         }
     }
-    throw new Error(`Page matching '${matcher}' is not found`);
+    await expect.poll(
+        poll,
+        {
+            timeout: config.browser.timeout.page,
+            message: `Page matching ${urlOrTitle} was not found`
+        }
+    ).toBeDefined();
+    const targetPage = await poll() as Page;
+    global.page = targetPage;
+    (po as any).driver = targetPage;
+    await targetPage.bringToFront();
 });
 
 /**

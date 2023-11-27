@@ -10,8 +10,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.40.0]
 - :rocket: changed simple expects to poll expects
-- :rocket: replaced _wdioValueWait_ type with more generic _wdioValidation_ allowing more wait types
+- :rocket: changed behavior of _I switch to {string} window_ step (now it is wait for window existence)
+- :rocket: replaced _playwrightValueWait_ type with more generic _playwrightValueWait_ allowing more wait types
   Breaking change: value waits now depends on _value_ timeout
+- :beetle: fixed getting of electron context
 
 ## [0.39.0]
 - :rocket: enabled logger for page objects

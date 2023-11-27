@@ -9,7 +9,7 @@ import {
     ITestStepHookParameter
 } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import { Browser, BrowserContext, Page } from 'playwright';
+import { Browser, BrowserContext, Page, ElectronApplication } from 'playwright';
 import { po } from '@qavajs/po-playwright';
 import { driverProvider } from './driverProvider';
 import {
@@ -50,8 +50,7 @@ Before({name: 'context init'}, async function () {
         config.driverConfig.capabilities.recordVideo = config.driverConfig.video;
     }
     global.context = driverConfig.isElectron
-        //@ts-ignore
-        ? browser.context()
+        ? (browser as any as ElectronApplication).context()
         : await browser.newContext(config?.driverConfig?.capabilities);
     if (config.driverConfig.trace) {
         await context.tracing.start({
@@ -60,8 +59,7 @@ Before({name: 'context init'}, async function () {
         });
     }
     global.page = driverConfig.isElectron
-        //@ts-ignore
-        ? browser.firstWindow()
+        ? await (browser as any as ElectronApplication).firstWindow()
         : await context.newPage();
     global.driver = global.browser;
     po.init(page, { timeout: config.driverConfig.timeout.present, logger: this });
@@ -106,8 +104,16 @@ After({name: 'context teardown'}, async function (scenario: ITestCaseHookParamet
             }
             global.contexts = null;
         } else {
-            await context.close();
-            this.log('context closed');
+            if (!config.driverConfig.isElectron) {
+                await context.close();
+                this.log('context closed');
+            } else {
+                await (browser as any as ElectronApplication)
+                    .evaluate((main: any) => { main.app.exit(0) });
+                // @ts-ignore
+                global.browser = null;
+                this.log('electron app closed');
+            }
         }
     }
     if (saveVideo(config.driverConfig, scenario)) {
@@ -121,6 +127,8 @@ After({name: 'context teardown'}, async function (scenario: ITestCaseHookParamet
 
 AfterAll(async function () {
     if (global.browser) {
-        await browser.close();
+        if (!config.driverConfig.isElectron) {
+            await browser.close();
+        }
     }
 });
