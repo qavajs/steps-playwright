@@ -77,7 +77,7 @@ export const electron = {
     ...common,
     paths: ['test-e2e/features/electron/*.feature'],
     retry: 0,
-    tags: '@debug',
+    // tags: '@debug',
     browser: {
         logLevel: 'warn',
         timeout: {
@@ -88,5 +88,6 @@ export const electron = {
             args: ['test-e2e/apps/electron/main.js'],
             headless: false
         }
-    }
+    },
+    parallel: 1
 }

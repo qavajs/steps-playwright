@@ -35,21 +35,25 @@ module.exports = {
 ## Global variables
 @qavajs/steps-playwright exposes following global variables
          
-| variable   | type                                        | description                                  |
-|------------|---------------------------------------------|----------------------------------------------|
-| `browser`  | `Browser`                                   | browser instance                             |
-| `driver`   | `Browser`                                   | browser instance (alias for browser)         |
-| `context`  | `BrowserContext`                            | current browser context                      |
-| `page`     | `Page`                                      | current context page                         |
-| `contexts` | `{ [contextName: string]: BrowserContext }` | Map of opened contexts in multi browser mode |
+| variable         | type                             | description                                                   |
+|------------------|----------------------------------|---------------------------------------------------------------|
+| `browser`        | `Browser \| ElectronApplication` | browser instance                                              |
+| `driver`         | `Browser \| ElectronApplication` | browser instance (alias for browser)                          |
+| `context`        | `BrowserContext`                 | current browser context                                       |
+| `page`           | `Page`                           | current context page                                          |
+| `browserManager` | `BrowserManager`                 | manager to control all opened browsers and electron instances |
 
 ## Connect to playwright server
 In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
 ```typescript
-{
-    capabilities: {
-        browserName: 'chromium',
-        wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'    
+module.exports = {
+    default: {
+        browser: {
+            capabilities: {
+                browserName: 'chromium',
+                wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'
+            }
+        },
     }
 }
 ```
@@ -57,10 +61,14 @@ In order to connect to playwright server pass _wsEndpoint_ property in capabilit
 ## Connect to cdp endpoint
 In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object 
 ```typescript
-{
-    capabilities: {
-        browserName: 'chromium',
-        cdpEndpoint: 'http://localhost:9222/'    
+module.exports = {
+    default: {
+        browser: {
+            capabilities: {
+                browserName: 'chromium',
+                cdpEndpoint: 'http://localhost:9222/'
+            }
+        },
     }
 }
 ```
@@ -127,4 +135,23 @@ To properly use globals exposed by @qavajs/steps-playwright add corresponding ty
   }
 }
 ```
+
+## Development and testing
+Install dependencies
+`npm install`
+
+Install playwright browsers
+`install:browsers`
+
+Build lib
+`npm run build`
+
+Execute unit test (with vitest)
+`npm run test`
+
+Execute e2e browser tests
+`npm run test:e2e`
+
+Execute e2e electron tests
+`npm run test:e2e:electron`
 
