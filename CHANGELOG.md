@@ -8,6 +8,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.41.0]
+- :rocket: introduced browserManager object to control all launched browser and electron instances
+- :rocket: added steps to start/stop/switch to other browser/electron instances
+
 ## [0.40.0]
 - :rocket: changed simple expects to poll expects
 - :rocket: changed behavior of _I switch to {string} window_ step (now it is wait for window existence)
