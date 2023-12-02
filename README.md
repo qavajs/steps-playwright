@@ -136,6 +136,21 @@ To properly use globals exposed by @qavajs/steps-playwright add corresponding ty
 }
 ```
 
+## reuseSession
+reuseSession flag allows to share session between tests in frames of process. But setting of this flag
+transfers session control to user.
+
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            reuseSession: true
+        }
+    }
+}
+```
+
+
 ## Development and testing
 Install dependencies
 `npm install`

@@ -29,9 +29,16 @@ export class BrowserManager {
             this.setContext((driverInstance as any as ElectronApplication).context());
             this.setPage(await (driverInstance as any as ElectronApplication).firstWindow())
         } else {
-            const context = await driverInstance.newContext(driverConfig);
+            const firstContext = driverInstance.contexts()[0];
+            const context = driverConfig.reuseSession && firstContext
+                ? firstContext
+                : await driverInstance.newContext(driverConfig.capabilities);
             this.setContext(context);
-            this.setPage(await context.newPage());
+            const firstPage = this.context?.pages()[0];
+            const page = driverConfig.reuseSession && firstPage
+                ? firstPage
+                : await context.newPage();
+            this.setPage(page);
         }
         (this.context as NamedContext).name = 'default';
     }
@@ -88,7 +95,9 @@ export class BrowserManager {
     /**
      * return to default state (1 browser, no contexts)
      */
-    async teardown() {
+    async teardown({ reuseSession } = { reuseSession: false }) {
+        this.setDriver(this.drivers['default']);
+        if (reuseSession) return;
         for (const driverKey in this.drivers) {
             const driverInstance = this.drivers[driverKey] as any;
             if (driverInstance.firstWindow) {
@@ -97,7 +106,6 @@ export class BrowserManager {
                 await this.browserTeardown(driverInstance, driverKey);
             }
         }
-        this.driver = this.drivers['default'];
     }
 
     async browserTeardown(driverInstance: Browser, driverKey: string) {
@@ -120,7 +128,11 @@ export class BrowserManager {
     async close() {
         for (const driverKey in this.drivers) {
             const driverInstance = this.drivers[driverKey] as any;
-            await driverInstance.close();
+            if (driverInstance.firstWindow) {
+                await this.electronTeardown(driverInstance, driverKey);
+            } else {
+                await driverInstance.close();
+            }
             delete this.drivers[driverKey];
         }
     };

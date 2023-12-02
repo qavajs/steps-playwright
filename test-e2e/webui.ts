@@ -15,16 +15,16 @@ const common = {
         },
         trace: {
             event: ['onFail'],
-            dir: 'dirToStoreTraces',
+            dir: 'traces',
             attach: true
         },
         video: {
             event: ['onFail'],
-            dir: 'dirToStoreVideos',
+            dir: 'video',
             size: { width: 800, height: 600 },
             attach: true
         },
-        screenshot: ['onFail'],
+        screenshot: ['onFail']
     },
     format: [
         '@qavajs/console-formatter',
@@ -60,17 +60,18 @@ export const debug = {
             headless: false
         },
         trace: {
-            event: 'onFail',
-            dir: 'customDir',
+            event: ['onFail'],
+            dir: 'traces',
             attach: true
         },
         video: {
-            event: ['onFail'],
+            event: ['afterScenario'],
             dir: 'video',
             size: { width: 800, height: 600 },
             attach: true
         }
-    }
+    },
+    parallel: 1
 }
 
 export const electron = {

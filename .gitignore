@@ -3,7 +3,5 @@ lib/
 coverage/
 test-e2e/report.*
 .idea/
-customDir/
-dirToStoreTraces/
-dirToStoreVideos/
+traces/
 video/

@@ -14,13 +14,12 @@ import { po } from '@qavajs/po-playwright';
 import {
     saveScreenshotAfterStep,
     saveScreenshotBeforeStep,
-    saveTrace,
-    saveVideo,
-    traceArchive
+    saveVideo
 } from './utils/utils';
 import { readFile } from 'node:fs/promises';
 import { createJSEngine } from './selectorEngines';
 import browserManager, {BrowserManager} from './browserManager';
+import tracingManager from './utils/tracingManager';
 
 declare global {
     var browser: Browser
@@ -47,12 +46,7 @@ Before({name: 'Init'}, async function () {
         config.driverConfig.capabilities.recordVideo = config.driverConfig.video;
     }
     await browserManager.launchDriver('default', config.driverConfig);
-    if (config.driverConfig.trace) {
-        await context.tracing.start({
-            screenshots: true,
-            snapshots: true
-        });
-    }
+    await tracingManager.start(driverConfig);
     po.init(page, { timeout: config.driverConfig.timeout.present, logger: this });
     po.register(config.pageObject);
     global.browserManager = browserManager;
@@ -80,20 +74,19 @@ AfterStep(async function (step: ITestStepHookParameter) {
 });
 
 After({name: 'Teardown'}, async function (scenario: ITestCaseHookParameter) {
-    if (saveTrace(config.driverConfig, scenario)) {
-        const path = traceArchive(config.driverConfig, scenario);
-        await context.tracing.stop({ path });
-        if (config.driverConfig?.trace.attach) {
-            const zipBuffer: Buffer = await readFile(path);
-            this.attach(zipBuffer.toString('base64'), 'base64:application/zip');
-        }
-    }
-    await browserManager.teardown();
+    await tracingManager.stop(config.driverConfig, this, scenario);
+    await browserManager.teardown({ reuseSession: config.driverConfig.reuseSession });
     if (saveVideo(config.driverConfig, scenario)) {
         if (config.driverConfig?.video.attach) {
-            const videoPath = await page.video()?.path() ?? '';
-            const zipBuffer: Buffer = await readFile(videoPath);
-            this.attach(zipBuffer.toString('base64'), 'base64:video/webm');
+            const video = page.video();
+            console.log(video)
+            if (video) {
+                const videoPath = await video.path();
+                const zipBuffer: Buffer = await readFile(videoPath);
+                this.attach(zipBuffer.toString('base64'), 'base64:video/webm');
+            } else {
+                console.warn('Video was not recorded');
+            }
         }
     }
 });
