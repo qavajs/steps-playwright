@@ -125,16 +125,22 @@ describe('launch driver', () => {
         expect((browserManager.drivers.second as any).isClosed).toBe(false);
     });
 
-    test('relaunch default browser', async () => {
+    test('reuse session', async () => {
         const browserManager = new BrowserManager(driverProvider as any);
-        await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
+        await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false, reuseSession: true });
         const defaultBrowser = browserManager.drivers.default;
+        const defaultContext = defaultBrowser.contexts()[0];
+        const defaultPage = defaultContext.pages()[0];
         expect(defaultBrowser).toBeInstanceOf(Browser);
-        await browserManager.teardown();
-        await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
+        await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false, reuseSession: true });
         const relaunchedBrowser = browserManager.drivers.default;
+        const relaunchedContext = relaunchedBrowser.contexts()[0];
+        const relaunchedPage = relaunchedContext.pages()[0];
         expect(relaunchedBrowser).toBeInstanceOf(Browser);
         expect(relaunchedBrowser).toBe(defaultBrowser);
+        expect(relaunchedContext).toBe(defaultContext);
+        expect(relaunchedPage).toBe(defaultPage);
+
     });
 });
 
@@ -242,8 +248,8 @@ describe('teardown', () => {
     test('single browser', async () => {
         const browserManager = new BrowserManager(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
-        await browserManager.teardown();
         const expectedBrowser = browserManager.drivers.default as any;
+        await browserManager.teardown();
         expect(global.browser).toBe(expectedBrowser);
     });
 
@@ -290,6 +296,7 @@ describe('teardown', () => {
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('chrome1', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('chrome2', { browserName: 'chrome', isElectron: false });
+        await browserManager.launchDriver('electron', { browserName: 'electron', isElectron: true });
         await browserManager.close();
         expect(browserManager.drivers).toEqual({});
     });
@@ -298,6 +305,22 @@ describe('teardown', () => {
         const browserManager = new BrowserManager(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         expect(() => browserManager.closeDriver('chrome')).rejects.toThrow(`Driver 'chrome' was not found`)
+    });
+
+    test('reuse session browser', async () => {
+        const browserManager = new BrowserManager(driverProvider as any);
+        await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false, reuseSession: true });
+        const expectedBrowser = browserManager.drivers.default as any;
+        await browserManager.teardown({ reuseSession: true });
+        expect(global.browser).toBe(expectedBrowser);
+    });
+
+    test('reuse session electron', async () => {
+        const browserManager = new BrowserManager(driverProvider as any);
+        await browserManager.launchDriver('default', { browserName: 'electron', isElectron: true, reuseSession: true });
+        const expectedBrowser = browserManager.drivers.default as any;
+        await browserManager.teardown({ reuseSession: true });
+        expect(global.browser).toBe(expectedBrowser);
     });
 
 });
