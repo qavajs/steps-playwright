@@ -32,7 +32,7 @@ When('I open {string} url', async function (url: string) {
 When('I type {string} to {string}', async function (value: string, alias: string) {
     const element = await getElement(alias);
     const typeValue = await getValue(value);
-    await element.type(typeValue);
+    await element.fill(typeValue);
 });
 
 /**

@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.41.2]
+- :rocket: replaced deprecated type() method with fill()
+
 ## [0.41.1]
 - :rocket: added _reuseSession_ option to keep browser/application opened after test ends
 
