@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.41.3]
+- :rocket: added _I type {string} chars to {string}_ step
+
 ## [0.41.2]
 - :rocket: replaced deprecated type() method with fill()
 

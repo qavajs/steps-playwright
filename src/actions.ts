@@ -36,6 +36,18 @@ When('I type {string} to {string}', async function (value: string, alias: string
 });
 
 /**
+ * Type text to element sending fine-grained keyboard events
+ * @param {string} alias - element to type
+ * @param {string} value - value to type
+ * @example I type 'wikipedia' chars to 'Google Input'
+ */
+When('I type {string} chars to {string}', async function (value: string, alias: string) {
+    const element = await getElement(alias);
+    const typeValue = await getValue(value);
+    await element.pressSequentially(typeValue);
+});
+
+/**
  * Click element
  * @param {string} alias - element to click
  * @example I click 'Google Button'
