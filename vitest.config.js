@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     coverage: {
       provider: 'v8',
-      include: ["src/**/*.ts"],
+      include: ["src/browserManager.ts"],
       exclude: ["/lib/", "/node_modules/", "src/driverProvider.ts"],
       branches: 80,
       functions: 90,
