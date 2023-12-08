@@ -24,7 +24,8 @@ const common = {
             size: { width: 800, height: 600 },
             attach: true
         },
-        screenshot: ['onFail']
+        screenshot: ['onFail'],
+
     },
     format: [
         '@qavajs/console-formatter',

@@ -79,7 +79,6 @@ After({name: 'Teardown'}, async function (scenario: ITestCaseHookParameter) {
     if (saveVideo(config.driverConfig, scenario)) {
         if (config.driverConfig?.video.attach) {
             const video = page.video();
-            console.log(video)
             if (video) {
                 const videoPath = await video.path();
                 const zipBuffer: Buffer = await readFile(videoPath);
