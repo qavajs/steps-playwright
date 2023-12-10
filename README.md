@@ -150,6 +150,19 @@ module.exports = {
 }
 ```
 
+## restartBrowser
+restartBrowser flag allows to restart browser between tests instead of default restarting context
+
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            restartBrowser: true
+        }
+    }
+}
+```
+
 
 ## Development and testing
 Install dependencies

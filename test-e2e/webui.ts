@@ -25,7 +25,6 @@ const common = {
             attach: true
         },
         screenshot: ['onFail'],
-
     },
     format: [
         '@qavajs/console-formatter',

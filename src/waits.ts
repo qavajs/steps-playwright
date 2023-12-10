@@ -36,8 +36,9 @@ When(
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
+        await element.waitFor({ state: 'attached' });
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.innerText();
+        const getValueFn = () => element.innerText();
         await wait(getValueFn, expectedValue, {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
@@ -62,7 +63,7 @@ When(
         const wait = getPollValidation(waitType);
         const collection = await getElement(alias);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => collection.count();
+        const getValueFn = () => collection.count();
         await wait(getValueFn, expectedValue, {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
@@ -86,8 +87,9 @@ When(
         const propertyName = await getValue(property);
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
+        await element.waitFor({ state: 'attached' });
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.evaluate(
+        const getValueFn = () => element.evaluate(
             (node: any, propertyName: string) => node[propertyName],
             propertyName
         );
@@ -114,8 +116,9 @@ When(
         const propertyName = await getValue(property);
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
+        await element.waitFor({ state: 'attached' });
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.evaluate(
+        const getValueFn = () => element.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
             propertyName
         );
@@ -142,8 +145,9 @@ When(
         const attributeName = await getValue(attribute);
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
+        await element.waitFor({ state: 'attached' });
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.getAttribute(attributeName);
+        const getValueFn = () => element.getAttribute(attributeName);
         await wait(getValueFn, expectedValue, {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
@@ -176,7 +180,7 @@ When(
     async function (waitType: string, value: string, timeout: number | null) {
         const wait = getPollValidation(waitType);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => page.url();
+        const getValueFn = () => page.url();
         await wait(getValueFn, expectedValue, {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
@@ -198,7 +202,7 @@ When(
     async function (waitType: string, value: string, timeout: number | null) {
         const wait = getPollValidation(waitType);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => page.title();
+        const getValueFn = () => page.title();
         await wait(getValueFn, expectedValue, {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval

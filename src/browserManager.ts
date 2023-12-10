@@ -95,7 +95,7 @@ export class BrowserManager {
     /**
      * return to default state (1 browser, no contexts)
      */
-    async teardown({ reuseSession } = { reuseSession: false }) {
+    async teardown({ reuseSession, restartBrowser } = { reuseSession: false, restartBrowser: false }) {
         this.setDriver(this.drivers['default']);
         if (reuseSession) return;
         for (const driverKey in this.drivers) {
@@ -103,13 +103,13 @@ export class BrowserManager {
             if (driverInstance.firstWindow) {
                 await this.electronTeardown(driverInstance, driverKey);
             } else {
-                await this.browserTeardown(driverInstance, driverKey);
+                await this.browserTeardown(driverInstance, driverKey, restartBrowser);
             }
         }
     }
 
-    async browserTeardown(driverInstance: Browser, driverKey: string) {
-        if (driverKey !== 'default') {
+    async browserTeardown(driverInstance: Browser, driverKey: string, restartBrowser?: boolean) {
+        if (driverKey !== 'default' || restartBrowser) {
             await driverInstance.close();
             delete this.drivers[driverKey];
         } else {

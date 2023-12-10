@@ -30,6 +30,7 @@ Then(
     async function (alias: string, validationType: string, value: any) {
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
+        await element.waitFor({ state: 'attached' });
         const validation = getPollValidation(validationType);
         const elementText = () => element.innerText();
         await validation(elementText, expectedValue, {
@@ -54,6 +55,7 @@ Then(
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
+        await element.waitFor({ state: 'attached' });
         const validation = getPollValidation(validationType);
         const actualValue = () => element.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
         await validation(actualValue, expectedValue, {
@@ -77,6 +79,7 @@ Then(
         const attributeName = await getValue(attribute);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
+        await element.waitFor({ state: 'attached' });
         const validation = getPollValidation(validationType);
         const actualValue = () => element.getAttribute(attributeName);
         await validation(actualValue, expectedValue, {
@@ -243,6 +246,7 @@ Then(
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
+        await element.waitFor({ state: 'attached' });
         const validation = getPollValidation(validationType);
         const actualValue = () => element.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
