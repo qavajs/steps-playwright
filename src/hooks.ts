@@ -75,7 +75,10 @@ AfterStep(async function (step: ITestStepHookParameter) {
 
 After({name: 'Teardown'}, async function (scenario: ITestCaseHookParameter) {
     await tracingManager.stop(config.driverConfig, this, scenario);
-    await browserManager.teardown({ reuseSession: config.driverConfig.reuseSession });
+    await browserManager.teardown({
+        reuseSession: config.driverConfig.reuseSession,
+        restartBrowser: config.driverConfig.restartBrowser,
+    });
     if (saveVideo(config.driverConfig, scenario)) {
         if (config.driverConfig?.video.attach) {
             const video = page.video();

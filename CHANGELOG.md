@@ -8,6 +8,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.41.4]
+- :beetle: added existence waiter before value waits to avoid promise reject without reason error
+- :rocket: added _restartBrowser_ config flag to restart browser between tests (default is false, considering restarting context)
+
 ## [0.41.3]
 - :rocket: added _I type {string} chars to {string}_ step
 
