@@ -27,9 +27,9 @@
   "homepage": "https://github.com/qavajs/steps-playwright#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^10.0.1",
-    "@qavajs/cli": "^0.32.1",
+    "@qavajs/cli": "^0.33.0",
     "@qavajs/console-formatter": "^0.6.0",
-    "@qavajs/html-formatter": "^0.15.2",
+    "@qavajs/html-formatter": "^0.15.3",
     "@qavajs/memory": "^1.6.2",
     "@qavajs/po-playwright": "^0.12.0",
     "@qavajs/webstorm-adapter": "^8.0.0",
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@playwright/test": "^1.40.1",
-    "@qavajs/validation": "^0.7.0",
+    "@qavajs/validation": "^0.7.1",
     "playwright": "^1.40.1"
   }
 }
