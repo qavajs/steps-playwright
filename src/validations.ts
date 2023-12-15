@@ -30,11 +30,12 @@ Then(
     async function (alias: string, validationType: string, value: any) {
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
-        await element.waitFor({ state: 'attached' });
+        const timeout = config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
         const validation = getPollValidation(validationType);
         const elementText = () => element.innerText();
         await validation(elementText, expectedValue, {
-            timeout: config.browser.timeout.value,
+            timeout,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -55,11 +56,12 @@ Then(
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
-        await element.waitFor({ state: 'attached' });
+        const timeout = config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
         const validation = getPollValidation(validationType);
         const actualValue = () => element.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
         await validation(actualValue, expectedValue, {
-            timeout: config.browser.timeout.value,
+            timeout,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -79,11 +81,12 @@ Then(
         const attributeName = await getValue(attribute);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
-        await element.waitFor({ state: 'attached' });
+        const timeout = config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
         const validation = getPollValidation(validationType);
         const actualValue = () => element.getAttribute(attributeName);
         await validation(actualValue, expectedValue, {
-            timeout: config.browser.timeout.value,
+            timeout,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -246,14 +249,15 @@ Then(
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
-        await element.waitFor({ state: 'attached' });
+        const timeout = config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
         const validation = getPollValidation(validationType);
         const actualValue = () => element.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
             propertyName
         );
         await validation(actualValue, expectedValue, {
-            timeout: config.browser.timeout.value,
+            timeout,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -265,7 +269,9 @@ Then(
  * @param {string} value - expected text value
  * @example I expect text of alert does not contain 'coffee'
  */
-Then('I expect text of alert {playwrightValidation} {string}', async function (validationType: string, expectedValue: string) {
+Then(
+    'I expect text of alert {playwrightValidation} {string}',
+    async function (validationType: string, expectedValue: string) {
         const alertText = await new Promise<string>(resolve => page.once('dialog', async (dialog) => {
             resolve(dialog.message());
         }));

@@ -14,10 +14,10 @@ import { getPollValidation } from '@qavajs/validation';
  */
 When(
     'I wait until {string} {playwrightConditionWait}( ){playwrightTimeout}',
-        async function (alias: string, waitType: string, timeout: number | null) {
+        async function (alias: string, waitType: string, timeoutValue: number | null) {
         const wait = getConditionWait(waitType);
         const element = await getElement(alias);
-        await wait(element, timeout ? timeout : config.browser.timeout.page);
+        await wait(element, timeoutValue ?? config.browser.timeout.page);
     }
 );
 
@@ -33,14 +33,15 @@ When(
  */
 When(
     'I wait until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
-    async function (alias: string, waitType: string, value: string, timeout: number | null) {
+    async function (alias: string, waitType: string, value: string, timeoutValue: number | null) {
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
-        await element.waitFor({ state: 'attached' });
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
         const expectedValue = await getValue(value);
         const getValueFn = () => element.innerText();
         await wait(getValueFn, expectedValue, {
-            timeout: timeout ?? config.browser.timeout.value,
+            timeout,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -59,13 +60,13 @@ When(
  */
 When(
     'I wait until number of elements in {string} collection {playwrightValidation} {string}( ){playwrightTimeout}',
-    async function (alias: string, waitType: string, value: string, timeout: number | null) {
+    async function (alias: string, waitType: string, value: string, timeoutValue: number | null) {
         const wait = getPollValidation(waitType);
         const collection = await getElement(alias);
         const expectedValue = await getValue(value);
         const getValueFn = () => collection.count();
         await wait(getValueFn, expectedValue, {
-            timeout: timeout ?? config.browser.timeout.value,
+            timeout: timeoutValue ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -83,18 +84,19 @@ When(
  */
 When(
     'I wait until {string} property of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
-    async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
+    async function (property: string, alias: string, waitType: string, value: string, timeoutValue: number | null) {
         const propertyName = await getValue(property);
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
-        await element.waitFor({ state: 'attached' });
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
         const expectedValue = await getValue(value);
         const getValueFn = () => element.evaluate(
             (node: any, propertyName: string) => node[propertyName],
             propertyName
         );
         await wait(getValueFn, expectedValue, {
-            timeout: timeout ?? config.browser.timeout.value,
+            timeout,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -112,18 +114,19 @@ When(
  */
 When(
     'I wait until {string} css property of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
-    async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
+    async function (property: string, alias: string, waitType: string, value: string, timeoutValue: number | null) {
         const propertyName = await getValue(property);
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
-        await element.waitFor({ state: 'attached' });
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
         const expectedValue = await getValue(value);
         const getValueFn = () => element.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
             propertyName
         );
         await wait(getValueFn, expectedValue, {
-            timeout: timeout ?? config.browser.timeout.value,
+            timeout,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -141,15 +144,16 @@ When(
  */
 When(
     'I wait until {string} attribute of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
-    async function (attribute: string, alias: string, waitType: string, value: string, timeout: number | null) {
+    async function (attribute: string, alias: string, waitType: string, value: string, timeoutValue: number | null) {
         const attributeName = await getValue(attribute);
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
-        await element.waitFor({ state: 'attached' });
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
         const expectedValue = await getValue(value);
         const getValueFn = () => element.getAttribute(attributeName);
         await wait(getValueFn, expectedValue, {
-            timeout: timeout ?? config.browser.timeout.value,
+            timeout,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -177,12 +181,12 @@ When('I wait {int} ms', async function (ms) {
  */
 When(
     'I wait until current url {playwrightValidation} {string}( ){playwrightTimeout}',
-    async function (waitType: string, value: string, timeout: number | null) {
+    async function (waitType: string, value: string, timeoutValue: number | null) {
         const wait = getPollValidation(waitType);
         const expectedValue = await getValue(value);
         const getValueFn = () => page.url();
         await wait(getValueFn, expectedValue, {
-            timeout: timeout ?? config.browser.timeout.value,
+            timeout: timeoutValue ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
         });
     }
@@ -199,12 +203,12 @@ When(
  */
 When(
     'I wait until page title {playwrightValidation} {string}( ){playwrightTimeout}',
-    async function (waitType: string, value: string, timeout: number | null) {
+    async function (waitType: string, value: string, timeoutValue: number | null) {
         const wait = getPollValidation(waitType);
         const expectedValue = await getValue(value);
         const getValueFn = () => page.title();
         await wait(getValueFn, expectedValue, {
-            timeout: timeout ?? config.browser.timeout.value,
+            timeout: timeoutValue ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
         });
     }
