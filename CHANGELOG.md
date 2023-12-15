@@ -8,6 +8,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [Unreleased]
+- :beetle: added present timeout for value waits
+
+## [0.41.5]
+- :beetle: updated validation package
+
 ## [0.41.4]
 - :beetle: added existence waiter before value waits to avoid promise reject without reason error
 - :rocket: added _restartBrowser_ config flag to restart browser between tests (default is false, considering restarting context)
