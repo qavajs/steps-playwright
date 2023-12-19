@@ -11,7 +11,8 @@ const common = {
             page: 5000
         },
         capabilities: {
-            browserName: 'chromium'
+            browserName: 'chromium',
+            hasTouch: true
         },
         trace: {
             event: ['onFail'],
@@ -57,7 +58,8 @@ export const debug = {
         },
         capabilities: {
             browserName: 'chromium',
-            headless: false
+            headless: false,
+            hasTouch: true
         },
         trace: {
             event: ['onFail'],

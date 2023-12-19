@@ -228,3 +228,7 @@ Feature: actions
     Then I expect current url to contain 'actions.html'
     When I click forward button
     Then I expect current url to contain 'values.html'
+
+  Scenario: tap
+    When I tap 'Button Tap'
+    Then I expect text of 'Action' to be equal 'tap'

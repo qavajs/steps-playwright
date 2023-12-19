@@ -7,6 +7,7 @@
 <body style="height: 1000px">
 <span id="action">Nothing</span>
 <button id="button">Click Me!</button>
+<button id="buttonTap">Tap Me!</button>
 <button id="buttonHover">Hover Me!</button>
 <label for="input"></label><input type="text" id="input"/>
 <input type="file" id="fileInput"/>
@@ -59,6 +60,7 @@
 <script>
   const action = document.querySelector('#action');
   const button = document.querySelector('#button');
+  const buttonTap = document.querySelector('#buttonTap');
   const buttonHover = document.querySelector('#buttonHover');
   const input = document.querySelector('#input');
   const fileInput = document.querySelector('#fileInput');
@@ -76,6 +78,10 @@
 
   button.addEventListener('click', function () {
     action.innerText = 'click';
+  });
+
+  buttonTap.addEventListener('touchend', function () {
+    action.innerText = 'tap';
   });
 
   button.addEventListener('dblclick', function () {

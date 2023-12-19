@@ -8,7 +8,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
-## [Unreleased]
+## [0.42.0]
+- :rocket: added _I tap {string}_ step
+```gherkin
+When I tap 'Button'
+```
 - :beetle: added present timeout for value waits
 
 ## [0.41.5]

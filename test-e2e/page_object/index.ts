@@ -9,6 +9,7 @@ export default class App {
     PromptButton = $('#prompt');
     Body = $('body');
     Button = $('#button');
+    ButtonTap = $('#buttonTap');
     ButtonHover = $('#buttonHover');
     Input = $('#input');
     Select = $('#select');
