@@ -426,3 +426,13 @@ When('I click {playwrightBrowserButton} button', async function (button: 'back' 
     if (button === 'back') return page.goBack();
     if (button === 'forward') return page.goForward();
 });
+
+/**
+ * Tap element
+ * @param {string} alias - element to tap
+ * @example I tap 'Google Button'
+ */
+When('I tap {string}', async function (alias: string) {
+    const element = await getElement(alias);
+    await element.tap();
+});
