@@ -294,12 +294,12 @@ When('I scroll by {string} in {string}', async function (offset: string, alias: 
 });
 
 /**
- * Scroll until specified element become visible
+ * Scroll until specified element to be visible
  * @param {string} - target element
  * @example
- * When I scroll until 'Row 99' becomes visible
+ * When I scroll until 'Row 99' to be visible
  */
-When('I scroll until {string} become(s) visible', async function (targetAlias: string) {
+When('I scroll until {string} to be visible', async function (targetAlias: string) {
     const isVisible = async () => await (await getElement(targetAlias)).isVisible();
     while (!await isVisible()) {
         await page.mouse.wheel(0, 100);
@@ -308,13 +308,13 @@ When('I scroll until {string} become(s) visible', async function (targetAlias: s
 });
 
 /**
- * Scroll in container until specified element become visible
+ * Scroll in container until specified element to be visible
  * @param {string} - scroll container
  * @param {string} - target element
  * @example
- * When I scroll in 'List' until 'Row 99' becomes visible
+ * When I scroll in 'List' until 'Row 99' to be visible
  */
-When('I scroll in {string} until {string} become(s) visible', async function (scrollAlias: string, targetAlias: string) {
+When('I scroll in {string} until {string} to be visible', async function (scrollAlias: string, targetAlias: string) {
     const element = await getElement(scrollAlias);
     await element.hover();
     const isVisible = async () => await (await getElement(targetAlias)).isVisible();

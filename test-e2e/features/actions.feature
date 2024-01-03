@@ -235,7 +235,7 @@ Feature: actions
 
   Scenario: scroll until visible
     When I hover over 'Infinite Scroll'
-    When I scroll until '#row 34 in Infinite Scroll Items' becomes visible
+    When I scroll until '#row 34 in Infinite Scroll Items' to be visible
 
   Scenario: scroll until visible in element
-    When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' becomes visible
+    When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' to be visible
