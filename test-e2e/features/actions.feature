@@ -232,3 +232,10 @@ Feature: actions
   Scenario: tap
     When I tap 'Button Tap'
     Then I expect text of 'Action' to be equal 'tap'
+
+  Scenario: scroll until visible
+    When I hover over 'Infinite Scroll'
+    When I scroll until '#row 34 in Infinite Scroll Items' becomes visible
+
+  Scenario: scroll until visible in element
+    When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' becomes visible

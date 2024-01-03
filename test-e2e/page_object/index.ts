@@ -26,7 +26,8 @@ export default class App {
     DetachElement = $('#detach');
     VisibleElement = $('#visible');
     HiddenElement = $('#hidden');
-
+    InfiniteScroll = $('#infiniteScroll');
+    InfiniteScrollItems = $$('#infiniteScroll li');
     Loading = $('#loading');
     LoadingInput = $('#loadingInput');
     WaitCollection = $$('#waitCollection > div');

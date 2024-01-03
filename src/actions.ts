@@ -2,7 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect } from '@playwright/test';
-import { parseCoords, parseCoordsAsObject } from './utils/utils';
+import { parseCoords, parseCoordsAsObject, sleep } from './utils/utils';
 import { Browser, BrowserContext, Page } from 'playwright';
 
 declare global {
@@ -266,9 +266,7 @@ When(
  */
 When('I scroll by {string}', async function (offset: string) {
     const [x, y] = parseCoords(await getValue(offset));
-    await page.evaluate(function (coords) {
-        window.scrollBy(...coords as [number, number]);
-    }, [x, y]);
+    await page.mouse.wheel(x, y);
 });
 
 /**
@@ -289,11 +287,41 @@ When('I scroll to {string}', async function (alias) {
  * When I scroll by '0, 100' in 'Overflow Container'
  */
 When('I scroll by {string} in {string}', async function (offset: string, alias: string) {
-    const coords = parseCoords(await getValue(offset));
+    const [x, y] = parseCoords(await getValue(offset));
     const element = await getElement(alias);
-    await element.evaluate(function (element, coords) {
-        element.scrollBy(...coords as [number, number]);
-    }, coords);
+    await element.hover();
+    await page.mouse.wheel(x, y);
+});
+
+/**
+ * Scroll until specified element become visible
+ * @param {string} - target element
+ * @example
+ * When I scroll until 'Row 99' becomes visible
+ */
+When('I scroll until {string} become(s) visible', async function (targetAlias: string) {
+    const isVisible = async () => await (await getElement(targetAlias)).isVisible();
+    while (!await isVisible()) {
+        await page.mouse.wheel(0, 100);
+        await sleep(50);
+    }
+});
+
+/**
+ * Scroll in container until specified element become visible
+ * @param {string} - scroll container
+ * @param {string} - target element
+ * @example
+ * When I scroll in 'List' until 'Row 99' becomes visible
+ */
+When('I scroll in {string} until {string} become(s) visible', async function (scrollAlias: string, targetAlias: string) {
+    const element = await getElement(scrollAlias);
+    await element.hover();
+    const isVisible = async () => await (await getElement(targetAlias)).isVisible();
+    while (!await isVisible()) {
+        await page.mouse.wheel(0, 100);
+        await sleep(50);
+    }
 });
 
 /**
@@ -331,7 +359,7 @@ When('I accept alert', async function () {
     await new Promise<void>((resolve)=> page.once('dialog', async (dialog) => {
         await dialog.accept();
         resolve();
-    }))
+    }));
 });
 
 /**

@@ -74,3 +74,7 @@ export function parseCoordsAsObject(coords: string): { x: number, y: number } {
     const [x, y] = coords.split(/\s?,\s?/).map((c: string) => parseFloat(c ?? 0));
     return {x, y}
 }
+
+export async function sleep(ms: number) {
+    await new Promise(resolve => setTimeout(() => resolve(0), ms));
+}

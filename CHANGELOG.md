@@ -8,6 +8,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.43.0]
+- :rocket: added _I scroll until {string} become(s) visible_ step
+- :rocket: added _I scroll in {string} until {string} become(s) visible_ step
+
 ## [0.42.0]
 - :rocket: added _I tap {string}_ step
 ```gherkin
