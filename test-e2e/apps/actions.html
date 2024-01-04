@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Actions</title>
+    <meta charset="UTF-8">
+    <title>Actions</title>
 </head>
 <body style="height: 1000px">
 <span id="action">Nothing</span>
@@ -21,190 +21,219 @@
 <iframe id="firstIframe" src="frame.html" title="firstIframe" style="border: 1px solid black"></iframe>
 <a id="newTabLink" href="frame.html" target="_blank">New tab</a>
 <label for="select"></label><select name="select" id="select">
-  <option value="select one">one</option>
-  <option value="select two">two</option>
-  <option value="select three">three</option>
+    <option value="select one">one</option>
+    <option value="select two">two</option>
+    <option value="select three">three</option>
 </select>
 <div>
-  <span id="pressCounter">no press</span>
+    <span id="pressCounter">no press</span>
 </div>
 <div id="overflowContainer" style="height: 200px; width: 150px; overflow-x: scroll">
-  <ul>
-    <li>row 1</li>
-    <li>row 2</li>
-    <li>row 3</li>
-    <li>row 4</li>
-    <li>row 5</li>
-    <li>row 6</li>
-    <li>row 7</li>
-    <li>row 8</li>
-    <li>row 9</li>
-    <li>row 10</li>
-    <li>row 11</li>
-    <li>row 12</li>
-    <li>row 13</li>
-    <li>row 14</li>
-    <li>row 15</li>
-  </ul>
+    <ul>
+        <li>row 1</li>
+        <li>row 2</li>
+        <li>row 3</li>
+        <li>row 4</li>
+        <li>row 5</li>
+        <li>row 6</li>
+        <li>row 7</li>
+        <li>row 8</li>
+        <li>row 9</li>
+        <li>row 10</li>
+        <li>row 11</li>
+        <li>row 12</li>
+        <li>row 13</li>
+        <li>row 14</li>
+        <li>row 15</li>
+    </ul>
+</div>
+
+<div id="infiniteScroll" style="height: 200px; width: 150px; overflow-x: scroll">
+    <ul>
+        <li>row 1</li>
+        <li>row 2</li>
+        <li>row 3</li>
+        <li>row 4</li>
+        <li>row 5</li>
+        <li>row 6</li>
+        <li>row 7</li>
+        <li>row 8</li>
+        <li>row 9</li>
+        <li>row 10</li>
+        <li>row 11</li>
+        <li>row 12</li>
+        <li>row 13</li>
+        <li>row 14</li>
+        <li>row 15</li>
+    </ul>
 </div>
 
 <div id="ignoreHierarchyComponent"></div>
 <div contenteditable="true" id="contentEditable">this is content editable text</div>
 <div>
-  <pre id="keywordevent"></pre>
+    <pre id="keywordevent"></pre>
 </div>
 
 <div id="mouseEvent" style="height: 200px; width: 200px; background-color: #0f9e9e"></div>
 <input id="keyboardEvent" style="height: 200px; width: 200px; background-color: #0f9e9e"></input>
 
 <script>
-  const action = document.querySelector('#action');
-  const button = document.querySelector('#button');
-  const buttonTap = document.querySelector('#buttonTap');
-  const buttonHover = document.querySelector('#buttonHover');
-  const input = document.querySelector('#input');
-  const fileInput = document.querySelector('#fileInput');
-  const buttons = document.querySelectorAll('.button');
-  const body = document.body;
-  const select = document.querySelector('#select');
-  const pressCounter = document.querySelector('#pressCounter');
-  const confirm = document.querySelector('#confirm');
-  const prompt = document.querySelector('#prompt');
-  const keywordEvent = document.querySelector('#keywordevent');
-  const mouseEvent = document.querySelector('#mouseEvent');
-  const keyboardEvent = document.querySelector('#keyboardEvent');
+    const action = document.querySelector('#action');
+    const button = document.querySelector('#button');
+    const buttonTap = document.querySelector('#buttonTap');
+    const buttonHover = document.querySelector('#buttonHover');
+    const input = document.querySelector('#input');
+    const fileInput = document.querySelector('#fileInput');
+    const buttons = document.querySelectorAll('.button');
+    const body = document.body;
+    const select = document.querySelector('#select');
+    const pressCounter = document.querySelector('#pressCounter');
+    const confirm = document.querySelector('#confirm');
+    const prompt = document.querySelector('#prompt');
+    const keywordEvent = document.querySelector('#keywordevent');
+    const mouseEvent = document.querySelector('#mouseEvent');
+    const keyboardEvent = document.querySelector('#keyboardEvent');
+    const infiniteScroll = document.querySelector('#infiniteScroll');
 
-  let presses = 0;
+    let presses = 0;
 
-  button.addEventListener('click', function () {
-    action.innerText = 'click';
-  });
-
-  buttonTap.addEventListener('touchend', function () {
-    action.innerText = 'tap';
-  });
-
-  button.addEventListener('dblclick', function () {
-    action.innerText = 'dblclick';
-  });
-
-  button.addEventListener('contextmenu', function () {
-    action.innerText = 'rightclick';
-  });
-
-  buttonHover.addEventListener('mouseenter', function () {
-    action.innerText = 'hover';
-  });
-
-  input.addEventListener('input', function () {
-    action.innerText = input.value;
-  });
-
-  fileInput.addEventListener('input', function () {
-    action.innerText = 'file:' + fileInput.value;
-  });
-
-  buttons.forEach(b => {
-    b.addEventListener('click', function () {
-      action.innerText = b.innerText;
-    })
-  });
-
-  body.addEventListener('keydown', function (event) {
-    keywordEvent.innerText = JSON.stringify({
-      code: event.code,
-      keyCode: event.keyCode,
-      metaKey: event.metaKey,
-      shiftKey: event.shiftKey,
-      ctrlKey: event.ctrlKey,
-      altKey: event.altKey
+    button.addEventListener('click', function () {
+        action.innerText = 'click';
     });
-  });
 
-  body.addEventListener('keypress', function () {
-    action.innerText = 'keypress'
-  });
-
-  body.addEventListener('keypress', function (event) {
-    presses++;
-    pressCounter.innerText = `pressed ${event.code} ${presses} times`;
-  });
-
-  select.addEventListener('change', function () {
-    action.innerText = select.value;
-  });
-
-  confirm.addEventListener('click', function () {
-    setTimeout(()=> action.innerText = window.confirm('Are you robot?'), 3000);
-  });
-
-  prompt.addEventListener('click', () => {
-    setTimeout(()=> action.innerText = window.prompt('Are you robot?'), 500);
-  });
-
-  mouseEvent.addEventListener('mousedown', function (event) {
-    mouseEvent.innerText = JSON.stringify({
-      type: event.type,
-      screenX: event.screenX,
-      screenY: event.screenY,
-      buttons: event.buttons
+    buttonTap.addEventListener('touchend', function () {
+        action.innerText = 'tap';
     });
-    event.preventDefault();
-  });
 
-  mouseEvent.addEventListener('mouseup', function (event) {
-    mouseEvent.innerText = JSON.stringify({
-      type: event.type,
-      screenX: event.screenX,
-      screenY: event.screenY,
-      buttons: event.buttons
+    button.addEventListener('dblclick', function () {
+        action.innerText = 'dblclick';
     });
-    event.preventDefault();
-  });
 
-  mouseEvent.addEventListener('contextmenu', function (event) {
-    event.preventDefault();
-  });
-
-  mouseEvent.addEventListener('wheel', function (event) {
-    console.log(event)
-    mouseEvent.innerText = JSON.stringify({
-      type: event.type,
-      screenX: event.screenX,
-      screenY: event.screenY,
-      buttons: event.buttons,
-      deltaY: event.deltaY
+    button.addEventListener('contextmenu', function () {
+        action.innerText = 'rightclick';
     });
-    event.preventDefault();
-  });
 
-  mouseEvent.addEventListener('mousemove', function (event) {
-    mouseEvent.innerText = JSON.stringify({
-      type: event.type,
-      screenX: event.screenX,
-      screenY: event.screenY,
-      buttons: event.buttons
+    buttonHover.addEventListener('mouseenter', function () {
+        action.innerText = 'hover';
     });
-    event.preventDefault();
-  });
 
-  keyboardEvent.addEventListener('keydown', function (event) {
-    console.log(event)
-    keyboardEvent.value = JSON.stringify({
-      type: event.type,
-      code: event.code
+    input.addEventListener('input', function () {
+        action.innerText = input.value;
     });
-    event.preventDefault();
-  });
 
-  keyboardEvent.addEventListener('keyup', function (event) {
-    console.log(event)
-    keyboardEvent.value = JSON.stringify({
-      type: event.type,
-      code: event.code
+    fileInput.addEventListener('input', function () {
+        action.innerText = 'file:' + fileInput.value;
     });
-    event.preventDefault();
-  });
+
+    buttons.forEach(b => {
+        b.addEventListener('click', function () {
+            action.innerText = b.innerText;
+        })
+    });
+
+    body.addEventListener('keydown', function (event) {
+        keywordEvent.innerText = JSON.stringify({
+            code: event.code,
+            keyCode: event.keyCode,
+            metaKey: event.metaKey,
+            shiftKey: event.shiftKey,
+            ctrlKey: event.ctrlKey,
+            altKey: event.altKey
+        });
+    });
+
+    body.addEventListener('keypress', function () {
+        action.innerText = 'keypress'
+    });
+
+    body.addEventListener('keypress', function (event) {
+        presses++;
+        pressCounter.innerText = `pressed ${event.code} ${presses} times`;
+    });
+
+    select.addEventListener('change', function () {
+        action.innerText = select.value;
+    });
+
+    confirm.addEventListener('click', function () {
+        setTimeout(() => action.innerText = window.confirm('Are you robot?'), 3000);
+    });
+
+    prompt.addEventListener('click', () => {
+        setTimeout(() => action.innerText = window.prompt('Are you robot?'), 500);
+    });
+
+    mouseEvent.addEventListener('mousedown', function (event) {
+        mouseEvent.innerText = JSON.stringify({
+            type: event.type,
+            screenX: event.screenX,
+            screenY: event.screenY,
+            buttons: event.buttons
+        });
+        event.preventDefault();
+    });
+
+    mouseEvent.addEventListener('mouseup', function (event) {
+        mouseEvent.innerText = JSON.stringify({
+            type: event.type,
+            screenX: event.screenX,
+            screenY: event.screenY,
+            buttons: event.buttons
+        });
+        event.preventDefault();
+    });
+
+    mouseEvent.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+    });
+
+    mouseEvent.addEventListener('wheel', function (event) {
+        console.log(event)
+        mouseEvent.innerText = JSON.stringify({
+            type: event.type,
+            screenX: event.screenX,
+            screenY: event.screenY,
+            buttons: event.buttons,
+            deltaY: event.deltaY
+        });
+        event.preventDefault();
+    });
+
+    mouseEvent.addEventListener('mousemove', function (event) {
+        mouseEvent.innerText = JSON.stringify({
+            type: event.type,
+            screenX: event.screenX,
+            screenY: event.screenY,
+            buttons: event.buttons
+        });
+        event.preventDefault();
+    });
+
+    keyboardEvent.addEventListener('keydown', function (event) {
+        console.log(event)
+        keyboardEvent.value = JSON.stringify({
+            type: event.type,
+            code: event.code
+        });
+        event.preventDefault();
+    });
+
+    keyboardEvent.addEventListener('keyup', function (event) {
+        console.log(event)
+        keyboardEvent.value = JSON.stringify({
+            type: event.type,
+            code: event.code
+        });
+        event.preventDefault();
+    });
+
+    let infiniteI = 16;
+    infiniteScroll.addEventListener('scroll', function () {
+        const ul = infiniteScroll.querySelector('ul');
+        if ((infiniteScroll.scrollHeight - infiniteScroll.scrollTop - 40 < 200)) {
+            ul.innerHTML += `<li>row ${infiniteI++}</li>`;
+        }
+    });
 
 </script>
 </body>
