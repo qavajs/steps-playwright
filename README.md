@@ -109,7 +109,6 @@ export default {
 ```
 
 ## Video
-@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
 ```typescript
 export default {
     //...
