@@ -75,7 +75,7 @@ module.exports = {
 
 ## Screenshot strategy
 @qavajs/steps-playwright has build-in capability to take screenshot on particular event. If you need to add 
-screenshot to your report add _screenshot_ property to profile config.
+screenshot to your report add _screenshot.event_ property to profile config.
 Supported events:
 - onFail
 - beforeStep
@@ -85,7 +85,10 @@ Supported events:
 module.exports = {
     default: {
         browser: {
-            screenshot: ['onFail']
+            screenshot: {
+                event: ['onFail'], //event to take screenshot
+                fullPage: true // option to take full page screenshot (default false)
+            }
         }
     }
 }

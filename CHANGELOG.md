@@ -6,7 +6,16 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :rocket: - new feature
 :beetle: - bugfix
-:x: - deprecation
+:x: - deprecation/removal
+
+## [0.44.0]
+- :rocket: added option to take full page screenshot (_config.browser.screenshot.fullPage_)
+- :x: top level _config.screenshot_ property was removed. Define this property in _config.browser.screenshot_
+- updated playwright version
+
+## [0.43.1]
+- :beetle: fixed globals.d.ts file name
+- updated playwright version
 
 ## [0.43.1]
 - :beetle: fixed globals.d.ts file name

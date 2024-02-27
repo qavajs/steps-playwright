@@ -66,7 +66,9 @@ BeforeStep(async function () {
 AfterStep(async function (step: ITestStepHookParameter) {
     try {
         if (saveScreenshotAfterStep(config, step)) {
-            this.attach(await page.screenshot(), 'image/png');
+            this.attach(await page.screenshot({
+                fullPage: config.driverConfig?.screenshot?.fullPage
+            }), 'image/png');
         }
     } catch (err) {
         console.warn(err)
