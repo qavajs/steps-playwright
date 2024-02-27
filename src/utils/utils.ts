@@ -5,13 +5,15 @@ import {Status, ITestStepHookParameter, ITestCaseHookParameter} from '@cucumber/
 import {join} from 'path';
 
 export function saveScreenshotAfterStep(config: any, step: ITestStepHookParameter): boolean {
-    const isAfterStepScreenshot = equalOrIncludes(config?.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.AFTER_STEP);
-    const isOnFailScreenshot = equalOrIncludes(config?.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.ON_FAIL);
+    const screenshotEvent = getEventValue(config?.driverConfig?.screenshot);
+    const isAfterStepScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.AFTER_STEP);
+    const isOnFailScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.ON_FAIL);
     return (isOnFailScreenshot && step.result.status === Status.FAILED) || isAfterStepScreenshot
 }
 
 export function saveScreenshotBeforeStep(config: any): boolean {
-    return equalOrIncludes(config?.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.BEFORE_STEP)
+    const screenshotEvent = getEventValue(config?.driverConfig?.screenshot);
+    return equalOrIncludes(screenshotEvent, ScreenshotEvent.BEFORE_STEP)
 }
 
 export function saveTrace(driverConfig: any, scenario: ITestCaseHookParameter): boolean {
@@ -77,4 +79,10 @@ export function parseCoordsAsObject(coords: string): { x: number, y: number } {
 
 export async function sleep(ms: number) {
     await new Promise(resolve => setTimeout(() => resolve(0), ms));
+}
+
+function getEventValue(entity: any) {
+    return entity?.event
+        ? entity.event
+        : entity;
 }

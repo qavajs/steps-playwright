@@ -25,7 +25,10 @@ const common = {
             size: { width: 800, height: 600 },
             attach: true
         },
-        screenshot: ['onFail'],
+        screenshot: {
+            event: ['onFail'],
+            fullPage: true
+        },
     },
     format: [
         '@qavajs/console-formatter',
@@ -60,6 +63,10 @@ export const debug = {
             browserName: 'chromium',
             headless: false,
             hasTouch: true
+        },
+        screenshot: {
+            event: ['afterStep'],
+            fullPage: true
         },
         trace: {
             event: ['onFail'],
