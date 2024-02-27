@@ -17,6 +17,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - :beetle: fixed globals.d.ts file name
 - updated playwright version
 
+## [0.43.1]
+- :beetle: fixed globals.d.ts file name
+- updated playwright version
+
 ## [0.43.0]
 - :rocket: added _I scroll until {string} to be visible_ step
 - :rocket: added _I scroll in {string} until {string} to be visible_ step
