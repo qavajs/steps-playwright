@@ -1,5 +1,4 @@
-import { Locator } from '@playwright/test';
-import { expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { throwTimeoutError } from './utils/utils';
 
 export const conditionValidations = {
