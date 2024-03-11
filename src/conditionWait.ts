@@ -1,4 +1,4 @@
-import { Locator } from 'playwright';
+import { Locator } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { throwTimeoutError } from './utils/utils';
 
@@ -25,19 +25,19 @@ const waits = {
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => element.waitFor({state: reverse ? 'detached' : 'attached', timeout}),
+    ) => element.waitFor({ state: reverse ? 'detached' : 'attached', timeout }),
     [conditionValidations.VISIBLE]: (
         element: Locator,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => element.waitFor({state: reverse ? 'hidden' : 'visible', timeout}),
+    ) => element.waitFor({ state: reverse ? 'hidden' : 'visible', timeout }),
     [conditionValidations.INVISIBLE]: (
         element: Locator,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => element.waitFor({state: reverse ? 'visible' : 'hidden', timeout}),
+    ) => element.waitFor({ state: reverse ? 'visible' : 'hidden', timeout }),
     [conditionValidations.IN_VIEWPORT]: (
         element: Locator,
         reverse: boolean,

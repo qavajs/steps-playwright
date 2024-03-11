@@ -9,7 +9,7 @@ import {
     ITestStepHookParameter
 } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import { Browser, BrowserContext, Page } from 'playwright';
+import { Browser, BrowserContext, Page } from '@playwright/test';
 import { po } from '@qavajs/po-playwright';
 import {
     saveScreenshotAfterStep,
@@ -18,7 +18,7 @@ import {
 } from './utils/utils';
 import { readFile } from 'node:fs/promises';
 import { createJSEngine } from './selectorEngines';
-import browserManager, {BrowserManager} from './browserManager';
+import browserManager, { BrowserManager } from './browserManager';
 import tracingManager from './utils/tracingManager';
 
 declare global {
@@ -34,7 +34,7 @@ BeforeAll(async function () {
     await createJSEngine();
 });
 
-Before({name: 'Init'}, async function () {
+Before({ name: 'Init' }, async function () {
     const driverConfig = config.browser ?? config.driver;
     driverConfig.isElectron = driverConfig.capabilities.browserName === 'electron';
     driverConfig.timeout = {
@@ -75,7 +75,7 @@ AfterStep(async function (step: ITestStepHookParameter) {
     }
 });
 
-After({name: 'Teardown'}, async function (scenario: ITestCaseHookParameter) {
+After({ name: 'Teardown' }, async function (scenario: ITestCaseHookParameter) {
     await tracingManager.stop(config.driverConfig, this, scenario);
     await browserManager.teardown({
         reuseSession: config.driverConfig.reuseSession,

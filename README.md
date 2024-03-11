@@ -95,7 +95,9 @@ module.exports = {
 ```
 
 ## Playwright traces
-@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+@qavajs support capturing playwright traces. 
+https://playwright.dev/docs/next/trace-viewer-intro
+
 Trace Viewer - https://trace.playwright.dev/
 
 ```typescript

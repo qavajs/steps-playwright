@@ -1,7 +1,7 @@
 import { Then } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
 import { getValidation, getPollValidation } from '@qavajs/validation';
-import { Locator } from 'playwright';
+import { Locator } from '@playwright/test';
 
 /**
  * Verify element condition

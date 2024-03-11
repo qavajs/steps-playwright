@@ -1,9 +1,8 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
-import { expect } from '@playwright/test';
+import { expect, Browser, BrowserContext, Page } from '@playwright/test';
 import { parseCoords, parseCoordsAsObject, sleep } from './utils/utils';
-import { Browser, BrowserContext, Page } from 'playwright';
 
 declare global {
     var browser: Browser;

@@ -1,5 +1,5 @@
 import { driverProvider } from './driverProvider';
-import { Browser, BrowserContext, ElectronApplication, Page } from 'playwright';
+import { Browser, BrowserContext, ElectronApplication, Page } from '@playwright/test';
 
 type BrowserDict = {
     [key: string]: Browser;

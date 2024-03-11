@@ -1,4 +1,4 @@
-import { chromium, firefox, webkit, _electron as electron, Browser, BrowserType } from 'playwright';
+import { chromium, firefox, webkit, _electron as electron, Browser, BrowserType } from '@playwright/test';
 const browsers: any = { chromium, firefox, webkit, electron };
 
 export async function driverProvider(driverConfig: any): Promise<Browser> {
