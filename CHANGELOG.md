@@ -7,6 +7,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :rocket: - new feature
 :beetle: - bugfix
 :x: - deprecation/removal
+:pencil: - chore
+
+## [Unreleased]
+- :pencil: cleaned up dependencies
 
 ## [0.44.0]
 - :rocket: added option to take full page screenshot (_config.browser.screenshot.fullPage_)

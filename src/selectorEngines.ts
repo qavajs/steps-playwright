@@ -1,4 +1,4 @@
-import { selectors } from 'playwright';
+import { selectors } from '@playwright/test';
 
 export async function createJSEngine() {
     const jsEngine = () => ({
