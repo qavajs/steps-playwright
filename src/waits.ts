@@ -73,6 +73,33 @@ When(
 );
 
 /**
+ * Wait for element value condition
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I wait until value of 'Search Input' to be equal 'Javascript'
+ * @example I wait until value of 'Search Input' to be equal 'Javascript' (timeout: 3000)
+ */
+When(
+    'I wait until value of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
+    async function (alias: string, waitType: string, value: string, timeoutValue: number | null) {
+        const wait = getPollValidation(waitType);
+        const element = await getElement(alias);
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
+        const expectedValue = await getValue(value);
+        const getValueFn = () => element.evaluate(
+            (node: any) => node.value
+        );
+        await wait(getValueFn, expectedValue, {
+            timeout,
+            interval: config.browser.timeout.valueInterval
+        });
+    }
+);
+
+/**
  * Wait for element property condition
  * @param {string} property - property
  * @param {string} alias - element to wait condition

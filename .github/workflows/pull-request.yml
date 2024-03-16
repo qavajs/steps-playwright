@@ -12,8 +12,8 @@ jobs:
         version: [ 18, 20 ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.version }}
       - run: npm ci
@@ -22,7 +22,7 @@ jobs:
       - run: npm run install:browsers
       - run: npm run test:e2e
       - name: junit report
-        uses: mikepenz/action-junit-report@v3
+        uses: mikepenz/action-junit-report@v4
         if: always()
         with:
           report_paths: './test-e2e/report.xml'

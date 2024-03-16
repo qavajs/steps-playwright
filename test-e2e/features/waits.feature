@@ -22,6 +22,9 @@ Feature: waits
       | not to contain | 10          |
       | not to match   | ^.0%$       |
 
+  Scenario: wait for value
+    Then I wait until value of 'Loading Input' to equal '100%'
+
   Scenario Outline: wait for property (<condition>)
     Then I wait until 'value' property of 'Loading Input' <condition> '<expectation>'
 
