@@ -9,7 +9,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation/removal
 :pencil: - chore
 
-## [Unreleased]
+## [0.45.0]
 - :pencil: cleaned up dependencies
 - :rocket: added value wait and validation
 
