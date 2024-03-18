@@ -42,6 +42,31 @@ Then(
 );
 
 /**
+ * Verify value of element
+ * @param {string} alias - element to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect value of 'Search Input' to be equal 'text'
+ */
+Then(
+    'I expect value of {string} {playwrightValidation} {string}',
+    async function (alias: string, validationType: string, value: string) {
+        const expectedValue = await getValue(value);
+        const element = await getElement(alias);
+        const timeout = config.browser.timeout.value;
+        await element.waitFor({ state: 'attached', timeout });
+        const validation = getPollValidation(validationType);
+        const actualValue = () => element.evaluate(
+            (node: any) => node.value
+        );
+        await validation(actualValue, expectedValue, {
+            timeout,
+            interval: config.browser.timeout.valueInterval
+        });
+    }
+);
+
+/**
  * Verify that property of element satisfies condition
  * @param {string} property - element to verify
  * @param {string} alias - element to verify

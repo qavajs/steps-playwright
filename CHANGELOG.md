@@ -11,6 +11,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 - :pencil: cleaned up dependencies
+- :rocket: added value wait and validation
 
 ## [0.44.0]
 - :rocket: added option to take full page screenshot (_config.browser.screenshot.fullPage_)

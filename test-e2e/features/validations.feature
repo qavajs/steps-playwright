@@ -18,6 +18,11 @@ Feature: validations
     Then I expect number of elements in 'Simple Text List Items' collection to be greater than '2'
     Then I expect number of elements in 'Simple Text List Items' collection to be less than '4'
 
+  Scenario: element value
+    Then I expect value of 'Simple Text Input' to be equal '123'
+    Then I expect value of 'Simple Text Input' not to be equal '1234'
+    Then I expect value of 'Simple Text Input' to contain '12'
+
   Scenario: element property
     Then I expect 'value' property of 'Simple Text Input' to be equal '123'
     Then I expect 'value' property of 'Simple Text Input' not to be equal '1234'
