@@ -1,7 +1,7 @@
 @skip
 Feature: intercept
 
-  Scenario Outline: wait for intercepted response
+  Scenario Outline: wait for intercepted response (<handler>)
     When I create interception for '<handler>' as 'usersInterception'
     And I open '$mockPage' url
     And I wait for '$usersInterception' response
@@ -11,7 +11,7 @@ Feature: intercept
       | **/users                   |
       | $userInterceptionPredicate |
 
-  Scenario Outline: save intercepted response
+  Scenario Outline: save intercepted response (<handler>)
     When I create interception for '<handler>' as 'usersInterception'
     And I open '$mockPage' url
     And I save '$usersInterception' response as 'response'

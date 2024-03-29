@@ -16,7 +16,7 @@ Feature: execute
     When I execute 'document.querySelector("#action").innerText' function and save result as 'innerText'
     Then I expect '$innerText' memory value to be equal 'click'
 
-  Scenario: execute function and save result plain text
+  Scenario: execute function from memory and save result plain text
     When I click 'Button'
     When I execute '$getActionInnerText' function and save result as 'innerText'
     Then I expect '$innerText' memory value to be equal 'click'

@@ -8,6 +8,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation/removal
 :pencil: - chore
+:microscope: - experimental
+
+## [Unreleased]
+- :microscope: added experimental support of playwright ui
 
 ## [0.45.0]
 - :pencil: cleaned up dependencies
