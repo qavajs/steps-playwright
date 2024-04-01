@@ -1,7 +1,7 @@
 import {defineConfig, devices} from '@playwright/test';
 import {resolve} from 'node:path';
 
-process.env.CONFIG = resolve('./test-e2e/webui.ts')
+process.env.CONFIG = 'test-e2e/webui.ts'
 process.env.PROFILE = 'debugNativePlaywright'
 
 /**
@@ -14,7 +14,7 @@ process.env.PROFILE = 'debugNativePlaywright'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    testDir: resolve('spec'),
+    testDir: resolve('./node_modules/@qavajs/playwright-runner-adapter/adapter'),
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */

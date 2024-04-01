@@ -33,6 +33,7 @@
     "@qavajs/console-formatter": "^0.7.2",
     "@qavajs/html-formatter": "^0.15.4",
     "@qavajs/memory": "^1.7.0",
+    "@qavajs/playwright-runner-adapter": "^0.1.1",
     "@qavajs/po-playwright": "^0.14.0",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@types/chai": "^4.3.14",

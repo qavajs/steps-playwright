@@ -107,6 +107,7 @@ export const debugNativePlaywright = {
     ...common,
     require: [
         'src/types.ts',
+        'src/playwrightRunner/hooks.ts',
         'src/actions.ts',
         'src/waits.ts',
         'src/validations.ts',
