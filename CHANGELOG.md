@@ -10,7 +10,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
-## [Unreleased]
+## [0.46.0]
 - :microscope: added experimental support of playwright ui
 
 ## [0.45.0]

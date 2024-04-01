@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-playwright",
-  "version": "0.45.0",
+  "version": "0.46.0",
   "description": "steps to interact with playwright",
   "main": "./index.js",
   "scripts": {
@@ -48,7 +48,6 @@
   },
   "dependencies": {
     "@playwright/test": "^1.42.1",
-    "@qavajs/validation": "^0.8.0",
-    "glob": "^10.3.12"
+    "@qavajs/validation": "^0.8.0"
   }
 }
