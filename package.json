@@ -10,7 +10,9 @@
     "test:e2e": "qavajs run --config test-e2e/webui.ts",
     "test:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile electron",
     "debug:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile electron",
-    "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug"
+    "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug",
+    "playwright:runner:debug": "playwright test --config test-e2e/playwright.config.ts --ui",
+    "playwright:runner:e2e": "playwright test --config test-e2e/playwright.config.ts --grep-invert @skip-pw-ui"
   },
   "repository": {
     "type": "git",
@@ -27,24 +29,26 @@
   "homepage": "https://github.com/qavajs/steps-playwright#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^10.3.1",
-    "@qavajs/cli": "^0.36.0",
-    "@qavajs/console-formatter": "^0.7.1",
+    "@qavajs/cli": "^0.37.0",
+    "@qavajs/console-formatter": "^0.7.2",
     "@qavajs/html-formatter": "^0.15.4",
     "@qavajs/memory": "^1.7.0",
+    "@qavajs/playwright-runner-adapter": "^0.1.1",
     "@qavajs/po-playwright": "^0.14.0",
     "@qavajs/webstorm-adapter": "^8.0.0",
-    "@types/chai": "^4.3.12",
+    "@types/chai": "^4.3.14",
     "@types/express": "^4.17.21",
     "@vitest/coverage-v8": "^1.4.0",
     "@vitest/ui": "^1.4.0",
     "electron": "^30.0.0-alpha.7",
-    "express": "^4.18.3",
+    "express": "^4.19.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.3",
     "vitest": "^1.4.0"
   },
   "dependencies": {
     "@playwright/test": "^1.42.1",
-    "@qavajs/validation": "^0.7.1"
+    "@qavajs/validation": "^0.8.0",
+    "glob": "^10.3.12"
   }
 }

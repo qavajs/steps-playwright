@@ -52,7 +52,7 @@ Feature: waits
   Scenario: wait for css property
     Then I wait until 'visibility' css property of 'Hidden Element' to be equal 'hidden'
 
-  Scenario Outline: wait for number of elements in collection
+  Scenario Outline: wait for number of elements in collection (<condition>)
     Then I wait until number of elements in 'Wait Collection' collection <condition> '<expected>'
 
     Examples:
@@ -67,7 +67,7 @@ Feature: waits
   Scenario: wait for title
     Then I wait until page title to be equal 'title changed'
 
-  Scenario Outline: wait for condition with timeout
+  Scenario Outline: wait for <condition> condition with timeout
     Then I wait until '<element>' <condition> (timeout: 5000)
 
     Examples:
@@ -89,7 +89,7 @@ Feature: waits
   Scenario: wait for css property with timeout
     Then I wait until 'visibility' css property of 'Hidden Element' to be equal 'hidden' (timeout: 5000)
 
-  Scenario Outline: wait for number of elements in collection with timeout
+  Scenario Outline: wait for number of elements in collection with timeout (<condition>)
     Then I wait until number of elements in 'Wait Collection' collection <condition> '<expected>' (timeout: 5000)
 
     Examples:

@@ -1,3 +1,4 @@
+@skip-pw-ui
 Feature: multiBrowser
 
   Background:

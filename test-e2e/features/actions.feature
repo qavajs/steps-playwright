@@ -152,6 +152,7 @@ Feature: actions
 
   Scenario: scroll in window
     When I scroll by '0, 100'
+    And I wait 500 ms
     And I execute 'window.scrollX' function and save result as 'scrollX'
     And I execute 'window.scrollY' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$js(0)'
@@ -159,6 +160,7 @@ Feature: actions
 
   Scenario: scroll in element
     When I scroll by '0, 50' in 'Overflow Container'
+    And I wait 500 ms
     And I execute 'document.querySelector("#overflowContainer").scrollLeft' function and save result as 'scrollX'
     And I execute 'document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$js(0)'

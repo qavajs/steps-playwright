@@ -4,7 +4,7 @@ Feature: mouse actions
     When I open '$actionsPage' url
     And I hover over 'Event Handler'
 
-  Scenario Outline: mouse press and release
+  Scenario Outline: mouse <button> press and release
     Then I press <button> mouse button
     And I expect text of 'Event Handler' to contain '"buttons":<buttonCode>'
     And I expect text of 'Event Handler' to contain '"type":"mousedown"'
@@ -22,7 +22,7 @@ Feature: mouse actions
     Then I move mouse to '10, 10'
     And I expect text of 'Event Handler' to contain '"type":"mousemove"'
 
-  Scenario Outline: mouse wheel
+  Scenario Outline: mouse wheel <offset>
     Then I scroll mouse wheel by '<offset>'
     And I expect text of 'Event Handler' to contain '"type":"wheel"'
     And I expect text of 'Event Handler' to match '<deltaY>'
