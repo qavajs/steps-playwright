@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [Unreleased]
+- :pencil: updated dependencies
+
 ## [0.46.1]
 - :beetle: updated compile target
 
