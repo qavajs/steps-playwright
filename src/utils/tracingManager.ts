@@ -20,10 +20,14 @@ class TracingManager {
     async stop(driverConfig: any, world: any, scenario: any) {
         if (saveTrace(config.driverConfig, scenario)) {
             const path = traceArchive(config.driverConfig, scenario);
-            await context.tracing.stopChunk({ path });
-            if (driverConfig?.trace.attach) {
-                const zipBuffer: Buffer = await readFile(path);
-                world.attach(zipBuffer.toString('base64'), 'base64:application/zip');
+            try {
+                await context.tracing.stopChunk({ path });
+                if (driverConfig?.trace.attach) {
+                    const zipBuffer: Buffer = await readFile(path);
+                    world.attach(zipBuffer.toString('base64'), 'base64:application/zip');
+                }
+            } catch (err) {
+                console.warn('Trace was not recorded');
             }
         }
     }
