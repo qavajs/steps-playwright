@@ -10,7 +10,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
-## [Unreleased]
+## [0.46.2]
+- :beetle: added error handling during trace attach
 - :pencil: updated dependencies
 
 ## [0.46.1]
