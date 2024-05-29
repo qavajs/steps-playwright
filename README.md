@@ -21,7 +21,8 @@ module.exports = {
                 visible: 20000,
                 page: 10000,
                 value: 5000, // expect value timeout
-                valueInterval: 500 //expect value interval
+                valueInterval: 500, // expect value interval
+                pageRefreshInterval: 2000 // refresh page for _I refresh page..._ steps
             },
             capabilities: {
                 browserName: 'chromium'
