@@ -104,5 +104,8 @@ Feature: waits
   Scenario: wait for title with timeout
     Then I wait until page title to be equal 'title changed' (timeout: 5000)
 
-  Scenario: refresh page until text
-    Then I refresh page until text of 'Refreshable Text' to match 'You are lucky'
+  Scenario: refresh page until element text
+    Then I refresh page until text of 'Pseudo Random Text' to equal 'You are lucky' (timeout: 9000)
+
+  Scenario: refresh page until element state
+    Then I refresh page until 'Randomly Disabled Button' to be enabled (timeout: 9000)

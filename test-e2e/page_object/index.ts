@@ -52,7 +52,8 @@ export default class App {
     KeyboardEventHandler = $('#keyboardEvent');
 
     ScrollElement = $('#scrollElement');
-    RefreshableText = $('#refreshableText');
+    PseudoRandomText = $('#randomText');
+    RandomlyDisabledButton = $('#isDisabledButton')
 
     // Electron
     OpenNewWindowElectronButton = $('#electronButton');

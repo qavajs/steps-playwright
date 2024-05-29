@@ -25,14 +25,20 @@
     <input type="text" name="loadingInput" id="loadingInput">
 </div>
 <div id="waitCollection"></div>
-<div id="refreshableText"></div>
+<div id="randomText"></div>
+<button id="isDisabledButton">Disabled/Enabled</button>
 
 <script>
     const timeout = 1700;
     const containerPresent = document.querySelector('#containerPresent');
-    const refreshableTextDiv = document.querySelector('#refreshableText');
-    const text = Boolean(Math.round(Math.random())) ? 'You are lucky': 'Not this time';
-    refreshableTextDiv.innerText = text;
+    const randomTextDiv = document.querySelector('#randomText');
+    const randomBoolean = Boolean(Math.round(Math.random()));
+    const text = randomBoolean ? 'You are lucky' : 'Not this time';
+    randomTextDiv.innerText = text;
+    if (randomBoolean) {
+        const button = document.querySelector('#isDisabledButton');
+        button.setAttribute('disabled', 'true');
+    }
 
     setTimeout(() => {
         const presentElement = document.createElement('div');

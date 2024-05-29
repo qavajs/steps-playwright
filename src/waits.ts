@@ -1,6 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
 import { getPollValidation } from '@qavajs/validation';
+import { expect } from "@playwright/test";
 
 /**
  * Wait for element condition
@@ -20,6 +21,27 @@ When(
         await wait(element, timeoutValue ?? config.browser.timeout.page);
     }
 );
+
+/**
+ * Refresh page unless element matches condition
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I refresh page until 'Internal Server Error Box' to be visible
+ * @example I refresh page until 'Submit Button' to be enabled
+ * @example I refresh page until 'Place Order Button' to be clickable (timeout: 3000)
+ */
+When(
+  'I refresh page until {string} {playwrightConditionWait}( ){playwrightTimeout}',
+  async function (alias: string, waitType: string, timeoutValue: number | null) {
+    const timeout = timeoutValue ?? config.browser.timeout.value;
+    const wait = getConditionWait(waitType);
+    const element = await getElement(alias);
+    await expect(async () => {
+      await page.reload()
+      await wait(element, config.browser.timeout.pageRefreshInterval);
+    }).toPass({timeout});
+  });
 
 /**
  * Wait for element text condition
@@ -63,7 +85,7 @@ When(
     const wait = getPollValidation(waitType);
     const element = await getElement(alias);
     const timeout = timeoutValue ?? config.browser.timeout.value;
-    await element.waitFor({ state: 'attached', timeout });
+    await element.waitFor({state: 'attached', timeout});
     const expectedValue = await getValue(value);
     const getValueFn = async () => {
       await page.reload();
