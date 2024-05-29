@@ -10,9 +10,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
-## [0.46.3]
+## [0.47.0]
 - :rocket: added _I refresh page until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}_ step
 - :rocket: added _I refresh page until {string} {playwrightConditionWait}( ){playwrightTimeout}_ step
+- :rocket: updated collection validation to use polling 
 
 ## [0.46.2]
 - :beetle: added error handling during trace attach
