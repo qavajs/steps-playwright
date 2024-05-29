@@ -94,20 +94,20 @@ When(
       }
     ).toPass({timeout, intervals: [2_000, 5_000]});
 
-    /**
-* Wait for collection length condition
-* @param {string} alias - element to wait condition
-* @param {string} wait - wait condition
-* @param {string} value - expected value to wait
-* @param {number|null} [timeout] - custom timeout in ms
-* @example I wait until number of elements in 'Search Results' collection to be equal '50'
-* @example I wait until number of elements in 'Search Results' collection to be above '49'
-* @example I wait until number of elements in 'Search Results' collection to be below '51'
-* @example I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
-*/
+/**
+ * Wait for collection length condition
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I wait until number of elements in 'Search Results' collection to be equal '50'
+ * @example I wait until number of elements in 'Search Results' collection to be above '49'
+ * @example I wait until number of elements in 'Search Results' collection to be below '51'
+ * @example I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
+ */
 When(
-  'I wait until number of elements in {string} collection {playwrightValidation} {string}( ){playwrightTimeout}',
-  async function (alias: string, waitType: string, value: string, timeoutValue: number | null) {
+    'I wait until number of elements in {string} collection {playwrightValidation} {string}( ){playwrightTimeout}',
+    async function (alias: string, waitType: string, value: string, timeoutValue: number | null) {
         const wait = getPollValidation(waitType);
         const collection = await getElement(alias);
         const expectedValue = await getValue(value);
