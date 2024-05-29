@@ -3,5 +3,6 @@ export default {
     visible: 10000,
     page: 10000,
     value: 5000,
-    valueInterval: 500
+    valueInterval: 500,
+    pageRefreshInterval: 2000
 }

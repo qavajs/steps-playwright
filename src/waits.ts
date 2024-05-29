@@ -71,7 +71,7 @@ When(
     }
     await wait(getValueFn, expectedValue, {
       timeout,
-      interval: config.browser.timeout.valueInterval
+      interval: config.browser.timeout.pageRefreshInterval
     });
   }
 );
