@@ -209,10 +209,10 @@ Then(
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
         const collection = await getElement(alias);
-        const validation = getValidation(validationType);
+        const validation = getPollValidation(validationType);
         for (let i = 0; i < await collection.count(); i++) {
-            const elementText: string = await collection.nth(i).innerText();
-            validation(elementText, expectedValue);
+            const elementText = () => collection.nth(i).innerText();
+            await validation(elementText, expectedValue);
         }
     }
 );
@@ -229,10 +229,10 @@ Then(
     async function (attribute: string, alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
         const collection = await getElement(alias);
-        const validation = getValidation(validationType);
+        const validation = getPollValidation(validationType);
         for (let i = 0; i < await collection.count(); i++) {
-            const attributeValue: string | null = await collection.nth(i).getAttribute(attribute);
-            validation(attributeValue, expectedValue);
+            const attributeValue = () => collection.nth(i).getAttribute(attribute);
+            await validation(attributeValue, expectedValue);
         }
     }
 );
@@ -249,12 +249,12 @@ Then(
     async function (property: string, alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
         const collection = await getElement(alias);
-        const validation = getValidation(validationType);
+        const validation = getPollValidation(validationType);
         for (let i = 0; i < await collection.count(); i++) {
-            const propertyValue: string | null = await collection.nth(i).evaluate(
+            const propertyValue = () => collection.nth(i).evaluate(
                 (node: any, property: string) => node[property], property
             );
-            validation(propertyValue, expectedValue);
+            await validation(propertyValue, expectedValue);
         }
     }
 );
