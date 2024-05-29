@@ -104,3 +104,5 @@ Feature: waits
   Scenario: wait for title with timeout
     Then I wait until page title to be equal 'title changed' (timeout: 5000)
 
+  Scenario: refresh page until text
+    Then I refresh page until text of 'Refreshable Text' to match 'You are lucky'

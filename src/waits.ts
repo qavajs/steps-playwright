@@ -48,6 +48,35 @@ When(
 );
 
 /**
+ * Refresh page unless element text matches condition
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I refresh page until text of 'Order Status' to be equal 'Processing'
+ * @example I refresh page until text of 'Currency' not contain '$'
+ * @example I refresh page until text of 'My Salary' to match '/5\d{3,}/' (timeout: 3000)
+ */
+When(
+  'I refresh page until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
+  async function (alias: string, waitType: string, value: string, timeoutValue: number | null) {
+    const wait = getPollValidation(waitType);
+    const element = await getElement(alias);
+    const timeout = timeoutValue ?? config.browser.timeout.value;
+    await element.waitFor({ state: 'attached', timeout });
+    const expectedValue = await getValue(value);
+    const getValueFn = async () => {
+      await page.reload();
+      return element.innerText();
+    }
+    await wait(getValueFn, expectedValue, {
+      timeout,
+      interval: config.browser.timeout.valueInterval
+    });
+  }
+);
+
+/**
  * Wait for collection length condition
  * @param {string} alias - element to wait condition
  * @param {string} wait - wait condition

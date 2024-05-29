@@ -25,10 +25,14 @@
     <input type="text" name="loadingInput" id="loadingInput">
 </div>
 <div id="waitCollection"></div>
+<div id="refreshableText"></div>
 
 <script>
     const timeout = 1700;
     const containerPresent = document.querySelector('#containerPresent');
+    const refreshableTextDiv = document.querySelector('#refreshableText');
+    const text = Boolean(Math.round(Math.random())) ? 'You are lucky': 'Not this time';
+    refreshableTextDiv.innerText = text;
 
     setTimeout(() => {
         const presentElement = document.createElement('div');

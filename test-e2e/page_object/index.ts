@@ -52,6 +52,7 @@ export default class App {
     KeyboardEventHandler = $('#keyboardEvent');
 
     ScrollElement = $('#scrollElement');
+    RefreshableText = $('#refreshableText');
 
     // Electron
     OpenNewWindowElectronButton = $('#electronButton');
