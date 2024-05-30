@@ -93,6 +93,8 @@ When(
         await validation(actualValue, expectedValue);
       }
     ).toPass({timeout, intervals: [2_000, 5_000]});
+  }
+);
 
 /**
  * Wait for collection length condition
@@ -285,5 +287,5 @@ When(
             timeout: timeoutValue ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
         });
-    });
-});
+    }
+);
