@@ -285,5 +285,5 @@ When(
             timeout: timeoutValue ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
         });
-    }
-);
+    });
+});
