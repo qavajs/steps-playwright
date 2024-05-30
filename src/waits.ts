@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
-import { getPollValidation } from '@qavajs/validation';
+import { getPollValidation, getValidation } from '@qavajs/validation';
 import { expect } from "@playwright/test";
 
 /**
@@ -81,20 +81,18 @@ When(
  */
 When(
   'I refresh page until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
-  async function (alias: string, waitType: string, value: string, timeoutValue: number | null) {
-    const wait = getPollValidation(waitType);
+  async function (alias: string, validationType: string, value: string, timeoutValue: number | null) {
+    const validation = getValidation(validationType);
     const element = await getElement(alias);
     const timeout = timeoutValue ?? config.browser.timeout.value;
     await element.waitFor({state: 'attached', timeout});
     const expectedValue = await getValue(value);
-    const getValueFn = async () => {
-      await page.reload();
-      return element.innerText();
-    }
-    await wait(getValueFn, expectedValue, {
-      timeout,
-      interval: config.browser.timeout.pageRefreshInterval
-    });
+    await expect(async () => {
+        await page.reload();
+        const actualValue = await element.innerText();
+        await validation(actualValue, expectedValue);
+      }
+    ).toPass({timeout, intervals: [2_000, 5_000]});
   }
 );
 
