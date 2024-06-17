@@ -10,6 +10,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [0.48.0]
+Breaking change: moved _@qavajs/validation_ to peer dependencies
+After update please install latest version of @qavajs/validation package
+- :x: - removed playwright runner code as it moved to separate package @qavajs/playwright
+
 ## [0.47.1]
 - :beetle: enhance logic of _I refresh page until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}_ step
 
@@ -19,6 +24,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.46.3]
 - :rocket: added _I refresh page until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}_ step
 - :rocket: added _I refresh page until {string} {playwrightConditionWait}( ){playwrightTimeout}_ step
+
 ## [0.46.2]
 - :beetle: added error handling during trace attach
 - :pencil: updated dependencies
