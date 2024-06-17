@@ -4,7 +4,10 @@ import localServer from './support/server';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
-    require: ['test-e2e/step-definitions/*.ts', 'src/*.ts'],
+    require: [
+        'test-e2e/step-definitions/*.ts',
+        'src/*.ts',
+    ],
     browser: {
         logLevel: 'warn',
         timeout: {
@@ -66,7 +69,6 @@ export const debug = {
             hasTouch: true
         },
         screenshot: {
-            event: ['afterStep'],
             fullPage: true
         },
         trace: {
