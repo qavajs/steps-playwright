@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [Unreleased]
+- :pencil: update playwright to 1.45.0
+
 ## [0.48.0]
 Breaking change: moved _@qavajs/validation_ to peer dependencies
 After update please install latest version of @qavajs/validation package
