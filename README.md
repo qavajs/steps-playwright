@@ -107,8 +107,10 @@ export default {
     browser: {
         trace: {
             event: ['onFail'], // Events to save trace. Possible value onFail or afterScenario 
-            dir: 'dirToStoreTraces', // Dir to store traces. Default is traces/
-            attach: true // Define if trace need to be attached to cucumber report. Default false
+            dir: 'dirToStoreTraces', // Dir to store traces. Default - traces/
+            attach: true, // Whether trace need to be attached to cucumber report. Default - false
+            screenshots: true, // Whether to capture screenshots during tracing. Screenshots are used to build a timeline preview. Default - true
+            snapshots: true, // Whether to capture DOM and network activity
         }
     }
 }
