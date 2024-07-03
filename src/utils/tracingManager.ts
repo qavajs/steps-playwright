@@ -9,8 +9,9 @@ class TracingManager {
             if (!driverConfig.reuseSession || (driverConfig.reuseSession && !this.isTracingStarted)) {
                 this.isTracingStarted = true;
                 await context.tracing.start({
-                    screenshots: true,
-                    snapshots: true
+                    screenshots: driverConfig.trace.screenshots ?? true,
+                    snapshots: driverConfig.trace.snapshots ?? true,
+                    sources: false
                 });
             }
             await context.tracing.startChunk();
