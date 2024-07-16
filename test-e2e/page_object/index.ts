@@ -53,7 +53,11 @@ export default class App {
 
     ScrollElement = $('#scrollElement');
     PseudoRandomText = $('#randomText');
-    RandomlyDisabledButton = $('#isDisabledButton')
+    RandomlyDisabledButton = $('#isDisabledButton');
+    FlipCoin = $('#flipCoin');
+    Coin= $('#coin');
+    DigitInput = $('#digitInput');
+    PlusButton = $('#plusButton');
 
     // Electron
     OpenNewWindowElectronButton = $('#electronButton');

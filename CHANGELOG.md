@@ -10,6 +10,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [0.50.0]
+- :rocket: added _I click {string} until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}_ step
+- :rocket: added _I click {string} until value of {string} {playwrightValidation} {string}( ){playwrightTimeout}_ step
+
 ## [0.49.0]
 - :rocket: added capability to configure traces
 - :pencil: update playwright to 1.45.1

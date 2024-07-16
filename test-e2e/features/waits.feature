@@ -109,3 +109,9 @@ Feature: waits
 
   Scenario: refresh page until element state
     Then I refresh page until 'Randomly Disabled Button' to be enabled (timeout: 9000)
+
+  Scenario: click until text
+    Then I click 'Flip Coin' until text of 'Coin' to equal 'Heads' (timeout: 9000)
+
+  Scenario: click until value
+    Then I click 'Plus Button' until value of 'Digit Input' to equal '4'
