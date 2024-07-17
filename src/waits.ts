@@ -82,18 +82,90 @@ When(
 When(
   'I refresh page until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
   async function (alias: string, validationType: string, value: string, timeoutValue: number | null) {
-    const validation = getValidation(validationType);
-    const element = await getElement(alias);
-    const timeout = timeoutValue ?? config.browser.timeout.value;
-    await element.waitFor({state: 'attached', timeout});
-    const expectedValue = await getValue(value);
-    await expect(async () => {
-        await page.reload();
-        const actualValue = await element.innerText();
-        await validation(actualValue, expectedValue);
-      }
-    ).toPass({timeout, intervals: [2_000, 5_000]});
-  }
+      const validation = getValidation(validationType);
+      const element = await getElement(alias);
+      const timeout = timeoutValue ?? config.browser.timeout.value;
+      await element.waitFor({state: 'attached', timeout});
+      const expectedValue = await getValue(value);
+      await expect(async () => {
+          await page.reload();
+          const actualValue = await element.innerText();
+          await validation(actualValue, expectedValue);
+          }
+        ).toPass({timeout, intervals: [2_000, 5_000]});
+    }
+);
+
+/**
+ * Repeatedly click an element unless element text matches condition
+ * @param {string} aliasToClick - element to wait condition
+ * @param {string} aliasToCheck - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} text - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I click 'Send Message Button' until text of 'Information Alert' to be equal 'Your account has been banned'
+ * @example I click 'Add To Cart Button' until text of 'Shopping Cart Total' to match '/\$5\d{3,}/' (timeout: 3000)
+ */
+When(
+  'I click {string} until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
+  async function (
+      aliasToClick: string,
+      aliasToCheck: string,
+      validationType: string,
+      value: string,
+      timeoutValue: number | null,
+      ) {
+      const elementToClick = await getElement(aliasToClick);
+      const elementToCheck = await getElement(aliasToCheck);
+      const timeout = timeoutValue ?? config.browser.timeout.value;
+      await elementToClick.waitFor({state: 'attached', timeout});
+      const expectedText = await getValue(value);
+      const poll = getPollValidation(validationType);
+      await poll(
+        async () => {
+          await elementToClick.click();
+          return elementToCheck.innerText();
+        },
+        expectedText,
+        {timeout, interval: config.browser.timeout.actionInterval},
+        );
+    },
+);
+
+/**
+ * Repeatedly click an element unless element value attribute matches condition
+ * @param {string} aliasToClick - element to wait condition
+ * @param {string} aliasToCheck - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I click 'Plus Button' until value of 'Quantity Input' to be equal '9'
+ * @example I click 'Suggest Button' until value of 'Repository Name Input' to match '/\w{5,}/' (timeout: 30000)
+ */
+When(
+  'I click {string} until value of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
+  async function (
+      aliasToClick: string,
+      aliasToCheck: string,
+      validationType: string,
+      value: string,
+      timeoutValue: number | null,
+      ) {
+      const elementToClick = await getElement(aliasToClick);
+      const elementToCheck = await getElement(aliasToCheck);
+      const timeout = timeoutValue ?? config.browser.timeout.value;
+      await elementToClick.waitFor({state: 'attached', timeout});
+      const expectedValue = await getValue(value);
+      const poll = getPollValidation(validationType);
+      await poll(
+        async () => {
+            await elementToClick.click();
+            return elementToCheck.inputValue();
+            },
+            expectedValue,
+            {timeout, interval: config.browser.timeout.actionInterval},
+        );
+    },
 );
 
 /**
