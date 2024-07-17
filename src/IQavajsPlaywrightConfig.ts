@@ -74,7 +74,7 @@ export interface IQavajsPlaywrightConfig {
        *     pageRefreshInterval: 10_000
        * }
        */
-      pageRefreshInterval: number
+      pageRefreshInterval?: number
     }
   }
 }
