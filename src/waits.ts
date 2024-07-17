@@ -2,7 +2,6 @@ import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
 import { getPollValidation, getValidation } from '@qavajs/validation';
 import { expect } from "@playwright/test";
-import defaultTimeouts from "./defaultTimeouts";
 
 /**
  * Wait for element condition
@@ -128,7 +127,7 @@ When(
           return elementToCheck.innerText();
         },
         expectedText,
-        {timeout, interval: defaultTimeouts.actionInterval},
+        {timeout, interval: config.browser.timeout.actionInterval},
         );
     },
 );
@@ -164,7 +163,7 @@ When(
             return elementToCheck.inputValue();
             },
             expectedValue,
-            {timeout, interval: defaultTimeouts.actionInterval},
+            {timeout, interval: config.browser.timeout.actionInterval},
         );
     },
 );
