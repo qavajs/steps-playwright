@@ -1,6 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
 import { getPollValidation } from '@qavajs/validation';
+import { expect } from '@playwright/test';
 
 /**
  * Wait for element condition
@@ -36,14 +37,10 @@ When(
         const timeout = timeoutValue ?? config.browser.timeout.value;
         const wait = getConditionWait(waitType);
         const element = await getElement(alias);
-        const poll = getPollValidation('to equal');
-        await poll(async () => {
-            await page.reload();
+        await expect(async () => {
+            await page.reload()
             await wait(element, config.browser.timeout.pageRefreshInterval);
-        }, true, {
-            timeout,
-            interval: config.browser.timeout.pageRefreshInterval
-        });
+        }).toPass({ timeout, intervals: [ config.browser.timeout.pageRefreshInterval ] });
     }
 );
 
