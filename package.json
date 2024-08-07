@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-playwright",
-  "version": "0.50.0",
+  "version": "0.51.0",
   "description": "steps to interact with playwright",
   "main": "./index.js",
   "scripts": {
@@ -10,9 +10,7 @@
     "test:e2e": "qavajs run --config test-e2e/webui.ts",
     "test:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile electron",
     "debug:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile electron",
-    "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug",
-    "playwright:runner:debug": "playwright test --config test-e2e/playwright.config.ts --ui",
-    "playwright:runner:e2e": "playwright test --config test-e2e/playwright.config.ts --grep-invert @skip-pw-ui"
+    "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug"
   },
   "repository": {
     "type": "git",
@@ -31,22 +29,22 @@
     "@cucumber/cucumber": "^10.8.0",
     "@qavajs/cli": "^0.40.0",
     "@qavajs/console-formatter": "^0.7.2",
-    "@qavajs/html-formatter": "^0.17.0",
-    "@qavajs/memory": "^1.7.1",
-    "@qavajs/po-playwright": "^0.15.0",
+    "@qavajs/html-formatter": "^0.18.1",
+    "@qavajs/memory": "^1.8.0",
     "@qavajs/webstorm-adapter": "^8.0.0",
-    "@types/chai": "^4.3.16",
+    "@types/chai": "^4.3.17",
     "@types/express": "^4.17.21",
-    "@vitest/coverage-v8": "^1.6.0",
-    "@vitest/ui": "^1.6.0",
-    "electron": "^31.1.0",
+    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/ui": "^2.0.5",
+    "electron": "^31.3.1",
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3",
-    "vitest": "^1.6.0",
-    "@qavajs/validation": "^0.9.0"
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5",
+    "@qavajs/validation": "^0.10.0"
   },
   "dependencies": {
-    "@playwright/test": "^1.45.1"
+    "@playwright/test": "^1.46.0",
+    "@qavajs/po-playwright": "^0.16.0"
   }
 }

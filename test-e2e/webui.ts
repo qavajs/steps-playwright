@@ -104,27 +104,3 @@ export const electron = {
     },
     parallel: 1
 }
-
-export const debugNativePlaywright = {
-    ...common,
-    require: [
-        'src/types.ts',
-        'src/playwrightRunner/hooks.ts',
-        'src/actions.ts',
-        'src/waits.ts',
-        'src/validations.ts',
-        'src/memory.ts',
-        'src/execute.ts',
-        'src/intercept.ts',
-        'src/cookies.ts',
-        'src/localSessionStorage.ts',
-        'src/mock.ts',
-        'src/poDefine.ts',
-        'src/multiBrowser.ts',
-        'src/mouseActions.ts',
-        'src/keyboardActions.ts',
-        'test-e2e/step-definitions/*.ts'
-    ],
-    tags: '@debug',
-    parallel: 1
-}

@@ -10,6 +10,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [0.51.0]
+Breaking change:
+- :rocket: include page objects into step bundle
+Migration guide: replace all po-playwright lib imports `@qavajs/po-playwright` to `@qavajs/steps-playwright/po`
+
 ## [0.50.0]
 - :rocket: added _I click {string} until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}_ step
 - :rocket: added _I click {string} until value of {string} {playwrightValidation} {string}( ){playwrightTimeout}_ step

@@ -1,7 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait } from './transformers';
-import { getPollValidation, getValidation } from '@qavajs/validation';
-import { expect } from "@playwright/test";
+import { getPollValidation } from '@qavajs/validation';
+import { expect } from '@playwright/test';
 
 /**
  * Wait for element condition
@@ -15,7 +15,7 @@ import { expect } from "@playwright/test";
  */
 When(
     'I wait until {string} {playwrightConditionWait}( ){playwrightTimeout}',
-        async function (alias: string, waitType: string, timeoutValue: number | null) {
+    async function (alias: string, waitType: string, timeoutValue: number | null) {
         const wait = getConditionWait(waitType);
         const element = await getElement(alias);
         await wait(element, timeoutValue ?? config.browser.timeout.page);
@@ -32,16 +32,17 @@ When(
  * @example I refresh page until 'Place Order Button' to be clickable (timeout: 3000)
  */
 When(
-  'I refresh page until {string} {playwrightConditionWait}( ){playwrightTimeout}',
-  async function (alias: string, waitType: string, timeoutValue: number | null) {
-    const timeout = timeoutValue ?? config.browser.timeout.value;
-    const wait = getConditionWait(waitType);
-    const element = await getElement(alias);
-    await expect(async () => {
-      await page.reload()
-      await wait(element, config.browser.timeout.pageRefreshInterval);
-    }).toPass({timeout});
-  });
+    'I refresh page until {string} {playwrightConditionWait}( ){playwrightTimeout}',
+    async function (alias: string, waitType: string, timeoutValue: number | null) {
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        const wait = getConditionWait(waitType);
+        const element = await getElement(alias);
+        await expect(async () => {
+            await page.reload()
+            await wait(element, config.browser.timeout.pageRefreshInterval);
+        }).toPass({ timeout, intervals: [ config.browser.timeout.pageRefreshInterval ] });
+    }
+);
 
 /**
  * Wait for element text condition
@@ -59,7 +60,7 @@ When(
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
         const timeout = timeoutValue ?? config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
+        await element.waitFor({state: 'attached', timeout});
         const expectedValue = await getValue(value);
         const getValueFn = () => element.innerText();
         await wait(getValueFn, expectedValue, {
@@ -80,19 +81,20 @@ When(
  * @example I refresh page until text of 'My Salary' to match '/5\d{3,}/' (timeout: 3000)
  */
 When(
-  'I refresh page until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
-  async function (alias: string, validationType: string, value: string, timeoutValue: number | null) {
-      const validation = getValidation(validationType);
-      const element = await getElement(alias);
-      const timeout = timeoutValue ?? config.browser.timeout.value;
-      await element.waitFor({state: 'attached', timeout});
-      const expectedValue = await getValue(value);
-      await expect(async () => {
-          await page.reload();
-          const actualValue = await element.innerText();
-          await validation(actualValue, expectedValue);
-          }
-        ).toPass({timeout, intervals: [2_000, 5_000]});
+    'I refresh page until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
+    async function (alias: string, validationType: string, value: string, timeoutValue: number | null) {
+        const element = await getElement(alias);
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        await element.waitFor({state: 'attached', timeout});
+        const expectedValue = await getValue(value);
+        const poll = getPollValidation(validationType);
+        await poll(async () => {
+            await page.reload();
+            return await element.innerText();
+        }, expectedValue, {
+            timeout,
+            interval: config.browser.timeout.pageRefreshInterval
+        });
     }
 );
 
@@ -107,27 +109,27 @@ When(
  * @example I click 'Add To Cart Button' until text of 'Shopping Cart Total' to match '/\$5\d{3,}/' (timeout: 3000)
  */
 When(
-  'I click {string} until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
-  async function (
-      aliasToClick: string,
-      aliasToCheck: string,
-      validationType: string,
-      value: string,
-      timeoutValue: number | null,
-      ) {
-      const elementToClick = await getElement(aliasToClick);
-      const elementToCheck = await getElement(aliasToCheck);
-      const timeout = timeoutValue ?? config.browser.timeout.value;
-      await elementToClick.waitFor({state: 'attached', timeout});
-      const expectedText = await getValue(value);
-      const poll = getPollValidation(validationType);
-      await poll(
-        async () => {
-          await elementToClick.click();
-          return elementToCheck.innerText();
-        },
-        expectedText,
-        {timeout, interval: config.browser.timeout.actionInterval},
+    'I click {string} until text of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
+    async function (
+        aliasToClick: string,
+        aliasToCheck: string,
+        validationType: string,
+        value: string,
+        timeoutValue: number | null,
+    ) {
+        const elementToClick = await getElement(aliasToClick);
+        const elementToCheck = await getElement(aliasToCheck);
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        await elementToClick.waitFor({state: 'attached', timeout});
+        const expectedText = await getValue(value);
+        const poll = getPollValidation(validationType);
+        await poll(
+            async () => {
+                await elementToClick.click();
+                return elementToCheck.innerText();
+            },
+            expectedText,
+            {timeout, interval: config.browser.timeout.actionInterval},
         );
     },
 );
@@ -143,24 +145,24 @@ When(
  * @example I click 'Suggest Button' until value of 'Repository Name Input' to match '/\w{5,}/' (timeout: 30000)
  */
 When(
-  'I click {string} until value of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
-  async function (
-      aliasToClick: string,
-      aliasToCheck: string,
-      validationType: string,
-      value: string,
-      timeoutValue: number | null,
-      ) {
-      const elementToClick = await getElement(aliasToClick);
-      const elementToCheck = await getElement(aliasToCheck);
-      const timeout = timeoutValue ?? config.browser.timeout.value;
-      await elementToClick.waitFor({state: 'attached', timeout});
-      const expectedValue = await getValue(value);
-      const poll = getPollValidation(validationType);
-      await poll(
-        async () => {
-            await elementToClick.click();
-            return elementToCheck.inputValue();
+    'I click {string} until value of {string} {playwrightValidation} {string}( ){playwrightTimeout}',
+    async function (
+        aliasToClick: string,
+        aliasToCheck: string,
+        validationType: string,
+        value: string,
+        timeoutValue: number | null,
+    ) {
+        const elementToClick = await getElement(aliasToClick);
+        const elementToCheck = await getElement(aliasToCheck);
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        await elementToClick.waitFor({state: 'attached', timeout});
+        const expectedValue = await getValue(value);
+        const poll = getPollValidation(validationType);
+        await poll(
+            async () => {
+                await elementToClick.click();
+                return elementToCheck.inputValue();
             },
             expectedValue,
             {timeout, interval: config.browser.timeout.actionInterval},
@@ -208,7 +210,7 @@ When(
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
         const timeout = timeoutValue ?? config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
+        await element.waitFor({state: 'attached', timeout});
         const expectedValue = await getValue(value);
         const getValueFn = () => element.evaluate(
             (node: any) => node.value
@@ -237,7 +239,7 @@ When(
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
         const timeout = timeoutValue ?? config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
+        await element.waitFor({state: 'attached', timeout});
         const expectedValue = await getValue(value);
         const getValueFn = () => element.evaluate(
             (node: any, propertyName: string) => node[propertyName],
@@ -267,7 +269,7 @@ When(
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
         const timeout = timeoutValue ?? config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
+        await element.waitFor({state: 'attached', timeout});
         const expectedValue = await getValue(value);
         const getValueFn = () => element.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
@@ -297,7 +299,7 @@ When(
         const wait = getPollValidation(waitType);
         const element = await getElement(alias);
         const timeout = timeoutValue ?? config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
+        await element.waitFor({state: 'attached', timeout});
         const expectedValue = await getValue(value);
         const getValueFn = () => element.getAttribute(attributeName);
         await wait(getValueFn, expectedValue, {
