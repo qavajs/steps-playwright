@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<button id="fetchButton">Fetch</button>
+<div id="fetchResult">undefined</div>
 <button id="enabledButton">Enabled Button</button>
 <button id="disabledButton" disabled>Disabled Button</button>
 <div id="containerPresent"></div>
@@ -38,15 +40,21 @@
 <script>
     let counter = 0;
     const timeout = 1700;
+    const fetchButton = document.querySelector('#fetchButton');
+    const fetchResult = document.querySelector('#fetchResult');
     const containerPresent = document.querySelector('#containerPresent');
     const randomTextDiv = document.querySelector('#randomText');
     const randomBoolean = Date.now() % 2 === 0;
     const text = randomBoolean ? 'You are lucky' : 'Not this time';
     const flipCoin = document.querySelector('#flipCoin');
     const coin = document.querySelector('#coin');
-    const pseudoRandomCoin = ['Tails', 'Tails', 'Heads']
+    const pseudoRandomCoin = ['Tails', 'Tails', 'Heads'];
     const plusButton = document.querySelector('#plusButton');
     const digitInput = document.querySelector('#digitInput');
+
+    fetchButton.addEventListener('click', function () {
+        fetch('https://jsonplaceholder.typicode.com/comments').then(() => setTimeout(() => fetchResult.innerText = 'data received', 2000));
+    });
 
     randomTextDiv.innerText = text;
     if (randomBoolean) {

@@ -36,6 +36,16 @@ export interface IQavajsPlaywrightConfig {
        */
       page?: number,
       /**
+       * Network inactivity timeout
+       *
+       * default: 500
+       * @example
+       * export default {
+       *     networkIdle: 2_000
+       * }
+       */
+      networkIdle?: number,
+      /**
        * Element value timeout
        *
        * default: 5_000

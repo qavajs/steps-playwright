@@ -6,6 +6,7 @@ const common = {
     paths: ['test-e2e/features/*.feature'],
     require: [
         'test-e2e/step-definitions/*.ts',
+        'node_modules/@qavajs/steps-memory/index.js',
         'src/*.ts',
     ],
     browser: {
