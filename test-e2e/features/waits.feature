@@ -119,5 +119,6 @@ Feature: waits
   Scenario: wait for network idle
     When I set 2000 ms delayed mock for '**/comments' request
     And I click 'Fetch Button'
-    And I wait for network idle for 2200 ms
-    Then I immediately expect text of 'Fetch Result' to equal 'data received'
+    And I wait for network idle (timeout: 2200)
+    And I save text of 'Fetch Result' as 'text'
+    Then I expect '$text' to equal 'data received'

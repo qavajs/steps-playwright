@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@playwright/test": "^1.46.0",
-    "@qavajs/po-playwright": "^0.16.0"
+    "@qavajs/po-playwright": "^0.16.0",
+    "@qavajs/steps-memory": "^0.17.0"
   }
 }

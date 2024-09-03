@@ -369,7 +369,8 @@ When(
  * @param {number} timeout - wait condition
  * @example I wait for network idle for 1000 ms
  */
-When('I wait for network idle for {int} ms', async function (timeout: number) {
+When('I wait for network idle {playwrightTimeout}', async function (timeoutValue: number | null) {
+  const timeout = timeoutValue ?? config.browser.timeout.networkIdle ?? 500
     return new Promise((resolve) => {
         let timerId: any = setTimeout(() => {
          cleanupAndResolve();

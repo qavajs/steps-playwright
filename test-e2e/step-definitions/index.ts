@@ -41,16 +41,3 @@ Then('I set {int} ms delayed mock for {string} request', async function (delay: 
         }), delay);
     });
 })
-
-Then(
-    'I immediately expect text of {string} {playwrightValidation} {string}',
-    async function (alias: string, validationType: string, value: any) {
-        const element = await getElement(alias);
-        const timeout = this.config.browser.timeout.value;
-        await element.waitFor({state: 'attached', timeout});
-        const validation = getValidation(validationType);
-        const elementText = await element.innerText();
-        await validation(elementText, value);
-    }
-);
-
