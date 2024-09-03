@@ -41,11 +41,11 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5",
-    "@qavajs/validation": "^0.10.0"
+    "@qavajs/validation": "^0.10.0",
+    "@qavajs/steps-memory": "^0.17.0"
   },
   "dependencies": {
     "@playwright/test": "^1.46.0",
-    "@qavajs/po-playwright": "^0.16.0",
-    "@qavajs/steps-memory": "^0.17.0"
+    "@qavajs/po-playwright": "^0.16.0"
   }
 }
