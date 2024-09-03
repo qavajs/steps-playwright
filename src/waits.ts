@@ -363,3 +363,34 @@ When(
         });
     }
 );
+
+/**
+ * Wait for absence of network activity during specified period of time
+ * @param {number} timeout - wait condition
+ * @example I wait for network idle for 1000 ms
+ */
+When('I wait for network idle for {int} ms', async function (timeout: number) {
+    return new Promise((resolve) => {
+        let timerId: any = setTimeout(() => {
+         cleanupAndResolve();
+        }, timeout);
+
+        const resetTimer = () => {
+          clearTimeout(timerId);
+          timerId = setTimeout(() => {
+            cleanupAndResolve();
+          }, timeout);
+        };
+
+        page.on('request', resetTimer);
+        page.on('requestfinished', resetTimer);
+        page.on('requestfailed', resetTimer);
+
+        const cleanupAndResolve = () => {
+          page.removeListener('request', resetTimer);
+          page.removeListener('requestfinished', resetTimer);
+          page.removeListener('requestfailed', resetTimer);
+          resolve(0);
+        };
+    });
+})

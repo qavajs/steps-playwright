@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [0.52.0]
+- :rocket: added _I wait for network idle for {int} ms_ step
+
 ## [0.51.0]
 Breaking change:
 - :rocket: include page objects into step bundle

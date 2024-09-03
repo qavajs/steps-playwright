@@ -1,6 +1,8 @@
 import { Then } from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import { Page, expect } from '@playwright/test';
+import {getElement} from "../../src/transformers";
+import {getValidation} from "@qavajs/validation";
 
 declare global {
     var page: Page;
@@ -29,3 +31,26 @@ Then('I expect viewport size to equal {string}', async function (expectedSize) {
     const actualValue = page.viewportSize();
     expect(actualValue).toEqual(expectedValue);
 })
+
+Then('I set {int} ms delayed mock for {string} request', async function (delay: number, glob: string) {
+    await page.route(glob, async (route) => {
+        setTimeout(async () => await route.fulfill({
+          status: 200,
+          contentType: 'text/plain',
+          body: 'Everything is okay'
+        }), delay);
+    });
+})
+
+Then(
+    'I immediately expect text of {string} {playwrightValidation} {string}',
+    async function (alias: string, validationType: string, value: any) {
+        const element = await getElement(alias);
+        const timeout = this.config.browser.timeout.value;
+        await element.waitFor({state: 'attached', timeout});
+        const validation = getValidation(validationType);
+        const elementText = await element.innerText();
+        await validation(elementText, value);
+    }
+);
+

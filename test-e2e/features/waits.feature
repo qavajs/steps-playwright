@@ -115,3 +115,9 @@ Feature: waits
 
   Scenario: click until value
     Then I click 'Plus Button' until value of 'Digit Input' to equal '4'
+
+  Scenario: wait for network idle
+    When I set 2000 ms delayed mock for '**/comments' request
+    And I click 'Fetch Button'
+    And I wait for network idle for 2200 ms
+    Then I immediately expect text of 'Fetch Result' to equal 'data received'

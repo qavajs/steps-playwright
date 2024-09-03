@@ -58,6 +58,8 @@ export default class App {
     Coin = $('#coin');
     DigitInput = $('#digitInput');
     PlusButton = $('#plusButton');
+    FetchButton = $('#fetchButton');
+    FetchResult = $('#fetchResult');
 
     // Electron
     OpenNewWindowElectronButton = $('#electronButton');
