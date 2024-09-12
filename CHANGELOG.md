@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [Unreleased]
+- :beetle: improved _I scroll until_ steps to use same locator
+
 ## [0.52.0]
 - :rocket: added _I wait for network idle {playwrightTimeout}_ step
 

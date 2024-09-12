@@ -299,7 +299,8 @@ When('I scroll by {string} in {string}', async function (offset: string, alias: 
  * When I scroll until 'Row 99' to be visible
  */
 When('I scroll until {string} to be visible', async function (targetAlias: string) {
-    const isVisible = async () => await (await getElement(targetAlias)).isVisible();
+    const locator = await getElement(targetAlias);
+    const isVisible = async () => await locator.isVisible();
     while (!await isVisible()) {
         await page.mouse.wheel(0, 100);
         await sleep(50);
@@ -316,7 +317,8 @@ When('I scroll until {string} to be visible', async function (targetAlias: strin
 When('I scroll in {string} until {string} to be visible', async function (scrollAlias: string, targetAlias: string) {
     const element = await getElement(scrollAlias);
     await element.hover();
-    const isVisible = async () => await (await getElement(targetAlias)).isVisible();
+    const locator = await getElement(targetAlias);
+    const isVisible = async () => await locator.isVisible();
     while (!await isVisible()) {
         await page.mouse.wheel(0, 100);
         await sleep(50);
