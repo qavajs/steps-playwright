@@ -37,5 +37,8 @@ export default class Memory {
     button2 = 'Button2';
 
     userInterceptionPredicate = (response: Response) => response.url().includes('users');
-}
 
+    location = 'geolocation';
+
+    canada = { latitude: 62.39, longitude: -96.81};
+}

@@ -465,3 +465,33 @@ When('I tap {string}', async function (alias: string) {
     const element = await getElement(alias);
     await element.tap();
 });
+
+/**
+ * Grants specified permission to the browser context.
+ * @param {string} permissionAlias - permission alias.
+ * @example I grant 'geolocation' permission
+ * Permissions documentation can be found here https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions-option-permissions
+ */
+When('I grant {string} permission', async function (permissionAlias: string) {
+    const permission = await getValue(permissionAlias);
+    await context.grantPermissions([permission]);
+});
+
+/**
+ * Clears all permission overrides for the browser context.
+ */
+When('I revoke browser permissions', async function () {
+    await context.clearPermissions();
+});
+
+/**
+ * Sets a geolocation for a current context.
+ * @param {string} geolocationAlias - geolocation memory alias.
+ * @example I set '$minsk' geolocation
+ * where '$minsk' is memory alias of location object { latitude: 53.53, longitude: 27.34 };
+ * Passing null or undefined emulates position unavailable.
+ */
+When('I set {string} geolocation', async function (geolocationAlias: string) {
+    const geolocation = await getValue(geolocationAlias);
+    await context.setGeolocation(geolocation);
+});

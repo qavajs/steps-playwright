@@ -241,3 +241,19 @@ Feature: actions
 
   Scenario: scroll until visible in element
     When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' to be visible
+
+  Scenario: set location
+    When I set '$canada' geolocation
+    When I grant '$location' permission
+    When I click 'Location Button'
+    When I expect text of 'Location Button' to equal '$js(JSON.stringify($canada))'
+
+  Scenario: revoke permissions
+    When I set '$canada' geolocation
+    When I grant 'geolocation' permission
+    When I click 'Location Button'
+    When I expect text of 'Location Button' to equal '$js(JSON.stringify($canada))'
+    When I revoke browser permissions
+    When I refresh page
+    When I click 'Location Button'
+    When I expect text of 'Location Button' to equal 'No location'
