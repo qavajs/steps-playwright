@@ -474,7 +474,7 @@ When('I tap {string}', async function (alias: string) {
  * Permissions documentation can be found here https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions-option-permissions
  */
 When('I grant {string} permission', async function (permissionAlias: string) {
-    const permission = await memory.getValue(permissionAlias);
+    const permission = await getValue(permissionAlias);
     await context.grantPermissions([permission]);
 });
 
@@ -493,6 +493,6 @@ When('I revoke browser permissions', async function () {
  * Passing null or undefined emulates position unavailable.
  */
 When('I set {string} geolocation', async function (geolocationAlias: string) {
-    const geolocation = await memory.getValue(geolocationAlias);
+    const geolocation = await getValue(geolocationAlias);
     await context.setGeolocation(geolocation);
 });
