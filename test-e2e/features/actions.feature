@@ -244,13 +244,13 @@ Feature: actions
 
   Scenario: set location
     When I set '$canada' geolocation
-    When I grant '$location' browser permissions
+    When I grant '$location' permission
     When I click 'Location Button'
     When I expect text of 'Location Button' to equal '$js(JSON.stringify($canada))'
 
   Scenario: revoke permissions
     When I set '$canada' geolocation
-    When I grant '$location' browser permissions
+    When I grant 'geolocation' permission
     When I click 'Location Button'
     When I expect text of 'Location Button' to equal '$js(JSON.stringify($canada))'
     When I revoke browser permissions

@@ -468,15 +468,14 @@ When('I tap {string}', async function (alias: string) {
 });
 
 /**
- * Grants specified permissions to the browser context.
- * @param {string} permissionsAlias - permissions array memory alias.
- * @example I grant '$microphone' browser permissions
- * where '$location' is memory alias of permissions array - ['geolocation'];
+ * Grants specified permission to the browser context.
+ * @param {string} permissionAlias - permission alias.
+ * @example I grant 'geolocation' browser permission
  * Permissions documentation can be found here https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions-option-permissions
  */
-When('I grant {string} browser permissions', async function (permissionsAlias: string) {
-    const permissions = await memory.getValue(permissionsAlias);
-    await context.grantPermissions(permissions);
+When('I grant {string} permission', async function (permissionAlias: string) {
+    const permission = await memory.getValue(permissionAlias);
+    await context.grantPermissions([permission]);
 });
 
 /**
