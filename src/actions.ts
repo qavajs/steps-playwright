@@ -3,7 +3,6 @@ import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect, Browser, BrowserContext, Page } from '@playwright/test';
 import { parseCoords, parseCoordsAsObject, sleep } from './utils/utils';
-import memory from "@qavajs/memory";
 
 declare global {
     var browser: Browser;
@@ -470,7 +469,7 @@ When('I tap {string}', async function (alias: string) {
 /**
  * Grants specified permission to the browser context.
  * @param {string} permissionAlias - permission alias.
- * @example I grant 'geolocation' browser permission
+ * @example I grant 'geolocation' permission
  * Permissions documentation can be found here https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions-option-permissions
  */
 When('I grant {string} permission', async function (permissionAlias: string) {
