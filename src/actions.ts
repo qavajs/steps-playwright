@@ -3,6 +3,7 @@ import { getValue, getElement } from './transformers';
 import { po } from '@qavajs/po-playwright';
 import { expect, Browser, BrowserContext, Page } from '@playwright/test';
 import { parseCoords, parseCoordsAsObject, sleep } from './utils/utils';
+import memory from "@qavajs/memory";
 
 declare global {
     var browser: Browser;
@@ -464,4 +465,35 @@ When('I click {playwrightBrowserButton} button', async function (button: 'back' 
 When('I tap {string}', async function (alias: string) {
     const element = await getElement(alias);
     await element.tap();
+});
+
+/**
+ * Grants specified permissions to the browser context.
+ * @param {string} permissionsAlias - permissions array memory alias.
+ * @example I grant '$microphone' browser permissions
+ * where '$location' is memory alias of permissions array - ['geolocation'];
+ * Permissions documentation can be found here https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions-option-permissions
+ */
+When('I grant {string} browser permissions', async function (permissionsAlias: string) {
+    const permissions = await memory.getValue(permissionsAlias);
+    await context.grantPermissions(permissions);
+});
+
+/**
+ * Clears all permission overrides for the browser context.
+ */
+When('I revoke browser permissions', async function () {
+    await context.clearPermissions();
+});
+
+/**
+ * Sets a geolocation for a current context.
+ * @param {string} geolocationAlias - geolocation memory alias.
+ * @example I set '$minsk' geolocation
+ * where '$minsk' is memory alias of location object { latitude: 53.53, longitude: 27.34 };
+ * Passing null or undefined emulates position unavailable.
+ */
+When('I set {string} geolocation', async function (geolocationAlias: string) {
+    const geolocation = await memory.getValue(geolocationAlias);
+    await context.setGeolocation(geolocation);
 });

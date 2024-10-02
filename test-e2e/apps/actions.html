@@ -76,8 +76,15 @@
 
 <div id="mouseEvent" style="height: 200px; width: 200px; background-color: #0f9e9e"></div>
 <input id="keyboardEvent" style="height: 200px; width: 200px; background-color: #0f9e9e"></input>
-
+<button id="location" onclick="getLocation()">No location</button>
 <script>
+    const locationButton = document.getElementById("location");
+    function getLocation() {
+            navigator.geolocation.watchPosition(showPosition);
+    }
+    function showPosition(position) {
+        locationButton.innerText = `{"latitude":${position.coords.latitude},"longitude":${position.coords.longitude}}`;
+    }
     const action = document.querySelector('#action');
     const button = document.querySelector('#button');
     const buttonTap = document.querySelector('#buttonTap');

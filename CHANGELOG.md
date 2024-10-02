@@ -10,7 +10,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
-## [Unreleased]
+## [0.53.0]
+- :rocket: added _I grant {string} browser permissions_ step
+- :rocket: added _I revoke browser permissions_ step
+- :rocket: added _I set {string} geolocation_ step
 - :beetle: improved _I scroll until_ steps to use same locator
 
 ## [0.52.0]
