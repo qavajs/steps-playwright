@@ -61,6 +61,7 @@ export default class App {
     FetchButton = $('#fetchButton');
     FetchResult = $('#fetchResult');
     LocationButton = $('#location');
+    DownloadButton = $('#download');
 
     // Electron
     OpenNewWindowElectronButton = $('#electronButton');

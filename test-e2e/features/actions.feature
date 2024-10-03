@@ -257,3 +257,7 @@ Feature: actions
     When I refresh page
     When I click 'Location Button'
     When I expect text of 'Location Button' to equal 'No location'
+
+  Scenario: save file
+    When I save file to '$downloadPath' by clicking 'Download Button'
+    When I expect file '$downloadPath' to exist

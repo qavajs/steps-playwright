@@ -41,4 +41,6 @@ export default class Memory {
     location = 'geolocation';
 
     canada = { latitude: 62.39, longitude: -96.81};
+
+    downloadPath = './test-e2e/downloads/text.txt';
 }
