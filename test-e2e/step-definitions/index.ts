@@ -1,8 +1,8 @@
 import { Then } from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import { Page, expect } from '@playwright/test';
-import {getElement} from "../../src/transformers";
-import {getValidation} from "@qavajs/validation";
+import {getValue} from "../../src/transformers";
+import * as fs from "fs";
 
 declare global {
     var page: Page;
@@ -41,3 +41,8 @@ Then('I set {int} ms delayed mock for {string} request', async function (delay: 
         }), delay);
     });
 })
+
+Then('I expect file {string} to exist', async function (path: string){
+    const filePresence = fs.existsSync(await getValue(path));
+    expect(filePresence).toBeTruthy();
+});

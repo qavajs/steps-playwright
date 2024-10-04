@@ -326,6 +326,21 @@ When('I scroll in {string} until {string} to be visible', async function (scroll
 });
 
 /**
+ * Save a file to relative path
+ * @param {string} pathAlias - file path
+ * @param {string} initiatorAlias - alias of an element triggering downloading process
+ * @example I save file to './folder/file.pdf' by clicking 'Download Button'
+ */
+When('I save file to {string} by clicking {string}', async function (pathAlias: string, initiatorAlias: string) {
+    const downloadPromise = page.waitForEvent('download');
+    const element = await getElement(await getValue(initiatorAlias));
+    const path = await getValue(pathAlias);
+    await element.click();
+    const download = await downloadPromise;
+    await download.saveAs(path);
+});
+
+/**
  * Provide file url to upload input
  * @param {string} alias - element to upload file
  * @param {string} value - file path

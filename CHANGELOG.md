@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [0.54.0]
+- :rocket: added _I save file to {string} by clicking {string}_ step
+
 ## [0.53.0]
 - :rocket: added _I grant {string} permission_ step
 - :rocket: added _I revoke browser permissions_ step
