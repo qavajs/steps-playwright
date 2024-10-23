@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { BrowserManager } from '../src/browserManager';
+import { BrowserManager } from '../src/playwright';
 
 declare global {
     var browser: any

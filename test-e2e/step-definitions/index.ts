@@ -1,39 +1,22 @@
 import { Then } from '@cucumber/cucumber';
-import memory from '@qavajs/memory';
-import { Page, expect } from '@playwright/test';
-import {getValue} from "../../src/transformers";
-import * as fs from "fs";
+import { expect, Route } from '@playwright/test';
+import { existsSync } from 'node:fs';
+import { MemoryValue, Validation } from '@qavajs/cli';
 
-declare global {
-    var page: Page;
-}
-
-Then('I expect {string} memory value to be equal {string}', async function (actual, expected) {
-    const actualValue = memory.getValue(actual);
-    const expectedValue = memory.getValue(expected);
-    expect(expectedValue).toEqual(actualValue);
+Then('I expect {value} memory value {validation} {value}', async function (actual: MemoryValue, validation: Validation, expected: MemoryValue) {
+    validation(
+        await actual.value(),
+        await expected.value()
+    );
 });
 
-Then('I expect {string} memory value to contain {string}', async function (actual, expected) {
-    const actualValue = memory.getValue(actual);
-    const expectedValue = memory.getValue(expected);
-    expect(actualValue).toContain(expectedValue);
-});
-
-Then('I expect {string} memory value to have type {string}', async function (actual, expected) {
-    const actualValue = memory.getValue(actual);
-    const expectedValue = memory.getValue(expected);
-    expect(typeof actualValue === expectedValue).toBeTruthy();
-});
-
-Then('I expect viewport size to equal {string}', async function (expectedSize) {
-    const expectedValue = await memory.getValue(expectedSize);
-    const actualValue = page.viewportSize();
-    expect(actualValue).toEqual(expectedValue);
+Then('I expect viewport size to equal {value}', async function (expectedSize: MemoryValue) {
+    const actualValue = this.playwright.page.viewportSize();
+    expect(actualValue).toEqual(await expectedSize.value());
 })
 
 Then('I set {int} ms delayed mock for {string} request', async function (delay: number, glob: string) {
-    await page.route(glob, async (route) => {
+    await this.playwright.page.route(glob, async (route: Route) => {
         setTimeout(async () => await route.fulfill({
           status: 200,
           contentType: 'text/plain',
@@ -42,7 +25,7 @@ Then('I set {int} ms delayed mock for {string} request', async function (delay: 
     });
 })
 
-Then('I expect file {string} to exist', async function (path: string){
-    const filePresence = fs.existsSync(await getValue(path));
+Then('I expect file {value} to exist', async function (path: MemoryValue){
+    const filePresence = existsSync(await path.value());
     expect(filePresence).toBeTruthy();
 });

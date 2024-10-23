@@ -1,6 +1,5 @@
 import { When } from '@cucumber/cucumber';
-import { getValue } from './transformers';
-import memory from '@qavajs/memory';
+import {MemoryValue} from "@qavajs/cli";
 
 /**
  * Set cookie
@@ -9,13 +8,13 @@ import memory from '@qavajs/memory';
  * @example I set 'userID' cookie 'user1'
  * @example I set 'userID' cookie '$userIdCookie'
  */
-When('I set {string} cookie as {string}', async function (cookie, value) {
-    const cookieValue = await getValue(value);
+When('I set {value} cookie as {value}', async function (cookie: MemoryValue, value: MemoryValue) {
+    const cookieValue = await value.value();
     const cookieObject = typeof cookieValue === 'object' ? cookieValue : { value: cookieValue };
     if (!cookieObject.url && !cookieObject.domain && !cookieObject.path) {
-        cookieObject.url = page.url();
+        cookieObject.url =this.playwright.page.url();
     }
-    await context.addCookies([{ name: await getValue(cookie), ...cookieObject }]);
+    await this.playwright.context.addCookies([{ name: await cookie.value(), ...cookieObject }]);
 });
 
 /**
@@ -24,9 +23,9 @@ When('I set {string} cookie as {string}', async function (cookie, value) {
  * @param {string} key - memory key
  * @example I save value of 'auth' cookie as 'authCookie'
  */
-When('I save value of {string} cookie as {string}', async function (cookie, key) {
-    const cookieName = await getValue(cookie);
-    const cookies = await context.cookies();
-    const cookieValue = cookies.find(c => c.name === cookieName);
-    memory.setValue(key, cookieValue);
+When('I save value of {value} cookie as {value}', async function (cookie: MemoryValue, key: MemoryValue) {
+    const cookieName = await cookie.value();
+    const cookies = await this.playwright.context.cookies();
+    const cookieValue = cookies.find((c: any) => c.name === cookieName);
+    key.set(cookieValue);
 });

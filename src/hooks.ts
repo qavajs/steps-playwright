@@ -9,8 +9,6 @@ import {
     ITestStepHookParameter
 } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import { Browser, BrowserContext, Page } from '@playwright/test';
-import { po } from '@qavajs/po-playwright';
 import {
     saveScreenshotAfterStep,
     saveScreenshotBeforeStep,
@@ -18,45 +16,36 @@ import {
 } from './utils/utils';
 import { readFile } from 'node:fs/promises';
 import { createJSEngine } from './selectorEngines';
-import browserManager, { BrowserManager } from './browserManager';
+import playwright from './playwright';
 import tracingManager from './utils/tracingManager';
-
-declare global {
-    var browser: Browser
-    var driver: Browser;
-    var context: BrowserContext;
-    var page: Page;
-    var config: any;
-    var browserManager: BrowserManager
-}
+import { element } from './pageObject';
 
 BeforeAll(async function () {
     await createJSEngine();
 });
 
-Before({ name: 'Init' }, async function () {
-    const driverConfig = config.browser ?? config.driver;
+Before({ name: 'Init playwright driver' }, async function () {
+    const driverConfig = this.config.browser ?? this.config.driver;
     driverConfig.isElectron = driverConfig.capabilities.browserName === 'electron';
     driverConfig.timeout = {
         ...defaultTimeouts,
         ...driverConfig.timeout
     }
-    config.driverConfig = driverConfig;
-    if (config.driverConfig.video) {
-        config.driverConfig.capabilities.recordVideo = config.driverConfig.video;
+    this.config.driverConfig = driverConfig;
+    if (this.config.driverConfig.video) {
+       this.config.driverConfig.capabilities.recordVideo = this.config.driverConfig.video;
     }
-    await browserManager.launchDriver('default', config.driverConfig);
-    await tracingManager.start(driverConfig);
-    po.init(page, { timeout: config.driverConfig.timeout.present, logger: this });
-    po.register(config.pageObject);
-    global.browserManager = browserManager;
-    this.log(`driver instance started:\n${JSON.stringify(config.driverConfig, null, 2)}`);
+    this.playwright = playwright;
+    await this.playwright.launchDriver('default', this.config.driverConfig);
+    await tracingManager.start(driverConfig, this);
+    this.log(`driver instance started:\n${JSON.stringify(this.config.driverConfig, null, 2)}`);
+    this.element = element;
 });
 
 BeforeStep(async function () {
-    if (saveScreenshotBeforeStep(config)) {
+    if (saveScreenshotBeforeStep(this.config)) {
         try {
-            this.attach(await page.screenshot(), 'image/png');
+            this.attach(await this.playwright.page.screenshot(), 'image/png');
         } catch (err) {
             console.warn(err)
         }
@@ -65,9 +54,9 @@ BeforeStep(async function () {
 
 AfterStep(async function (step: ITestStepHookParameter) {
     try {
-        if (saveScreenshotAfterStep(config, step)) {
-            this.attach(await page.screenshot({
-                fullPage: config.driverConfig?.screenshot?.fullPage
+        if (saveScreenshotAfterStep(this.config, step)) {
+            this.attach(await this.playwright.page.screenshot({
+                fullPage:this.config.driverConfig?.screenshot?.fullPage
             }), 'image/png');
         }
     } catch (err) {
@@ -75,15 +64,15 @@ AfterStep(async function (step: ITestStepHookParameter) {
     }
 });
 
-After({ name: 'Teardown' }, async function (scenario: ITestCaseHookParameter) {
-    await tracingManager.stop(config.driverConfig, this, scenario);
-    await browserManager.teardown({
-        reuseSession: config.driverConfig.reuseSession,
-        restartBrowser: config.driverConfig.restartBrowser,
+After({ name: 'Shutdown playwright driver' }, async function (scenario: ITestCaseHookParameter) {
+    await tracingManager.stop(this.config.driverConfig, this, scenario);
+    await this.playwright.teardown({
+        reuseSession:this.config.driverConfig.reuseSession,
+        restartBrowser:this.config.driverConfig.restartBrowser,
     });
-    if (saveVideo(config.driverConfig, scenario)) {
-        if (config.driverConfig?.video.attach) {
-            const video = page.video();
+    if (saveVideo(this.config.driverConfig, scenario)) {
+        if (this.config.driverConfig?.video.attach) {
+            const video = this.playwright.page.video();
             if (video) {
                 const videoPath = await video.path();
                 const zipBuffer: Buffer = await readFile(videoPath);
@@ -96,5 +85,5 @@ After({ name: 'Teardown' }, async function (scenario: ITestCaseHookParameter) {
 });
 
 AfterAll(async function () {
-    await browserManager.close();
+    await playwright.close();
 });

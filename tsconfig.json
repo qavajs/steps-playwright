@@ -6,7 +6,7 @@
     "test/**/*.spec.ts"
   ],
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2018",
     "module": "node16",
     "moduleResolution": "node16",
     "outDir": "./lib",
@@ -15,7 +15,6 @@
     "strict": true,
     "skipLibCheck": true,
     "types": [
-      "./globals.d.ts",
       "node"
     ]
   }

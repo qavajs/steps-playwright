@@ -5,9 +5,8 @@ import localServer from './support/server';
 const common = {
     paths: ['test-e2e/features/*.feature'],
     require: [
-        'test-e2e/step-definitions/*.ts',
-        'node_modules/@qavajs/steps-memory/index.js',
         'src/*.ts',
+        './test-e2e/step-definitions/*.ts',
     ],
     browser: {
         logLevel: 'warn',
@@ -46,7 +45,7 @@ const common = {
         }
     },
     memory: new Memory(),
-    pageObject: new App(),
+    pageObject: App,
     parallel: 4,
     retry: 1,
     service: [localServer],
