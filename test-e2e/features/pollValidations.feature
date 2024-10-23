@@ -4,14 +4,14 @@ Feature: waits
     When I open '$waitsPage' url
 
   Scenario Outline: wait for condition
-    Then I wait until '<element>' <condition>
+    Then I expect '<element>' <condition>
 
     Examples:
       | element         | condition     |
       | Present Element | to be present |
 
   Scenario Outline: wait for text (<condition>)
-    Then I wait until text of 'Loading' <condition> '<expectation>'
+    Then I expect text of 'Loading' <condition> '<expectation>'
 
     Examples:
       | condition      | expectation |
@@ -23,10 +23,10 @@ Feature: waits
       | not to match   | ^.0%$       |
 
   Scenario: wait for value
-    Then I wait until value of 'Loading Input' to equal '100%'
+    Then I expect value of 'Loading Input' to equal '100%'
 
   Scenario Outline: wait for property (<condition>)
-    Then I wait until 'value' property of 'Loading Input' <condition> '<expectation>'
+    Then I expect 'value' property of 'Loading Input' <condition> '<expectation>'
 
     Examples:
       | condition      | expectation |
@@ -38,7 +38,7 @@ Feature: waits
       | not to match   | ^.0%$       |
 
   Scenario Outline: wait for attribute (<condition>)
-    Then I wait until 'style' attribute of 'Hidden Element' <condition> '<expectation>'
+    Then I expect 'style' attribute of 'Hidden Element' <condition> '<expectation>'
 
     Examples:
       | condition      | expectation            |
@@ -50,10 +50,10 @@ Feature: waits
       | not to match   | displayed;$            |
 
   Scenario: wait for css property
-    Then I wait until 'visibility' css property of 'Hidden Element' to be equal 'hidden'
+    Then I expect 'visibility' css property of 'Hidden Element' to be equal 'hidden'
 
   Scenario Outline: wait for number of elements in collection (<condition>)
-    Then I wait until number of elements in 'Wait Collection' collection <condition> '<expected>'
+    Then I expect number of elements in 'Wait Collection' collection <condition> '<expected>'
 
     Examples:
       | condition   | expected |
@@ -62,47 +62,11 @@ Feature: waits
       | to be below | 5        |
 
   Scenario: wait for current url
-    Then I wait until current url to contain '#anchor'
+    Then I expect current url to contain '#anchor'
 
   Scenario: wait for title
-    Then I wait until page title to be equal 'title changed'
+    Then I expect page title to be equal 'title changed'
 
-  Scenario Outline: wait for <condition> condition with timeout
-    Then I wait until '<element>' <condition> (timeout: 5000)
-
-    Examples:
-      | element         | condition         |
-      | Present Element | to be present     |
-      | Detach Element  | not to be present |
-      | Visible Element | to be visible     |
-      | Hidden Element  | to be invisible   |
-
-  Scenario: wait for text with timeout
-    Then I wait until text of 'Loading' to be equal '100%' (timeout: 5000)
-
-  Scenario: wait for property with timeout
-    Then I wait until 'value' property of 'Loading Input' to be equal '100%' (timeout: 5000)
-
-  Scenario: wait for attribute with timeout
-    Then I wait until 'style' attribute of 'Hidden Element' to contain 'hidden' (timeout: 5000)
-
-  Scenario: wait for css property with timeout
-    Then I wait until 'visibility' css property of 'Hidden Element' to be equal 'hidden' (timeout: 5000)
-
-  Scenario Outline: wait for number of elements in collection with timeout (<condition>)
-    Then I wait until number of elements in 'Wait Collection' collection <condition> '<expected>' (timeout: 5000)
-
-    Examples:
-      | condition   | expected |
-      | to be equal | 10       |
-      | to be above | 8        |
-      | to be below | 5        |
-
-  Scenario: wait for current url with timeout
-    Then I wait until current url to contain '#anchor' (timeout: 5000)
-
-  Scenario: wait for title with timeout
-    Then I wait until page title to be equal 'title changed' (timeout: 5000)
 
   Scenario: refresh page until element text
     Then I refresh page until text of 'Pseudo Random Text' to equal 'You are lucky' (timeout: 9000)
@@ -120,5 +84,4 @@ Feature: waits
     When I set 2000 ms delayed mock for '**/comments' request
     And I click 'Fetch Button'
     And I wait for network idle (timeout: 2200)
-    And I save text of 'Fetch Result' as 'text'
-    Then I expect '$text' to equal 'data received'
+    Then I expect text of 'Fetch Result' to equal 'data received'

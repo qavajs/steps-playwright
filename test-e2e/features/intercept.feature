@@ -1,4 +1,3 @@
-@skip
 Feature: intercept
 
   Scenario Outline: wait for intercepted response (<handler>)

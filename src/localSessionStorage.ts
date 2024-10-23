@@ -1,7 +1,5 @@
 import { When } from '@cucumber/cucumber';
-import { getValue } from './transformers';
-import memory from '@qavajs/memory';
-
+import { MemoryValue } from '@qavajs/cli';
 /**
  * Set value of local/session storage
  * @param {string} storageKey - local/session storage key to set value
@@ -10,12 +8,12 @@ import memory from '@qavajs/memory';
  * @example I set 'username' local storage value as 'user1'
  * @example I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
  */
-When('I set {string} {word} storage value as {string}', async function (storageKey, storageType, value) {
-    await page.evaluate(function ([storageKey, storageType, value]) {
+When('I set {value} {word} storage value as {value}', async function (storageKey: MemoryValue, storageType: string, value: MemoryValue) {
+    await this.playwright.page.evaluate(function ([storageKey, storageType, value]: [string, string, string]) {
         const storage: string = storageType + 'Storage';
         // @ts-ignore
         window[storage].setItem(storageKey, value);
-    }, [await getValue(storageKey), storageType, await getValue(value)]);
+    }, [await storageKey.value(), storageType, await value.value()]);
 });
 
 /**
@@ -26,11 +24,11 @@ When('I set {string} {word} storage value as {string}', async function (storageK
  * @example I save value of 'username' local storage as 'localStorageValue'
  * @example I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
  */
-When('I save value of {string} {word} storage as {string}', async function (storageKey, storageType, key) {
-    const value = await page.evaluate(function ([storageKey, storageType]) {
+When('I save value of {value} {word} storage as {value}', async function (storageKey, storageType, key) {
+    const value = await this.playwright.page.evaluate(function ([storageKey, storageType]: [string, string]) {
         const storage: string = storageType + 'Storage';
         // @ts-ignore
         return window[storage].getItem(storageKey);
-    }, [await getValue(storageKey), storageType]);
-    memory.setValue(key, value);
+    }, [await storageKey.value(), storageType]);
+    key.set(value);
 });

@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue } from './transformers';
 import { parseCoords } from './utils/utils';
+import { MemoryValue } from '@qavajs/cli';
 
 /**
  * Press mouse key
@@ -8,7 +8,7 @@ import { parseCoords } from './utils/utils';
  * @example When I press left mouse button
  */
 When('I press {playwrightMouseButton} mouse button', async function (button) {
-    await page.mouse.down({ button });
+    await this.playwright.page.mouse.down({ button });
 });
 
 /**
@@ -17,7 +17,7 @@ When('I press {playwrightMouseButton} mouse button', async function (button) {
  * @example When I release left mouse button
  */
 When('I release {playwrightMouseButton} mouse button', async function (button) {
-    await page.mouse.up({ button });
+    await this.playwright.page.mouse.up({ button });
 });
 
 /**
@@ -25,9 +25,9 @@ When('I release {playwrightMouseButton} mouse button', async function (button) {
  * @param {string} coords - x, y coordinates to move
  * @example When I move mouse to '10, 15'
  */
-When('I move mouse to {string}', async function (coords){
-    const [x, y] = parseCoords(await getValue(coords));
-    await page.mouse.move(x, y);
+When('I move mouse to {value}', async function (coords: MemoryValue){
+    const [x, y] = parseCoords(await coords.value());
+    await this.playwright.page.mouse.move(x, y);
 });
 
 /**
@@ -35,7 +35,7 @@ When('I move mouse to {string}', async function (coords){
  * @param {string} coords - x, y offset to scroll
  * @example When I scroll mouse wheel by '0, 15'
  */
-When('I scroll mouse wheel by {string}', async function (offset) {
-    const [x, y] = parseCoords(await getValue(offset));
-    await page.mouse.wheel(x, y);
+When('I scroll mouse wheel by {value}', async function (offset: MemoryValue) {
+    const [x, y] = parseCoords(await offset.value());
+    await this.playwright.page.mouse.wheel(x, y);
 });

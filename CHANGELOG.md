@@ -5,13 +5,64 @@ All notable changes to the "@qavajs/steps-playwright" will be documented in this
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 :rocket: - new feature
+
 :beetle: - bugfix
+
 :x: - deprecation/removal
+
 :pencil: - chore
+
 :microscope: - experimental
 
+## [2.0.0]
+- :rocket: reworked page object approach
+  - new function _locator_ to define page objects
+
+```typescript
+import { locator } from '@qavajs/steps-playwright/po';
+
+class App {
+  /**
+   * simple locator
+   * I click 'Simple'
+   */
+  Simple = locator('#simple');
+  /**
+   * dynamic locator by provided argument
+   * I click 'Template (some text)'
+   */
+  Template = locator.template(text => `div:has-text("${text}")`);
+  /**
+   * locator that uses native playwright capabilities
+   * I click 'Native'
+   */
+  Native = locator.native(({ page }) => page.locator('#native'));
+}
+```
+
+  - new way to define components
+```typescript
+import { locator } from '@qavajs/steps-playwright/po';
+
+class App {
+  /**
+   * I click 'Component > Child'
+   */
+  Component = locator('#parent').as(Component);
+}
+
+class Component {
+    Child = locator('#child')
+}
+```
+  - removed collection in favor of template locators
+
+- :x: - removed frame steps in favor of using frame locators
+- :x: - removed wait steps in favor of validation steps
+- :x: - removed multi-browser steps
+
 ## [1.0.0]
-- release
+- release 1.0.0
 
 ## [0.54.0]
 - :rocket: added _I save file to {string} by clicking {string}_ step
