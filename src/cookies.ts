@@ -1,5 +1,5 @@
 import { When } from '@cucumber/cucumber';
-import {MemoryValue} from "@qavajs/cli";
+import {MemoryValue} from "@qavajs/core";
 
 /**
  * Set cookie
