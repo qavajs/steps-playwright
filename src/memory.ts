@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { type Locator } from '@playwright/test';
-import { type MemoryValue } from '@qavajs/cli';
+import { type MemoryValue } from '@qavajs/core';
 
 /**
  * Save text of element to memory

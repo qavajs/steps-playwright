@@ -1,7 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { type Page, type Dialog, type Locator } from '@playwright/test';
 import { parseCoords, parseCoordsAsObject, sleep } from './utils/utils';
-import { MemoryValue } from '@qavajs/cli';
+import { MemoryValue } from '@qavajs/core';
 
 /**
  * Opens provided url

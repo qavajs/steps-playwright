@@ -1,6 +1,6 @@
 import {When} from '@cucumber/cucumber';
 import {Locator} from "@playwright/test";
-import {MemoryValue, Validation} from "@qavajs/cli";
+import {MemoryValue, Validation} from "@qavajs/core";
 
 /**
  * Refresh page unless element matches condition
