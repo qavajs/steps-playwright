@@ -98,7 +98,7 @@ export class Playwright {
     /**
      * return to default state (1 browser, no contexts)
      */
-    async teardown({ reuseSession, restartBrowser } = { reuseSession: false, restartBrowser: false }) {
+    async teardown({ reuseSession, restartBrowser }: { reuseSession?: boolean, restartBrowser?: boolean } = { reuseSession: false, restartBrowser: false }) {
         this.setDriver(this.drivers['default']);
         if (reuseSession) return;
         for (const driverKey in this.drivers) {
