@@ -44,7 +44,7 @@ export interface LocatorDefinition {
     template: (selector: (argument: string) => string) => Selector;
 
     /**
-     * Define selector using native wdio API
+     * Define selector using native playwright API
      * @param {(argument: string) => string} selector - selector function
      */
     native: (selector: (params: NativeSelectorParams) => Locator) => Selector;

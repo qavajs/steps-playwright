@@ -1,6 +1,8 @@
 import { locator } from '../../po';
 export default class App {
     SimpleTextElement = locator('#textValue');
+    SimpleTextElementTemplate = locator.template(selector => selector);
+    SimpleTextElementNative = locator.native(({ page }) => page.locator('#textValue'));
     SimpleTextListItems = locator('#textValueList li');
     SimpleTextListItemByIndex = locator.template(idx => `#textValueList li:nth-child(${idx})`);
     SimpleTextListItemByText = locator.template(text => `#textValueList li:has-text('${text}')`);
@@ -64,6 +66,10 @@ export default class App {
     LocationButton = locator('#location');
     DownloadButton = locator('#download');
 
+    BodyComponent = locator('body').as(BodyComponent);
+    BodyComponentTemplate = locator.template((selector: string) => selector).as(BodyComponent);
+    BodyComponentNative = locator.native(({ page }) => page.locator('body')).as(BodyComponent);
+
     // Electron
     OpenNewWindowElectronButton = locator('#electronButton');
     CloseCurrentWindowElectronButton = locator('#closeCurrentWindow');
@@ -71,4 +77,9 @@ export default class App {
     //JS Selector
     SimpleTextElementByJS = locator('js=document.querySelectorAll("#textValue")');
     SimpleTextListItemsByJS = locator('js=document.querySelectorAll("#textValueList li")');
+}
+
+class BodyComponent {
+    TextElement = locator('#textValue');
+    ListItem = locator.template(index => `#textValueList > li:nth-child(${index})`);
 }

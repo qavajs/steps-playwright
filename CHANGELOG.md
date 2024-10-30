@@ -14,9 +14,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [unreleased]
+- :pencil: added page object end-to-end tests
+
 ## [2.0.0]
 - :rocket: reworked page object approach
-  - new function _locator_ to define page objects
+- :rocket: added new function _locator_ to define page objects
 
 ```typescript
 import { locator } from '@qavajs/steps-playwright/po';
