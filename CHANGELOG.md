@@ -14,10 +14,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
-## [unreleased]
-- :pencil: added page object end-to-end tests
-
 ## [2.0.0]
+- :pencil: added page object end-to-end tests
 - :rocket: reworked page object approach
 - :rocket: added new function _locator_ to define page objects
 
