@@ -29,3 +29,10 @@ Then('I expect file {value} to exist', async function (path: MemoryValue){
     const filePresence = existsSync(await path.value());
     expect(filePresence).toBeTruthy();
 });
+
+Then(
+    'I save {value} to memory as {value}',
+    async function (value: MemoryValue, key: MemoryValue) {
+        key.set(await value.value());
+    }
+);

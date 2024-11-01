@@ -15,6 +15,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :microscope: - experimental
 
 ## [2.0.0]
+- :pencil: added memory processor to playwrightLocator parameter type
 - :pencil: added page object end-to-end tests
 - :rocket: reworked page object approach
 - :rocket: added new function _locator_ to define page objects
