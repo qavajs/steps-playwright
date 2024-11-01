@@ -27,7 +27,7 @@
   "homepage": "https://github.com/qavajs/steps-playwright#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^11.0.1",
-    "@qavajs/core": "^2.0.0",
+    "@qavajs/core": "^2.1.1",
     "@qavajs/console-formatter": "^0.8.0",
     "@qavajs/html-formatter": "^0.18.1",
     "@qavajs/memory": "^1.9.0",

@@ -17,3 +17,7 @@ Feature: page object
 
   Scenario: native component
     Then I expect text of 'Body Component Native > Text Element' to be equal 'text value'
+
+  Scenario: template with memory
+    When I save '#textValue' to memory as 'selector'
+    Then I expect text of 'Simple Text Element Template ({$selector})' to be equal 'text value'

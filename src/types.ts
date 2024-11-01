@@ -24,7 +24,7 @@ defineParameterType({
     transformer: function (s1: string, s2: string) {
         const world = this as any;
         return transformString(function (alias) {
-            return world.element(alias);
+            return world.element(world.getValue(alias));
         })(s1, s2);
     }
 });
