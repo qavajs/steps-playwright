@@ -7,7 +7,7 @@ export default defineConfig({
     ],
     coverage: {
       provider: 'v8',
-      include: ["src/browserManager.ts"],
+      include: ["src/playwright.ts"],
       exclude: ["/lib/", "/node_modules/", "src/driverProvider.ts"],
       branches: 80,
       functions: 90,

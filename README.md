@@ -8,69 +8,63 @@ Step library to work with playwright in qavajs framework
 `npm install @qavajs/steps-playwright`
 
 ## Configuration
-```javascript
-const App = require('./page_object');
-module.exports = {
-    default: {
-        require: [
-            'node_modules/@qavajs/steps-playwright/index.js'
-        ],
-        browser: {
-            timeout: {
-                present: 10000,
-                visible: 20000,
-                page: 10000,
-                value: 5000, // expect value timeout
-                valueInterval: 500, // expect value interval
-                pageRefreshInterval: 2000 // refresh page for _I refresh page..._ steps
-            },
-            capabilities: {
-                browserName: 'chromium'
-            }
+```typescript
+import App from './page_object'
+export default {
+    require: [
+        'node_modules/@qavajs/steps-playwright/index.js'
+    ],
+    browser: {
+        timeout: {
+            present: 10000,
+            visible: 20000,
+            page: 10000,
+            value: 5000, // expect value timeout
+            valueInterval: 500, // expect value interval
+            pageRefreshInterval: 2000 // refresh page for _I refresh page..._ steps
         },
-        pageObject: new App()
-    }
+        capabilities: {
+            browserName: 'chromium'
+        }
+    },
+    pageObject: App
 }
 ```
 
-## Global variables
-@qavajs/steps-playwright exposes following global variables
+## Context variables
+@qavajs/steps-playwright exposes following to step context
          
-| variable         | type                             | description                                                   |
-|------------------|----------------------------------|---------------------------------------------------------------|
-| `browser`        | `Browser \| ElectronApplication` | browser instance                                              |
-| `driver`         | `Browser \| ElectronApplication` | browser instance (alias for browser)                          |
-| `context`        | `BrowserContext`                 | current browser context                                       |
-| `page`           | `Page`                           | current context page                                          |
-| `browserManager` | `BrowserManager`                 | manager to control all opened browsers and electron instances |
+| variable                  | type                             | description                          |
+|---------------------------|----------------------------------|--------------------------------------|
+| `this.playwright.browser` | `Browser \| ElectronApplication` | browser instance                     |
+| `this.playwright.driver`  | `Browser \| ElectronApplication` | browser instance (alias for browser) |
+| `this.playwright.context` | `BrowserContext`                 | current browser context              |
+| `this.playwright.page`    | `Page`                           | current context page                 |
 
 ## Connect to playwright server
 In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
 ```typescript
-module.exports = {
-    default: {
-        browser: {
-            capabilities: {
-                browserName: 'chromium',
-                wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'
-            }
-        },
-    }
+export default {
+    browser: {
+        capabilities: {
+            browserName: 'chromium',
+            wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'
+        }
+    },
 }
+
 ```
 
 ## Connect to cdp endpoint
 In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object 
 ```typescript
-module.exports = {
-    default: {
-        browser: {
-            capabilities: {
-                browserName: 'chromium',
-                cdpEndpoint: 'http://localhost:9222/'
-            }
-        },
-    }
+export default {
+    browser: {
+        capabilities: {
+            browserName: 'chromium',
+            cdpEndpoint: 'http://localhost:9222/'
+        }
+    },
 }
 ```
 
@@ -82,17 +76,16 @@ Supported events:
 - beforeStep
 - afterStep
 
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            screenshot: {
-                event: ['onFail'], //event to take screenshot
-                fullPage: true // option to take full page screenshot (default false)
-            }
+```typescript
+export default {
+    browser: {
+        screenshot: {
+            event: ['onFail'], //event to take screenshot
+            fullPage: true // option to take full page screenshot (default false)
         }
     }
 }
+
 ```
 
 ## Playwright traces
@@ -131,43 +124,29 @@ export default {
 }
 ```
 
-## Typescript
-To properly use globals exposed by @qavajs/steps-playwright add corresponding types to tsconfig.json
-```json
-{
-  "compilerOptions": {
-    "types": [
-      "@qavajs/steps-playwright/globals"
-    ]
-  }
-}
-```
-
 ## reuseSession
 reuseSession flag allows to share session between tests in frames of process. But setting of this flag
 transfers session control to user.
 
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            reuseSession: true
-        }
+```typescript
+export default {
+    browser: {
+        reuseSession: true
     }
 }
+
 ```
 
 ## restartBrowser
 restartBrowser flag allows to restart browser between tests instead of default restarting context
 
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            restartBrowser: true
-        }
+```typescript
+export default {
+    browser: {
+        restartBrowser: true
     }
 }
+
 ```
 
 
@@ -176,7 +155,7 @@ Install dependencies
 `npm install`
 
 Install playwright browsers
-`install:browsers`
+`npm install:browsers`
 
 Build lib
 `npm run build`

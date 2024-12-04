@@ -1,7 +1,6 @@
 import { Then } from '@cucumber/cucumber';
-import { getValue, getElement, getConditionWait } from './transformers';
-import { getValidation, getPollValidation } from '@qavajs/validation';
-import { Locator } from '@playwright/test';
+import { type Dialog, type Locator } from '@playwright/test';
+import { type MemoryValue, type Validation } from '@qavajs/core';
 
 /**
  * Verify element condition
@@ -11,10 +10,8 @@ import { Locator } from '@playwright/test';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {string} {playwrightConditionWait}', async function (alias: string, condition: string) {
-    const element = await getElement(alias);
-    const wait = getConditionWait(condition);
-    await wait(element, config.browser.timeout.page);
+Then('I expect {playwrightLocator} {playwrightCondition}', async function (locator: Locator, condition: any) {
+    await condition(locator, this.config.browser.timeout.page);
 });
 
 /**
@@ -22,21 +19,16 @@ Then('I expect {string} {playwrightConditionWait}', async function (alias: strin
  * @param {string} alias - element to get text
  * @param {string} validationType - validation
  * @param {string} value - expected result
- * @example I expect text of '#1 of Search Results' equals to 'google'
- * @example I expect text of '#2 of Search Results' does not contain 'yandex'
+ * @example I expect text of 'Search Results (1)' equals to 'google'
  */
 Then(
-    'I expect text of {string} {playwrightValidation} {string}',
-    async function (alias: string, validationType: string, value: any) {
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        const timeout = config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
-        const validation = getPollValidation(validationType);
-        const elementText = () => element.innerText();
-        await validation(elementText, expectedValue, {
-            timeout,
-            interval: config.browser.timeout.valueInterval
+    'I expect text of {playwrightLocator} {validation} {value}',
+    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const elementText = () => locator.innerText();
+        await validation.poll(elementText, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -49,19 +41,14 @@ Then(
  * @example I expect value of 'Search Input' to be equal 'text'
  */
 Then(
-    'I expect value of {string} {playwrightValidation} {string}',
-    async function (alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        const timeout = config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
-        const validation = getPollValidation(validationType);
-        const actualValue = () => element.evaluate(
-            (node: any) => node.value
-        );
-        await validation(actualValue, expectedValue, {
+    'I expect value of {playwrightLocator} {validation} {value}',
+    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const timeout = this.config.browser.timeout.value;
+        const actualValue = () => locator.inputValue();
+        await validation.poll(actualValue, expectedValue, {
             timeout,
-            interval: config.browser.timeout.valueInterval
+            interval:this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -76,18 +63,14 @@ Then(
  * @example I expect 'innerHTML' property of 'Label' to contain '<b>'
  */
 Then(
-    'I expect {string} property of {string} {playwrightValidation} {string}',
-    async function (property: string, alias: string, validationType: string, value: string) {
-        const propertyName = await getValue(property);
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        const timeout = config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
-        const validation = getPollValidation(validationType);
-        const actualValue = () => element.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
-        await validation(actualValue, expectedValue, {
-            timeout,
-            interval: config.browser.timeout.valueInterval
+    'I expect {value} property of {playwrightLocator} {validation} {value}',
+    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const propertyName = await property.value();
+        const expectedValue = await expected.value();
+        const actualValue = () => locator.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
+        await validation.poll(actualValue, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -101,18 +84,14 @@ Then(
  * @example I expect 'href' attribute of 'Home Link' to contain '/home'
  */
 Then(
-    'I expect {string} attribute of {string} {playwrightValidation} {string}',
-    async function (attribute: string, alias: string, validationType: string, value: string) {
-        const attributeName = await getValue(attribute);
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        const timeout = config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
-        const validation = getPollValidation(validationType);
-        const actualValue = () => element.getAttribute(attributeName);
-        await validation(actualValue, expectedValue, {
-            timeout,
-            interval: config.browser.timeout.valueInterval
+    'I expect {value} attribute of {playwrightLocator} {validation} {value}',
+    async function (attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const attributeName = await attribute.value();
+        const expectedValue = await expected.value();
+        const actualValue = () => locator.getAttribute(attributeName);
+        await validation.poll(actualValue, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -125,14 +104,13 @@ Then(
  * @example I expect current url equals 'https://wikipedia.org'
  */
 Then(
-    'I expect current url {playwrightValidation} {string}',
-    async function (validationType: string, expected: string) {
-        const validation = getPollValidation(validationType);
-        const expectedUrl = await getValue(expected);
-        const actualUrl = () => page.url();
-        await validation(actualUrl, expectedUrl, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect current url {validation} {value}',
+    async function (validation: Validation, expected: MemoryValue) {
+        const expectedUrl = await expected.value();
+        const actualUrl = () => this.playwright.page.url();
+        await validation.poll(actualUrl, expectedUrl, {
+            timeout:this.config.browser.timeout.value,
+            interval:this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -147,15 +125,13 @@ Then(
  * @example I expect number of elements in 'Search Results' collection to be below '51'
  */
 Then(
-    'I expect number of elements in {string} collection {playwrightValidation} {string}',
-    async function (alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const collection = await getElement(alias);
-        const validation = getPollValidation(validationType);
-        const actualCount = () => collection.count();
-        await validation(actualCount, expectedValue, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect number of elements in {playwrightLocator} collection {validation} {value}',
+    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const actualCount = () => locator.count();
+        await validation.poll(actualCount, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -167,14 +143,13 @@ Then(
  * @example I expect page title equals 'Wikipedia'
  */
 Then(
-    'I expect page title {playwrightValidation} {string}',
-    async function (validationType: string, expected: string) {
-        const validation = getPollValidation(validationType);
-        const expectedTitle = await getValue(expected);
-        const actualTitle = () => page.title();
-        await validation(actualTitle, expectedTitle, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect page title {validation} {value}',
+    async function (validation: Validation, expected: MemoryValue) {
+        const expectedTitle = await expected.value();
+        const actualTitle = () => this.playwright.page.title();
+        await validation.poll(actualTitle, expectedTitle, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -186,13 +161,10 @@ Then(
  * @example I expect every element in 'Header > Links' collection to be visible
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
-Then('I expect every element in {string} collection {playwrightConditionWait}', async function (alias: string, condition: string) {
-    const collection = await getElement(alias);
-    const wait = getConditionWait(condition);
-    const conditionWait = (element: Locator) => wait(element, config.browser.timeout.page);
-    for (let i = 0; i < await collection.count(); i++) {
-        const element = collection.nth(i);
-        await conditionWait(element);
+Then('I expect every element in {playwrightLocator} collection {playwrightCondition}', async function (locator: Locator, condition: any) {
+    const conditionWait = (element: Locator) => condition(element, this.config.browser.timeout.page);
+    for (let i = 0; i < await locator.count(); i++) {
+        await conditionWait(locator.nth(i));
     }
 });
 
@@ -205,14 +177,12 @@ Then('I expect every element in {string} collection {playwrightConditionWait}', 
  * @example I expect text of every element in 'Search Results' collection does not contain 'google'
  */
 Then(
-    'I expect text of every element in {string} collection {playwrightValidation} {string}',
-    async function (alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const collection = await getElement(alias);
-        const validation = getPollValidation(validationType);
-        for (let i = 0; i < await collection.count(); i++) {
-            const elementText = () => collection.nth(i).innerText();
-            await validation(elementText, expectedValue);
+    'I expect text of every element in {playwrightLocator} collection {validation} {value}',
+    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        for (let i = 0; i < await locator.count(); i++) {
+            const elementText = () => locator.nth(i).innerText();
+            await validation.poll(elementText, expectedValue);
         }
     }
 );
@@ -225,14 +195,13 @@ Then(
  * @example I expect 'href' attribute of every element in 'Search Results' collection to contain 'google'
  */
 Then(
-    'I expect {string} attribute of every element in {string} collection {playwrightValidation} {string}',
-    async function (attribute: string, alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const collection = await getElement(alias);
-        const validation = getPollValidation(validationType);
-        for (let i = 0; i < await collection.count(); i++) {
-            const attributeValue = () => collection.nth(i).getAttribute(attribute);
-            await validation(attributeValue, expectedValue);
+    'I expect {value} attribute of every element in {playwrightLocator} collection {validation} {value}',
+    async function (attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const attributeName = await attribute.value();
+        for (let i = 0; i < await locator.count(); i++) {
+            const attributeValue = () => locator.nth(i).getAttribute(attributeName);
+            await validation.poll(attributeValue, expectedValue);
         }
     }
 );
@@ -245,16 +214,15 @@ Then(
  * @example I expect 'href' property of every element in 'Search Results' collection to contain 'google'
  */
 Then(
-    'I expect {string} property of every element in {string} collection {playwrightValidation} {string}',
-    async function (property: string, alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const collection = await getElement(alias);
-        const validation = getPollValidation(validationType);
-        for (let i = 0; i < await collection.count(); i++) {
-            const propertyValue = () => collection.nth(i).evaluate(
-                (node: any, property: string) => node[property], property
+    'I expect {value} property of every element in {playwrightLocator} collection {validation} {value}',
+    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const propertyName = await property.value()
+        for (let i = 0; i < await locator.count(); i++) {
+            const propertyValue = () => locator.nth(i).evaluate(
+                (node: any, property: string) => node[property], propertyName
             );
-            await validation(propertyValue, expectedValue);
+            await validation.poll(propertyValue, expectedValue);
         }
     }
 );
@@ -269,21 +237,17 @@ Then(
  * @example I expect 'font-family' css property of 'Label' to contain 'Fira'
  */
 Then(
-    'I expect {string} css property of {string} {playwrightValidation} {string}',
-    async function (property: string, alias: string, validationType: string, value: string) {
-        const propertyName = await getValue(property);
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        const timeout = config.browser.timeout.value;
-        await element.waitFor({ state: 'attached', timeout });
-        const validation = getPollValidation(validationType);
-        const actualValue = () => element.evaluate(
+    'I expect {value} css property of {playwrightLocator} {validation} {value}',
+    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const propertyName = await property.value();
+        const expectedValue = await expected.value();
+        const actualValue = () => locator.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
             propertyName
         );
-        await validation(actualValue, expectedValue, {
-            timeout,
-            interval: config.browser.timeout.valueInterval
+        await validation.poll(actualValue, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -295,13 +259,12 @@ Then(
  * @example I expect text of alert does not contain 'coffee'
  */
 Then(
-    'I expect text of alert {playwrightValidation} {string}',
-    async function (validationType: string, expectedValue: string) {
-        const alertText = await new Promise<string>(resolve => page.once('dialog', async (dialog) => {
+    'I expect text of alert {validation} {value}',
+    async function (validation: Validation, expected: MemoryValue) {
+        const alertText = await new Promise<string>(resolve => this.playwright.page.once('dialog', async (dialog: Dialog) => {
             resolve(dialog.message());
         }));
-        const expected = await getValue(expectedValue);
-        const validation = getValidation(validationType);
-        validation(alertText, expected);
+        const expectedValue = await expected.value();
+        validation(alertText, expectedValue);
     }
 );

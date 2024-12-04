@@ -1,1 +1,1 @@
-module.exports = require('@qavajs/po-playwright');
+module.exports = require('./lib/pageObject.js');

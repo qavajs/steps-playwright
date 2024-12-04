@@ -1,5 +1,5 @@
 import { driverProvider } from './driverProvider';
-import { Browser, BrowserContext, ElectronApplication, Page } from '@playwright/test';
+import { Browser, BrowserContext, ElectronApplication, Page, expect } from '@playwright/test';
 
 type BrowserDict = {
     [key: string]: Browser;
@@ -9,16 +9,19 @@ interface NamedContext extends BrowserContext {
     name?: string;
 }
 
-export class BrowserManager {
+export class Playwright {
     public drivers: BrowserDict = {};
-    public driver?: Browser;
-    public context?: NamedContext;
-    public page?: Page;
+    public driver!: Browser;
+    public browser!: Browser;
+    public context!: NamedContext;
+    public page!: Page;
+    public expect = expect;
     private readonly driverProvider: (config: any) => Promise<Browser>;
 
     constructor(driverProvider: (config: any) => Promise<Browser>) {
         this.driverProvider = driverProvider;
     }
+
     async launchDriver(key: string, driverConfig: any) {
         const driverInstance = (key === 'default' && this.drivers.default)
             ? this.drivers.default
@@ -37,7 +40,7 @@ export class BrowserManager {
             const firstPage = this.context?.pages()[0];
             const page = driverConfig.reuseSession && firstPage
                 ? firstPage
-                : await context.newPage();
+                : await this.context.newPage();
             this.setPage(page);
         }
         (this.context as NamedContext).name = 'default';
@@ -45,7 +48,7 @@ export class BrowserManager {
 
     async launchContext(key: string, contextConfig: any) {
         if (!this.driver) throw new Error('No active drivers launched');
-        const newContext: NamedContext = await driver.newContext(contextConfig);
+        const newContext: NamedContext = await this.driver.newContext(contextConfig);
         newContext.name = key;
         const newPage = await newContext.newPage();
         this.setContext(newContext);
@@ -95,7 +98,7 @@ export class BrowserManager {
     /**
      * return to default state (1 browser, no contexts)
      */
-    async teardown({ reuseSession, restartBrowser } = { reuseSession: false, restartBrowser: false }) {
+    async teardown({ reuseSession, restartBrowser }: { reuseSession?: boolean, restartBrowser?: boolean } = { reuseSession: false, restartBrowser: false }) {
         this.setDriver(this.drivers['default']);
         if (reuseSession) return;
         for (const driverKey in this.drivers) {
@@ -139,27 +142,27 @@ export class BrowserManager {
 
     getDefaultContext(): BrowserContext {
         const currentDriver: any = this.driver;
-        return currentDriver.context ? currentDriver.context() : currentDriver.contexts()[0];
+        return currentDriver.context ? currentDriver.context() : currentDriver.contexts().at(0);
     }
 
     async getFirstPage(): Promise<Page> {
         const currentDriver: any = this.driver;
         const currentContext: any = this.context;
-        return currentDriver.firstWindow ? currentDriver.firstWindow() : currentContext.pages()[0];
+        return currentDriver.firstWindow ? await currentDriver.firstWindow() : currentContext.pages().at(0);
     }
 
-    setDriver(driver: any) {
-        this.driver = global.browser = global.driver = driver;
+    setDriver(driver: Browser) {
+        this.driver = this.browser = driver;
     }
 
-    setContext(context: any) {
-        this.context = global.context = context;
+    setContext(context: BrowserContext) {
+        this.context = context;
     }
 
-    setPage(page: any) {
-        this.page = global.page = page;
+    setPage(page: Page) {
+        this.page = page;
     }
 
 }
 
-export default new BrowserManager(driverProvider);
+export default new Playwright(driverProvider);

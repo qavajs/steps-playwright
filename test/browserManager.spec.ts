@@ -1,13 +1,6 @@
 import { describe, test, expect } from 'vitest';
-import { BrowserManager } from '../src/browserManager';
+import { Playwright } from '../src/playwright';
 
-declare global {
-    var browser: any
-    var driver: any;
-    var context: any;
-    var page: any;
-    var config: any;
-}
 
 class Page {
     isClosed = false;
@@ -80,33 +73,29 @@ function driverProvider(config: any) {
 
 describe('launch driver', () => {
     test('launch first browser', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
-        expect(global.browser).toBeInstanceOf(Browser);
-        expect(global.context).toBeInstanceOf(Context);
-        expect(global.page).toBeInstanceOf(Page);
-        expect(global.browser.isClosed).toBe(false);
-        expect(global.context.isClosed).toBe(false);
-        expect(global.page.isClosed).toBe(false);
+        expect(browserManager.browser).toBeInstanceOf(Browser);
+        expect(browserManager.context).toBeInstanceOf(Context);
+        expect(browserManager.page).toBeInstanceOf(Page);
+        expect(browserManager.page.isClosed).toBe(false);
         expect(browserManager.drivers.default).toBeInstanceOf(Browser);
         expect((browserManager.drivers.default as any).isClosed).toBe(false);
     });
 
     test('launch first electron', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'electron', isElectron: true });
-        expect(global.browser).toBeInstanceOf(ElectronApplication);
-        expect(global.context).toBeInstanceOf(Context);
-        expect(global.page).toBeInstanceOf(Page);
-        expect(global.browser.isClosed).toBe(false);
-        expect(global.context.isClosed).toBe(false);
-        expect(global.page.isClosed).toBe(false);
+        expect(browserManager.browser).toBeInstanceOf(ElectronApplication);
+        expect(browserManager.context).toBeInstanceOf(Context);
+        expect(browserManager.page).toBeInstanceOf(Page);
+        expect(browserManager.page.isClosed).toBe(false);
         expect(browserManager.drivers.default).toBeInstanceOf(ElectronApplication);
         expect((browserManager.drivers.default as any).isClosed).toBe(false);
     });
 
     test('launch two browsers', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('second', { browserName: 'chrome', isElectron: false });
         expect(browserManager.drivers.default).toBeInstanceOf(Browser);
@@ -116,7 +105,7 @@ describe('launch driver', () => {
     });
 
     test('launch electron and browser', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'electron', isElectron: true });
         await browserManager.launchDriver('second', { browserName: 'chrome', isElectron: false });
         expect(browserManager.drivers.default).toBeInstanceOf(ElectronApplication);
@@ -126,7 +115,7 @@ describe('launch driver', () => {
     });
 
     test('reuse session', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false, reuseSession: true });
         const defaultBrowser = browserManager.drivers.default;
         const defaultContext = defaultBrowser.contexts()[0];
@@ -146,58 +135,58 @@ describe('launch driver', () => {
 
 describe('context', () => {
     test('launch new context', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', {browserName: 'chrome', isElectron: false});
         const defaultBrowser = browserManager.drivers.default;
         await browserManager.launchContext('newContext',{});
-        expect(global.context).toBe(defaultBrowser.contexts()[1]);
+        expect(browserManager.context).toBe(defaultBrowser.contexts()[1]);
     });
 
     test('switch context', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', {browserName: 'chrome', isElectron: false});
         const defaultBrowser = browserManager.drivers.default;
         await browserManager.launchContext('newContext',{});
-        expect(global.context).toBe(defaultBrowser.contexts()[1]);
-        expect(global.page).toBe(defaultBrowser.contexts()[1].pages()[0]);
+        expect(browserManager.context).toBe(defaultBrowser.contexts()[1]);
+        expect(browserManager.page).toBe(defaultBrowser.contexts()[1].pages()[0]);
         await browserManager.switchContext('default');
-        expect(global.context).toBe(defaultBrowser.contexts()[0]);
-        expect(global.page).toBe(defaultBrowser.contexts()[0].pages()[0]);
+        expect(browserManager.context).toBe(defaultBrowser.contexts()[0]);
+        expect(browserManager.page).toBe(defaultBrowser.contexts()[0].pages()[0]);
     });
 
     test('close current context', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', {browserName: 'chrome', isElectron: false});
         const defaultBrowser = browserManager.drivers.default;
         await browserManager.launchContext('newContext',{});
         await browserManager.launchContext('newContext2',{});
-        expect(global.context).toBe(defaultBrowser.contexts()[2]);
-        expect(global.page).toBe(defaultBrowser.contexts()[2].pages()[0]);
+        expect(browserManager.context).toBe(defaultBrowser.contexts()[2]);
+        expect(browserManager.page).toBe(defaultBrowser.contexts()[2].pages()[0]);
         await browserManager.closeContext('newContext2');
-        expect(global.context).toBe(defaultBrowser.contexts()[0]);
-        expect(global.page).toBe(defaultBrowser.contexts()[0].pages()[0]);
+        expect(browserManager.context).toBe(defaultBrowser.contexts()[0]);
+        expect(browserManager.page).toBe(defaultBrowser.contexts()[0].pages()[0]);
     });
 
     test('close other context', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', {browserName: 'chrome', isElectron: false});
         const defaultBrowser = browserManager.drivers.default;
         await browserManager.launchContext('newContext',{});
         await browserManager.launchContext('newContext2',{});
-        expect(global.context).toBe(defaultBrowser.contexts()[2]);
-        expect(global.page).toBe(defaultBrowser.contexts()[2].pages()[0]);
+        expect(browserManager.context).toBe(defaultBrowser.contexts()[2]);
+        expect(browserManager.page).toBe(defaultBrowser.contexts()[2].pages()[0]);
         await browserManager.closeContext('newContext');
-        expect(global.context).toBe(defaultBrowser.contexts()[2]);
-        expect(global.page).toBe(defaultBrowser.contexts()[2].pages()[0]);
+        expect(browserManager.context).toBe(defaultBrowser.contexts()[2]);
+        expect(browserManager.page).toBe(defaultBrowser.contexts()[2].pages()[0]);
     });
 
     test('launch new context if not driver launched', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         expect(() => browserManager.launchContext('newContext',{})).rejects.toThrow('No active drivers launched')
     });
 
     test('switch to not existing context', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         expect(() => browserManager.switchContext('context2')).rejects.toThrow(`Context 'context2' was not found`)
     });
@@ -206,38 +195,38 @@ describe('context', () => {
 
 describe('switch driver', () => {
     test('switch to other browser', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('second', { browserName: 'chrome', isElectron: false });
         await browserManager.switchDriver('second');
         const expectedBrowser = browserManager.drivers.second as any;
-        expect(global.browser).toBe(expectedBrowser);
+        expect(browserManager.browser).toBe(expectedBrowser);
         const expectedContext = expectedBrowser._contexts[0];
-        expect(global.context).toBe(expectedContext);
-        expect(global.page).toBe(expectedContext._pages[0]);
+        expect(browserManager.context).toBe(expectedContext);
+        expect(browserManager.page).toBe(expectedContext._pages[0]);
     });
 
     test('switch to electron', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'electron', isElectron: true });
         await browserManager.launchDriver('chrome', { browserName: 'chrome', isElectron: false });
         await browserManager.switchDriver('chrome');
         const chrome = browserManager.drivers.chrome as any;
-        expect(global.browser).toBe(chrome);
+        expect(browserManager.browser).toBe(chrome);
         const chromeDefaultContext = chrome._contexts[0];
-        expect(global.context).toBe(chromeDefaultContext);
-        expect(global.page).toBe(chromeDefaultContext._pages[0]);
+        expect(browserManager.context).toBe(chromeDefaultContext);
+        expect(browserManager.page).toBe(chromeDefaultContext._pages[0]);
 
         await browserManager.switchDriver('default');
         const electron = browserManager.drivers.default as any;
-        expect(global.browser).toBe(electron);
+        expect(browserManager.browser).toBe(electron);
         const electronContext = electron._contexts[0];
-        expect(global.context).toBe(electronContext);
-        expect(global.page).toBe(electronContext._pages[0]);
+        expect(browserManager.context).toBe(electronContext);
+        expect(browserManager.page).toBe(electronContext._pages[0]);
     });
 
     test('switch to not existing driver', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         expect(() => browserManager.switchDriver('chrome')).rejects.toThrow(`Driver 'chrome' was not found`)
     });
@@ -246,22 +235,22 @@ describe('switch driver', () => {
 
 describe('teardown', () => {
     test('single browser', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         const expectedBrowser = browserManager.drivers.default as any;
         await browserManager.teardown();
-        expect(global.browser).toBe(expectedBrowser);
+        expect(browserManager.browser).toBe(expectedBrowser);
     });
 
     test('single electron', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'electron', isElectron: true });
         await browserManager.teardown();
         expect(browserManager.drivers.default).toBe(undefined);
     });
 
     test('electron and browser', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'electron', isElectron: true });
         await browserManager.launchDriver('chrome', { browserName: 'chrome', isElectron: false });
         await browserManager.teardown();
@@ -270,29 +259,29 @@ describe('teardown', () => {
     });
 
     test('close current driver', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('chrome1', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('chrome2', { browserName: 'chrome', isElectron: false });
-        expect(global.browser).toBe(browserManager.drivers.chrome2);
+        expect(browserManager.browser).toBe(browserManager.drivers.chrome2);
         await browserManager.closeDriver('chrome2')
-        expect(global.browser).toBe(browserManager.drivers.default);
+        expect(browserManager.browser).toBe(browserManager.drivers.default);
         expect(browserManager.drivers.chrome2).toBe(undefined);
     });
 
     test('close other driver', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('chrome1', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('chrome2', { browserName: 'chrome', isElectron: false });
-        expect(global.browser).toBe(browserManager.drivers.chrome2);
+        expect(browserManager.browser).toBe(browserManager.drivers.chrome2);
         await browserManager.closeDriver('chrome1')
-        expect(global.browser).toBe(browserManager.drivers.chrome2);
+        expect(browserManager.browser).toBe(browserManager.drivers.chrome2);
         expect(browserManager.drivers.chrome1).toBe(undefined);
     });
 
     test('close all drivers', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('chrome1', { browserName: 'chrome', isElectron: false });
         await browserManager.launchDriver('chrome2', { browserName: 'chrome', isElectron: false });
@@ -302,25 +291,25 @@ describe('teardown', () => {
     });
 
     test('close not existing driver', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
         expect(() => browserManager.closeDriver('chrome')).rejects.toThrow(`Driver 'chrome' was not found`)
     });
 
     test('reuse session browser', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false, reuseSession: true });
         const expectedBrowser = browserManager.drivers.default as any;
         await browserManager.teardown({ reuseSession: true });
-        expect(global.browser).toBe(expectedBrowser);
+        expect(browserManager.browser).toBe(expectedBrowser);
     });
 
     test('reuse session electron', async () => {
-        const browserManager = new BrowserManager(driverProvider as any);
+        const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'electron', isElectron: true, reuseSession: true });
         const expectedBrowser = browserManager.drivers.default as any;
         await browserManager.teardown({ reuseSession: true });
-        expect(global.browser).toBe(expectedBrowser);
+        expect(browserManager.browser).toBe(expectedBrowser);
     });
 
 });

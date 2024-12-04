@@ -1,30 +1,38 @@
 import { defineParameterType } from '@cucumber/cucumber';
+import { conditionWait, conditionWaitExtractRegexp } from './conditionWait';
+import { type Locator } from '@playwright/test';
+
+export function getConditionWait(condition: string): Function {
+    const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
+    if (!match) throw new Error(`${condition} wait is not implemented`);
+    const [_, reverse, validation] = match;
+    return async function (element: Locator, timeout: number) {
+        await conditionWait(element, validation, timeout, Boolean(reverse))
+    }
+}
+
+function transformString(fn: (value: string) => any) {
+    return function (s1: string, s2: string) {
+        const expression = (s1 || s2 || '').replace(/\\"/g, '"').replace(/\\'/g, "'")
+        return fn(expression);
+    }
+}
 
 defineParameterType({
-    name: 'playwrightValidation',
-    regexp: /((?:is |do |does |to )?(not |to not )?(?:to )?(?:be )?(equal|strictly equal|deeply equal|have member|match|contain|above|below|greater than|less than|have type)(?:s|es)?)/,
-    transformer: p => p,
-    useForSnippets: false
+    name: 'playwrightLocator',
+    regexp: /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/,
+    transformer: function (s1: string, s2: string) {
+        const world = this as any;
+        return transformString(function (alias) {
+            return world.element(world.getValue(alias));
+        })(s1, s2);
+    }
 });
 
 defineParameterType({
-    name: 'playwrightValueWait',
-    regexp: /((not )?to (?:be )?(equal|contain|above|below|match))/,
-    transformer: p => p,
-    useForSnippets: false
-});
-
-defineParameterType({
-    name: 'playwrightConditionWait',
+    name: 'playwrightCondition',
     regexp: /((not )?to (?:be )?(present|clickable|visible|invisible|enabled|disabled|in viewport))/,
-    transformer: p => p,
-    useForSnippets: false
-});
-
-defineParameterType({
-    name: 'playwrightPoType',
-    regexp: /(element|collection)/,
-    transformer: p => p,
+    transformer: getConditionWait,
     useForSnippets: false
 });
 

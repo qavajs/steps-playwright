@@ -36,7 +36,7 @@ Feature: actions
   Scenario: clear
     When I type 'test value' to 'Input'
     When I clear 'Input'
-    Then I expect 'value' property of 'Input' to be equal ''
+    Then I expect value of 'Input' to be equal ''
 
   Scenario Outline: click in collection by text (<value>)
     When I click '<value>' text in 'Buttons' collection
@@ -47,66 +47,18 @@ Feature: actions
       | Button2  |
       | $button2 |
 
-  Scenario: switch to frame
-    When I expect 'Button' to be visible
-    When I expect 'Frame Element' not to be visible
-    When I switch to 1 frame
-    When I expect 'Button' not to be visible
+  Scenario: access to locator in frame
     When I expect 'Frame Element' to be visible
-    When I switch to parent frame
-    When I expect 'Button' to be visible
-    When I expect 'Frame Element' not to be visible
 
-  Scenario: switch to page object frame
-    When I expect 'Button' to be visible
-    When I expect 'Frame Element' not to be visible
-    When I switch to 'IFrame' frame
-    When I expect 'Button' not to be visible
-    When I expect 'Frame Element' to be visible
-    When I switch to parent frame
-    When I expect 'Button' to be visible
-    When I expect 'Frame Element' not to be visible
-
-  Scenario: switch to frame in frame
-    When I expect 'Button' to be visible
-    When I expect 'Frame Element' not to be visible
-    When I expect 'Inner Frame Element' not to be visible
-    When I switch to 1 frame
-    When I expect 'Button' not to be visible
-    When I expect 'Frame Element' to be visible
-    When I expect 'Inner Frame Element' not to be visible
-    When I switch to 2 frame
-    When I expect 'Button' not to be visible
-    When I expect 'Frame Element' not to be visible
+  Scenario: access to locator in frame in frame
     When I expect 'Inner Frame Element' to be visible
-    When I switch to parent frame
-    When I expect 'Button' to be visible
-    When I expect 'Frame Element' not to be visible
-    When I expect 'Inner Frame Element' not to be visible
-
-  Scenario: switch to frame in frame using page object
-    When I expect 'Button' to be visible
-    When I expect 'Frame Element' not to be visible
-    When I expect 'Inner Frame Element' not to be visible
-    When I switch to 'IFrame' frame
-    When I expect 'Button' not to be visible
-    When I expect 'Frame Element' to be visible
-    When I expect 'Inner Frame Element' not to be visible
-    When I switch to 'Inner IFrame' frame
-    When I expect 'Button' not to be visible
-    When I expect 'Frame Element' not to be visible
-    When I expect 'Inner Frame Element' to be visible
-    When I switch to parent frame
-    When I expect 'Button' to be visible
-    When I expect 'Frame Element' not to be visible
-    When I expect 'Inner Frame Element' not to be visible
 
   Scenario Outline: switch to tab by <test>
     When I click 'New Tab Link'
     When I wait 1000 ms
     When I switch to <param> window
     Then I expect current url to contain 'frame.html'
-    When I expect 'Frame Element' to be visible
+    When I expect 'Second Tab Element' to be visible
 
     Examples:
       | test  | param        |
@@ -165,14 +117,6 @@ Feature: actions
     And I execute 'document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$js(0)'
     Then I expect '$scrollY' memory value to be equal '$js(50)'
-
-  Scenario: type in ignore hierarchy component
-    When I type 'test value' to 'IgnoreHierarchyComponent > Input'
-    Then I expect text of 'Action' to be equal 'test value'
-
-  Scenario: type in component without selector
-    When I type 'test value' to 'Component Without Selector > Input'
-    Then I expect text of 'Action' to be equal 'test value'
 
   Scenario: upload file
     When I upload '$uploadFile' file to 'File Input'
@@ -237,10 +181,10 @@ Feature: actions
 
   Scenario: scroll until visible
     When I hover over 'Infinite Scroll'
-    When I scroll until '#row 34 in Infinite Scroll Items' to be visible
+    When I scroll until 'Infinite Scroll Item (row 34)' to be visible
 
   Scenario: scroll until visible in element
-    When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' to be visible
+    When I scroll in 'Infinite Scroll' until 'Infinite Scroll Item (row 34)' to be visible
 
   Scenario: set location
     When I set '$canada' geolocation

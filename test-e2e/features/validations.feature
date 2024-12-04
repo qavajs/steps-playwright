@@ -8,8 +8,8 @@ Feature: validations
     Then I expect text of 'Simple Text Element' to contain 'text val'
     Then I expect text of 'Simple Text Element' not to equal 'not text value'
     Then I expect text of 'Simple Text Element' not to contain 'not text val'
-    Then I expect text of '#2 of Simple Text List Items' to be equal 'second value'
-    Then I expect text of '#third in Simple Text List Items' to be equal 'third value'
+    Then I expect text of 'Simple Text List Item By Index (2)' to be equal 'second value'
+    Then I expect text of 'Simple Text List Item By Text (third)' to be equal 'third value'
     Then I expect text of 'Simple Text Element' to match '^text.+$'
 
   Scenario: collection number of elements
@@ -56,7 +56,7 @@ Feature: validations
 
   Scenario: element css property
     Then I expect 'background-color' css property of 'Simple Text Input' to be equal 'rgb(95, 158, 160)'
-    Then I expect 'font-size' css property of '#1 of Simple Text List Items' to be equal '20px'
+    Then I expect 'font-size' css property of 'Simple Text List Item By Index (1)' to be equal '20px'
 
   Scenario Outline: collection condition
     Then I expect every element in '<collection>' collection <condition>

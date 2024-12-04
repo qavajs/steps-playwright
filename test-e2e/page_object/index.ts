@@ -1,81 +1,85 @@
-import { $, $$, Component } from '../../po';
+import { locator } from '../../po';
 export default class App {
-    SimpleTextElement = $('#textValue');
-    SimpleTextListItems = $$('#textValueList li');
-    SimpleTextInput = $('#textInput');
-    FileInput = $('#fileInput');
-    Action = $('#action');
-    AlertButton = $('#confirm');
-    PromptButton = $('#prompt');
-    Body = $('body');
-    Button = $('#button');
-    ButtonTap = $('#buttonTap');
-    ButtonHover = $('#buttonHover');
-    Input = $('#input');
-    Select = $('#select');
-    Buttons = $$('.button');
-    IFrame = $('iframe#firstIframe');
-    InnerIFrame = $('iframe#innerIframe');
-    FrameElement = $('#frameElement');
-    InnerFrameElement = $('#innerFrameElement');
-    NewTabLink = $('#newTabLink');
-    EnabledButton = $('#enabledButton');
-    DisabledButton = $('#disabledButton');
-    PresentElement = $('#present');
-    PresentCollection = $$('#present');
-    DetachElement = $('#detach');
-    VisibleElement = $('#visible');
-    HiddenElement = $('#hidden');
-    InfiniteScroll = $('#infiniteScroll');
-    InfiniteScrollItems = $$('#infiniteScroll li');
-    Loading = $('#loading');
-    LoadingInput = $('#loadingInput');
-    WaitCollection = $$('#waitCollection > div');
-    PressCounter = $('#pressCounter');
+    SimpleTextElement = locator('#textValue');
+    SimpleTextElementTemplate = locator.template(selector => selector);
+    SimpleTextElementNative = locator.native(({ page }) => page.locator('#textValue'));
+    SimpleTextListItems = locator('#textValueList li');
+    SimpleTextListItemByIndex = locator.template(idx => `#textValueList li:nth-child(${idx})`);
+    SimpleTextListItemByText = locator.template(text => `#textValueList li:has-text('${text}')`);
+    SimpleTextInput = locator('#textInput');
+    FileInput = locator('#fileInput');
+    Action = locator('#action');
+    AlertButton = locator('#confirm');
+    PromptButton = locator('#prompt');
+    Body = locator('body');
+    Button = locator('#button');
+    ButtonTap = locator('#buttonTap');
+    ButtonHover = locator('#buttonHover');
+    Input = locator('#input');
+    Select = locator('#select');
+    Buttons = locator('.button');
+    SecondTabElement = locator('#frameElement');
+    IFrame = locator('iframe#firstIframe');
+    InnerIFrame = locator('iframe#innerIframe');
+    FrameElement = locator.native(({ page }) => page.frameLocator('iframe#firstIframe').locator('#frameElement'));
+    InnerFrameElement = locator.native(({ page }) => page.frameLocator('iframe#firstIframe').frameLocator('iframe#innerIframe').locator('#innerFrameElement'));
+    NewTabLink = locator('#newTabLink');
+    EnabledButton = locator('#enabledButton');
+    DisabledButton = locator('#disabledButton');
+    PresentElement = locator('#present');
+    PresentCollection = locator('#present');
+    DetachElement = locator('#detach');
+    VisibleElement = locator('#visible');
+    HiddenElement = locator('#hidden');
+    InfiniteScroll = locator('#infiniteScroll');
+    InfiniteScrollItem = locator.template(text => `#infiniteScroll li:has-text('${text}')`);
+    Loading = locator('#loading');
+    LoadingInput = locator('#loadingInput');
+    WaitCollection = locator('#waitCollection > div');
+    PressCounter = locator('#pressCounter');
 
-    Users = $$('#users > li');
-    OverflowContainer = $('#overflowContainer');
+    User = locator.template(idx => `#users > li:nth-child(${idx})`);
+    OverflowContainer = locator('#overflowContainer');
 
-    IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent('#ignoreHierarchyComponent'));
-    ComponentWithoutSelector = $(new ComponentWithoutSelector());
-    KeyDump = $('#keywordevent');
+    KeyDump = locator('#keywordevent');
 
-    Cookie = $('#cookie');
-    LocalStorage = $('#localStorage');
-    SessionStorage = $('#sessionStorage');
+    Cookie = locator('#cookie');
+    LocalStorage = locator('#localStorage');
+    SessionStorage = locator('#sessionStorage');
 
-    DropZone = $('div#div1');
-    DragElement = $('div#drag1');
-    DragElementInDropZone = $('div#div1 div#drag1');
+    DropZone = locator('div#div1');
+    DragElement = locator('div#drag1');
+    DragElementInDropZone = locator('div#div1 div#drag1');
 
-    EventHandler = $('#mouseEvent');
-    KeyboardEventHandler = $('#keyboardEvent');
+    EventHandler = locator('#mouseEvent');
+    KeyboardEventHandler = locator('#keyboardEvent');
 
-    ScrollElement = $('#scrollElement');
-    PseudoRandomText = $('#randomText');
-    RandomlyDisabledButton = $('#isDisabledButton');
-    FlipCoin = $('#flipCoin');
-    Coin = $('#coin');
-    DigitInput = $('#digitInput');
-    PlusButton = $('#plusButton');
-    FetchButton = $('#fetchButton');
-    FetchResult = $('#fetchResult');
-    LocationButton = $('#location');
-    DownloadButton = $('#download');
+    ScrollElement = locator('#scrollElement');
+    PseudoRandomText = locator('#randomText');
+    RandomlyDisabledButton = locator('#isDisabledButton');
+    FlipCoin = locator('#flipCoin');
+    Coin = locator('#coin');
+    DigitInput = locator('#digitInput');
+    PlusButton = locator('#plusButton');
+    FetchButton = locator('#fetchButton');
+    FetchResult = locator('#fetchResult');
+    LocationButton = locator('#location');
+    DownloadButton = locator('#download');
+
+    BodyComponent = locator('body').as(BodyComponent);
+    BodyComponentTemplate = locator.template((selector: string) => selector).as(BodyComponent);
+    BodyComponentNative = locator.native(({ page }) => page.locator('body')).as(BodyComponent);
 
     // Electron
-    OpenNewWindowElectronButton = $('#electronButton');
-    CloseCurrentWindowElectronButton = $('#closeCurrentWindow');
+    OpenNewWindowElectronButton = locator('#electronButton');
+    CloseCurrentWindowElectronButton = locator('#closeCurrentWindow');
 
     //JS Selector
-    SimpleTextElementByJS = $('js=document.querySelectorAll("#textValue")');
-    SimpleTextListItemsByJS = $$('js=document.querySelectorAll("#textValueList li")');
+    SimpleTextElementByJS = locator('js=document.querySelectorAll("#textValue")');
+    SimpleTextListItemsByJS = locator('js=document.querySelectorAll("#textValueList li")');
 }
 
-class IgnoreHierarchyComponent extends Component {
-    Input = $('#input', { ignoreHierarchy: true });
-}
-
-class ComponentWithoutSelector {
-    Input = $('#input');
+class BodyComponent {
+    TextElement = locator('#textValue');
+    ListItem = locator.template(index => `#textValueList > li:nth-child(${index})`);
 }

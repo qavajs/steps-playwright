@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue, getElement } from './transformers';
-import memory from '@qavajs/memory';
+import {MemoryValue} from "@qavajs/core";
+import {Locator} from "@playwright/test";
 
 /**
  * Execute client function
@@ -8,9 +8,8 @@ import memory from '@qavajs/memory';
  * @example I execute '$fn' function // fn is function reference
  * @example I execute 'window.scrollBy(0, 100)' function
  */
-When('I execute {string} function', async function (functionKey) {
-    const fn = await getValue(functionKey);
-    await page.evaluate(fn);
+When('I execute {value} function', async function (fn: MemoryValue) {
+    await this.playwright.page.evaluate(await fn.value());
 });
 
 /**
@@ -20,9 +19,8 @@ When('I execute {string} function', async function (functionKey) {
  * @example I execute '$fn' function and save result as 'result' // fn is function reference
  * @example I execute 'window.scrollY' function and save result as 'scroll'
  */
-When('I execute {string} function and save result as {string}', async function (functionKey, memoryKey) {
-    const fn = await getValue(functionKey);
-    memory.setValue(memoryKey, await page.evaluate(fn));
+When('I execute {value} function and save result as {value}', async function (fn: MemoryValue, memoryKey: MemoryValue) {
+    memoryKey.set(await this.playwright.page.evaluate(await fn.value()));
 });
 
 /**
@@ -32,13 +30,12 @@ When('I execute {string} function and save result as {string}', async function (
  * @example I execute '$fn' function on 'Component > Element' // fn is function reference
  * @example I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
  */
-When('I execute {string} function on {string}', async function (functionKey, alias) {
-    let fn = await getValue(functionKey);
-    const element = await getElement(alias);
+When('I execute {value} function on {playwrightLocator}', async function (fnKey: MemoryValue, locator: Locator) {
+    let fn = await fnKey.value();
     if (typeof fn === 'string') {
         fn = new Function('return ' + fn)
     }
-    await element.evaluate(fn);
+    await locator.evaluate(fn);
 });
 
 /**
@@ -49,13 +46,12 @@ When('I execute {string} function on {string}', async function (functionKey, ali
  * @example I execute 'arguments[0].innerText' function on 'Component > Element' and save result as 'innerText'
  */
 When(
-    'I execute {string} function on {string} and save result as {string}',
-    async function (functionKey, alias, memoryKey) {
-        let fn = await getValue(functionKey);
+    'I execute {value} function on {playwrightLocator} and save result as {value}',
+    async function (fnKey: MemoryValue, locator: Locator, memoryKey: MemoryValue) {
+        let fn = await fnKey.value();
         if (typeof fn === 'string') {
             fn = new Function('return ' + fn)
         }
-        const element = await getElement(alias);
-        memory.setValue(memoryKey, await element.evaluate(fn));
+        memoryKey.set(await locator.evaluate(fn));
     }
 );

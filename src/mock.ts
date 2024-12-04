@@ -1,7 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue } from './transformers';
-import memory from '@qavajs/memory';
 import { Route } from '@playwright/test';
+import {MemoryValue} from "@qavajs/core";
 
 /**
  * Create simple mock instance
@@ -10,16 +9,16 @@ import { Route } from '@playwright/test';
  * @example When I create mock for '/yourservice/**' as 'mock1'
  * @example When I create mock for '$mockUrlTemplate' as 'mock1'
  */
-When('I create mock for {string} as {string}', async function (urlTemplate: string, memoryKey: string) {
-    const url = await getValue(urlTemplate);
-    memory.setValue(memoryKey, url);
+When('I create mock for {value} as {value}', async function (urlTemplate: MemoryValue, memoryKey: MemoryValue) {
+    const url = await urlTemplate.value();
+    memoryKey.set(url);
 });
 
-async function respondWith(mockKey: string, statusCode: string, body: string): Promise<void> {
-    const mockUrl: string = await getValue(mockKey);
-    const responseStatusCode: number = parseInt(await getValue(statusCode));
-    const responseBody = await getValue(body);
-    await page.route(mockUrl, async (route: Route) => {
+async function respondWith(this: any, mockKey: MemoryValue, statusCode: MemoryValue, body: string): Promise<void> {
+    const mockUrl: string = await mockKey.value();
+    const responseStatusCode: number = parseInt(await statusCode.value());
+    const responseBody = await this.getValue(body);
+    await this.playwright.page.route(mockUrl, async (route: Route) => {
         await route.fulfill({
             body: responseBody,
             status: responseStatusCode
@@ -41,7 +40,7 @@ async function respondWith(mockKey: string, statusCode: string, body: string): P
  * }
  * """
  */
-When('I set {string} mock to respond {string} with:', respondWith);
+When('I set {value} mock to respond {value} with:', respondWith);
 
 /**
  * Add mocking rule to respond with desired status code and payload
@@ -52,7 +51,7 @@ When('I set {string} mock to respond {string} with:', respondWith);
  * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to respond '200' with '$response'
  */
-When('I set {string} mock to respond {string} with {string}', respondWith);
+When('I set {value} mock to respond {value} with {string}', respondWith);
 
 /**
  * Add mocking rule to abort request with certain reason
@@ -62,10 +61,10 @@ When('I set {string} mock to respond {string} with {string}', respondWith);
  * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to abort with 'Failed' reason
  */
-When('I set {string} mock to abort with {string} reason', async function (mockKey: string, reason: string) {
-    const mockUrl: string = await getValue(mockKey);
-    const errorCode: string = await getValue(reason);
-    await page.route(mockUrl, async (route: Route) => {
+When('I set {value} mock to abort with {value} reason', async function (mockKey: MemoryValue, reason: MemoryValue) {
+    const mockUrl: string = await mockKey.value();
+    const errorCode: string = await reason.value();
+    await this.playwright.page.route(mockUrl, async (route: Route) => {
         await route.abort(errorCode);
     });
 });
@@ -75,9 +74,9 @@ When('I set {string} mock to abort with {string} reason', async function (mockKe
  * @param {string} mockKey - memory key to get mock instance
  * @example When I restore '$myServiceMock'
  */
-When('I restore {string} mock', async function (mockKey: string) {
-    const mockUrl: string = await getValue(mockKey);
-    await page.unroute(mockUrl);
+When('I restore {value} mock', async function (mockKey: MemoryValue) {
+    const mockUrl: string = await mockKey.value();
+    await this.playwright.page.unroute(mockUrl);
 });
 
 /**
@@ -85,6 +84,5 @@ When('I restore {string} mock', async function (mockKey: string) {
  * @example When I restore all mocks
  */
 When('I restore all mocks', async function () {
-    //@ts-ignore
-    page._routes = [];
+   this.playwright.page._routes = [];
 });

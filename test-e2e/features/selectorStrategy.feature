@@ -1,4 +1,3 @@
-@skip-pw-ui
 Feature: selector engines
 
   Background:
