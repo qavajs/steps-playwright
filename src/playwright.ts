@@ -83,6 +83,7 @@ export class Playwright {
         if (!currentContext) throw new Error(`Context '${key}' was not found`);
         return currentContext;
     }
+
     async closeDriver(driverKey: string) {
         const currentDriver = this.drivers[driverKey];
         if (!currentDriver) throw new Error(`Driver '${driverKey}' was not found`);

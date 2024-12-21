@@ -42,21 +42,29 @@ Before({ name: 'Init playwright driver' }, async function () {
     this.element = element;
 });
 
-BeforeStep(async function () {
-    if (saveScreenshotBeforeStep(this.config)) {
-        try {
-            this.attach(await this.playwright.page.screenshot(), 'image/png');
-        } catch (err) {
-            console.warn(err)
+BeforeStep(async function (step) {
+    try {
+        if (tracingManager.isTracingStarted) {
+            await tracingManager.tracing.group(step.pickleStep.text);
         }
+        if (saveScreenshotBeforeStep(this.config)) {
+            this.attach(await this.playwright.page.screenshot({
+                    fullPage: this.config.driverConfig?.screenshot?.fullPage
+            }), 'image/png');
+        }
+    } catch (err) {
+        console.warn(err)
     }
 });
 
 AfterStep(async function (step: ITestStepHookParameter) {
     try {
+        if (tracingManager.isTracingStarted) {
+            await tracingManager.tracing.groupEnd();
+        }
         if (saveScreenshotAfterStep(this.config, step)) {
             this.attach(await this.playwright.page.screenshot({
-                fullPage:this.config.driverConfig?.screenshot?.fullPage
+                fullPage: this.config.driverConfig?.screenshot?.fullPage
             }), 'image/png');
         }
     } catch (err) {

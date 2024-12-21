@@ -1,11 +1,11 @@
-import { type Browser, type BrowserContext, type Page, Locator } from '@playwright/test';
+import {type Browser, type BrowserContext, type Page, Locator, FrameLocator} from '@playwright/test';
 
 export class Selector {
-    selector: string | ((argument: string) => string) | ((x: any) => any);
+    selector: string | ((argument: string) => string) | ((argument: any) => any);
     component!: Function;
     type: string = 'simple';
 
-    constructor(selector: string | ((argument: string) => string) | ((x: any) => any), type?: string) {
+    constructor(selector: string | ((argument: string) => string) | ((argument: any) => any), type?: string) {
         this.selector = selector;
         if (type) {
             this.type = type;
@@ -47,7 +47,7 @@ export interface LocatorDefinition {
      * Define selector using native playwright API
      * @param {(argument: string) => string} selector - selector function
      */
-    native: (selector: (params: NativeSelectorParams) => Locator) => Selector;
+    native: (selector: (params: NativeSelectorParams) => Locator | FrameLocator) => Selector;
 }
 
 export const locator: LocatorDefinition = function locator(selector: any): Selector {
@@ -58,7 +58,7 @@ locator.template = function(selector: (argument: string) => string) {
     return new Selector(selector, 'template');
 }
 
-locator.native = function(selector: (params: NativeSelectorParams) => Locator) {
+locator.native = function(selector: (params: NativeSelectorParams) => Locator | FrameLocator): Selector {
     return new Selector(selector, 'native');
 }
 

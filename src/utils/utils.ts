@@ -1,8 +1,8 @@
-import {ScreenshotEvent} from './screenshotEvent';
-import {TraceEvent} from './traceEvent';
-import {VideoEvent} from './videoEvent';
-import {Status, ITestStepHookParameter, ITestCaseHookParameter} from '@cucumber/cucumber';
-import {join} from 'path';
+import { ScreenshotEvent } from './screenshotEvent';
+import { TraceEvent } from './traceEvent';
+import { VideoEvent } from './videoEvent';
+import { Status, ITestStepHookParameter, ITestCaseHookParameter } from '@cucumber/cucumber';
+import { join } from 'node:path';
 
 export function saveScreenshotAfterStep(config: any, step: ITestStepHookParameter): boolean {
     const screenshotEvent = getEventValue(config?.driverConfig?.screenshot);
