@@ -1,14 +1,18 @@
 import { saveTrace, traceArchive } from './utils';
 import { readFile } from 'node:fs/promises';
+import { Tracing } from '@playwright/test';
 
 class TracingManager {
 
     isTracingStarted = false;
+    tracing!: Tracing;
+
     async start(driverConfig: any, world: any) {
         if (driverConfig.trace) {
             if (!driverConfig.reuseSession || (driverConfig.reuseSession && !this.isTracingStarted)) {
                 this.isTracingStarted = true;
-                await world.playwright.context.tracing.start({
+                this.tracing = world.playwright.context.tracing;
+                await this.tracing.start({
                     screenshots: driverConfig.trace.screenshots ?? true,
                     snapshots: driverConfig.trace.snapshots ?? true,
                     sources: false
@@ -22,7 +26,7 @@ class TracingManager {
         if (saveTrace(driverConfig, scenario)) {
             const path = traceArchive(driverConfig, scenario);
             try {
-                await world.playwright.context.tracing.stopChunk({ path });
+                await this.tracing.stopChunk({ path });
                 if (driverConfig?.trace.attach) {
                     const zipBuffer: Buffer = await readFile(path);
                     world.attach(zipBuffer.toString('base64'), 'base64:application/zip');

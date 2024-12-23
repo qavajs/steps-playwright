@@ -18,7 +18,7 @@ const common = {
             hasTouch: true
         },
         trace: {
-            event: ['onFail'],
+            event: ['afterScenario'],
             dir: 'traces',
             attach: true
         },
