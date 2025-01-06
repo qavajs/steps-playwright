@@ -1,11 +1,12 @@
 import {type Browser, type BrowserContext, type Page, Locator, FrameLocator} from '@playwright/test';
 
+type SelectorDefinition = string | ((argument: string) => string) | ((argument: any) => any) | null;
 export class Selector {
-    selector: string | ((argument: string) => string) | ((argument: any) => any);
+    selector: SelectorDefinition;
     component!: Function;
     type: string = 'simple';
 
-    constructor(selector: string | ((argument: string) => string) | ((argument: any) => any), type?: string) {
+    constructor(selector: SelectorDefinition, type?: string) {
         this.selector = selector;
         if (type) {
             this.type = type;
@@ -48,6 +49,12 @@ export interface LocatorDefinition {
      * @param {(argument: string) => string} selector - selector function
      */
     native: (selector: (params: NativeSelectorParams) => Locator | FrameLocator) => Selector;
+
+    /**
+     * Define component
+     * @param { new () => void } component
+     */
+    as: (component: new () => void) => Selector;
 }
 
 export const locator: LocatorDefinition = function locator(selector: any): Selector {
@@ -61,6 +68,13 @@ locator.template = function(selector: (argument: string) => string) {
 locator.native = function(selector: (params: NativeSelectorParams) => Locator | FrameLocator): Selector {
     return new Selector(selector, 'native');
 }
+
+locator.as = function (component: new () => void) {
+    const selector = new Selector(null);
+    selector.component = component;
+    return selector;
+}
+
 
 export class ChainItem {
     alias: string;
@@ -80,7 +94,7 @@ export function query(root: any, path: string) {
     const elements = path.split(/\s*>\s*/);
     const tokens = [];
     let currentComponent = new root();
-    let currentAlias = 'root';
+    let currentAlias = 'page object root';
     for (const element of elements) {
         const groups = element.match(/^(?<alias>.+?)(?:\((?<argument>.+)\))?$/)?.groups as { alias: string, argument: string };
         const alias = groups.alias.replace(/\s/g, '');
@@ -106,7 +120,7 @@ export function element(this: any, path: string): Locator {
     let current = page as unknown as Locator;
     for (const item of chain) {
         switch (item.type) {
-            case 'simple': current = current.locator(item.selector); break;
+            case 'simple': current = item.selector ? current.locator(item.selector) : current; break;
             case 'template': current = current.locator(item.selector(item.argument)); break;
             case 'native': current = item.selector({
                 driver: this.playwright.driver,
