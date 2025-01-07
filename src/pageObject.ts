@@ -1,6 +1,7 @@
 import {type Browser, type BrowserContext, type Page, Locator, FrameLocator} from '@playwright/test';
 
 type SelectorDefinition = string | ((argument: string) => string) | ((argument: any) => any) | null;
+
 export class Selector {
     selector: SelectorDefinition;
     component!: Function;
@@ -74,7 +75,6 @@ locator.as = function (component: new () => void) {
     selector.component = component;
     return selector;
 }
-
 
 export class ChainItem {
     alias: string;

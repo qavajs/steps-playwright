@@ -29,7 +29,7 @@ class LoginPage {
 
 ## [2.1.0]
 - :rocket: added grouping by steps in traces
-- :beetle: added `FrameLocator` as possible return type for `locator.native`
+- :rocket: added `FrameLocator` as possible return type for `locator.native`
 
 ## [2.0.0]
 - :pencil: added memory processor to playwrightLocator parameter type
