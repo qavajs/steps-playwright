@@ -77,6 +77,8 @@ export default class App {
     //JS Selector
     SimpleTextElementByJS = locator('js=document.querySelectorAll("#textValue")');
     SimpleTextListItemsByJS = locator('js=document.querySelectorAll("#textValueList li")');
+
+    TopLevelComponent = locator.as(BodyComponent);
 }
 
 class BodyComponent {
