@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.2.1]
+- :rocket: added capability to pass page object as instance
+
 ## [2.2.0]
 - :rocket: added `locator.as` method to define top level components (like pages)
 ```typescript

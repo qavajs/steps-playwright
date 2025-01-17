@@ -45,7 +45,7 @@ const common = {
         }
     },
     memory: new Memory(),
-    pageObject: App,
+    pageObject: new App(),
     parallel: 4,
     retry: 1,
     service: [localServer],
