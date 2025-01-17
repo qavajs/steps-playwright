@@ -93,7 +93,7 @@ export class ChainItem {
 export function query(root: any, path: string) {
     const elements = path.split(/\s*>\s*/);
     const tokens = [];
-    let currentComponent = new root();
+    let currentComponent = typeof root === 'function' ? new root() : root;
     let currentAlias = 'page object root';
     for (const element of elements) {
         const groups = element.match(/^(?<alias>.+?)(?:\((?<argument>.+)\))?$/)?.groups as { alias: string, argument: string };
