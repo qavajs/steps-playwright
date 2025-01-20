@@ -253,6 +253,34 @@ Then(
 );
 
 /**
+ * Verify that css property of every element in collection satisfies condition
+ * @param {string} property - property to verify
+ * @param {string} alias - collection to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect 'color' css property of every element in 'Table > Rows' collection to be equal 'rgb(42, 42, 42)'
+ * @example I expect 'font-family' css property of every element in 'Labels' to contain 'Fira'
+ */
+Then(
+    'I expect {value} css property of every element in {playwrightLocator} collection {validation} {value}',
+    async function (property: MemoryValue, collection: Locator, validation: Validation, expected: MemoryValue) {
+        const propertyName = await property.value();
+        const expectedValue = await expected.value();
+        for (let i = 0; i < await collection.count(); i++) {
+            const locator = collection.nth(i);
+            const actualValue = () => locator.evaluate(
+                (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
+                propertyName
+            );
+            await validation.poll(actualValue, expectedValue, {
+                timeout: this.config.browser.timeout.value,
+                interval: this.config.browser.timeout.valueInterval
+            });
+        }
+    }
+);
+
+/**
  * Verify that text of an alert meets expectation
  * @param {string} validationType - validation
  * @param {string} value - expected text value
