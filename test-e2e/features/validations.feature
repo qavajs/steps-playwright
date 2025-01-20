@@ -64,3 +64,6 @@ Feature: validations
     Examples:
       | collection         | condition     |
       | Present Collection | to be present |
+@debug
+  Scenario: collection css property
+    Then I expect 'background-color' css property of every element in 'Simple Text List Items' collection to be equal 'rgba(0, 0, 0, 0)'
