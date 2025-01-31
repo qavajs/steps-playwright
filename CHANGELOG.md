@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [Unreleased]
+- :rocket: added source maps
+
 ## [2.3.0]
 - :rocket: added `I expect {value} css property of every element in {playwrightLocator} collection {validation} {value}` step
 
