@@ -16,6 +16,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 - :rocket: added source maps
+- :rocket: improved readability of execute steps
 
 ## [2.3.0]
 - :rocket: added `I expect {value} css property of every element in {playwrightLocator} collection {validation} {value}` step

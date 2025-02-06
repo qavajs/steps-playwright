@@ -8,7 +8,7 @@ Feature: execute
     Then I expect 'value' property of 'Input' to be equal 'some value'
 
   Scenario: execute function
-    When I execute '$setInputValue' function
+    When I execute '$setInputValue' script
     Then I expect 'value' property of 'Input' to be equal 'some value'
 
   Scenario: execute function and save result plain text
@@ -18,7 +18,7 @@ Feature: execute
 
   Scenario: execute function from memory and save result plain text
     When I click 'Button'
-    When I execute '$getActionInnerText' function and save result as 'innerText'
+    When I execute '$getActionInnerText' script and save result as 'innerText'
     Then I expect '$innerText' memory value to be equal 'click'
 
   Scenario: execute function on element plain text
@@ -30,7 +30,7 @@ Feature: execute
     Then I expect text of 'Action' to be equal 'click'
 
   Scenario: execute function on element plain text and save result
-    When I execute 'arguments[0].innerText' function on 'Button' and save result as 'buttonInnerText'
+    When I execute 'arguments[0].innerText' script on 'Button' and save result as 'buttonInnerText'
     Then I expect '$buttonInnerText' memory value to be equal 'Click Me!'
 
   Scenario: execute function on element and save result
