@@ -27,7 +27,7 @@ export default {
             browserName: 'chromium'
         }
     },
-    pageObject: App
+    pageObject: new App()
 }
 ```
 

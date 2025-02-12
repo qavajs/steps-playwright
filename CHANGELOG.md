@@ -14,7 +14,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
-## [Unreleased]
+## [2.4.0]
+- :rocket: added selector logging
 - :rocket: added source maps
 - :rocket: improved readability of execute steps
 
