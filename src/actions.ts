@@ -295,41 +295,6 @@ When('I upload {value} file by clicking {playwrightLocator}', async function (fi
 });
 
 /**
- * Accept alert
- * @example I accept alert
- */
-When('I accept alert', async function () {
-    await new Promise<void>((resolve) => this.playwright.page.once('dialog', async (dialog: Dialog) => {
-        await dialog.accept();
-        resolve();
-    }));
-});
-
-/**
- * Dismiss alert
- * Playwright automatically dismisses all dialogs. This step is just to make it implicitly.
- * @example I dismiss alert
- */
-When('I dismiss alert', async function () {
-    await new Promise<void>((resolve) => this.playwright.page.once('dialog', async (dialog: Dialog) => {
-        await dialog.dismiss();
-        resolve();
-    }));
-});
-
-/**
- * I type {string} to alert
- * @example I type 'coffee' to alert
- */
-When('I type {value} to alert', async function (value: MemoryValue) {
-    const typeValue = await value.value();
-    await new Promise<void>((resolve) => this.playwright.page.once('dialog', async (dialog: Dialog) => {
-        await dialog.accept(typeValue);
-        resolve();
-    }))
-});
-
-/**
  * Drag&Drop one element to another
  * @param {string} elementAlias - element to drag
  * @param {string} targetAlias - target

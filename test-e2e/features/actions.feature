@@ -126,32 +126,12 @@ Feature: actions
     When I upload '$uploadFile' file by clicking 'File Input'
     Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
 
-  Scenario: accept alert
-    When I click "Alert Button"
-    And I accept alert
-    Then I expect text of 'Action' to be equal 'true'
-
-  Scenario: dismiss alert
-    When I click "Alert Button"
-    And I dismiss alert
-    Then I expect text of 'Action' to be equal 'false'
-
-  Scenario: type text to alert
-    When I expect text of 'Action' to be equal 'Nothing'
-    And I click "Prompt Button"
-    And I type 'I am not a robot' to alert
-    Then I expect text of 'Action' to be equal 'I am not a robot'
-
   Scenario: close current browser tab
     When I expect current url to contain 'actions.html'
     And I open new tab
     And I switch to 2 window
     And I close current tab
     Then I expect current url to contain 'actions.html'
-
-  Scenario: expect text of alert
-    When I click "Prompt Button"
-    Then I expect text of alert to be equal 'Are you robot?'
 
   Scenario: open new tab
     When I open new tab

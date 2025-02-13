@@ -12,3 +12,4 @@ require('./lib/mock.js');
 require('./lib/poDefine.js');
 require('./lib/mouseActions.js');
 require('./lib/keyboardActions.js');
+require('./lib/dialog.js');

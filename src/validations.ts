@@ -279,20 +279,3 @@ Then(
         }
     }
 );
-
-/**
- * Verify that text of an alert meets expectation
- * @param {string} validationType - validation
- * @param {string} value - expected text value
- * @example I expect text of alert does not contain 'coffee'
- */
-Then(
-    'I expect text of alert {validation} {value}',
-    async function (validation: Validation, expected: MemoryValue) {
-        const alertText = await new Promise<string>(resolve => this.playwright.page.once('dialog', async (dialog: Dialog) => {
-            resolve(dialog.message());
-        }));
-        const expectedValue = await expected.value();
-        validation(alertText, expectedValue);
-    }
-);
