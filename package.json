@@ -28,7 +28,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^11.2.0",
     "@qavajs/core": "^2.3.0",
-    "@qavajs/console-formatter": "^0.8.0",
+    "@qavajs/console-formatter": "^1.0.0",
     "@qavajs/html-formatter": "^0.18.1",
     "@qavajs/memory": "^1.10.2",
     "@qavajs/webstorm-adapter": "^8.0.0",
