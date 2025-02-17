@@ -14,6 +14,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.5.0]
+Breaking change:
+- :rocket: added step `I will wait for alert/dialog`
+
+```gherkin
+  Scenario: accept alert
+    Given I will wait for dialog
+    When I click 'Alert Button'
+    And I accept dialog
+```
+
 ## [2.4.0]
 - :rocket: added selector logging
 - :rocket: added source maps
