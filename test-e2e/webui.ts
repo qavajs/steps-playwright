@@ -35,7 +35,7 @@ const common = {
     format: [
         '@qavajs/console-formatter',
         'junit:test-e2e/report.xml',
-        '@qavajs/html-formatter:test-e2e/report.html'
+        ['@qavajs/html-formatter', 'test-e2e/report.html']
     ],
     formatOptions: {
         console: {
