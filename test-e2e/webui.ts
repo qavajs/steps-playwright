@@ -1,6 +1,5 @@
 import Memory from './memory';
 import App from './page_object';
-import localServer from './support/server';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
@@ -48,7 +47,6 @@ const common = {
     pageObject: new App(),
     parallel: 4,
     retry: 1,
-    service: [localServer],
     tags: 'not @skip'
 }
 
@@ -59,7 +57,6 @@ export const debug = {
     retry: 0,
     tags: '@debug',
     browser: {
-        logLevel: 'warn',
         timeout: {
             page: 5000
         },

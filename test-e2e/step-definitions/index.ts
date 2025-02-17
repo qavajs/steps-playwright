@@ -1,7 +1,6 @@
-import { Then } from '@cucumber/cucumber';
 import { expect, Route } from '@playwright/test';
 import { existsSync } from 'node:fs';
-import { type MemoryValue, type Validation } from '@qavajs/core';
+import { Then, type MemoryValue, type Validation } from '@qavajs/core';
 
 Then('I expect {value} memory value {validation} {value}', async function (actual: MemoryValue, validation: Validation, expected: MemoryValue) {
     validation(
