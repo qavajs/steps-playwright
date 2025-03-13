@@ -24,6 +24,7 @@ Breaking change:
     When I click 'Alert Button'
     And I accept dialog
 ```
+- :chore: updated playwright dependency
 
 ## [2.4.0]
 - :rocket: added selector logging
