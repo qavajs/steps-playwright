@@ -98,8 +98,15 @@ export function query(root: any, path: string) {
     for (const element of elements) {
         const groups = element.match(/^(?<alias>.+?)(?:\((?<argument>.+)\))?$/)?.groups as { alias: string, argument: string };
         const alias = groups.alias.replace(/\s/g, '');
-        const currentElement = currentComponent[alias];
-        if (!currentElement) throw new Error(`Alias '${alias}' has not been found in '${currentAlias}'`);
+        let currentElement = currentComponent[alias];
+        if (!currentElement && (!currentComponent.defaultResolver || typeof currentComponent.defaultResolver !== 'function')) {
+            throw new Error(`Alias '${alias}' has not been found in '${currentAlias}'`);
+        }
+        if (!currentElement && currentComponent.defaultResolver) {
+            currentElement = {};
+            currentElement.selector = currentComponent.defaultResolver({ alias: groups.alias, argument: groups.argument });
+            currentElement.type = 'native';
+        }
         currentAlias = groups.alias;
         currentComponent = currentElement.component ? new currentElement.component() : null;
 
