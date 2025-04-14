@@ -24,6 +24,16 @@ Breaking change:
     When I click 'Alert Button'
     And I accept dialog
 ```
+
+- Added capability to provide _defaultResolver_ to define default logic to identify element
+```typescript
+class App {
+    defaultResolver({ alias }: { alias: string }) {
+      return ({ parent }: { parent: Locator }) => parent.getByText(alias);
+    }
+}
+```
+
 - :chore: updated playwright dependency
 
 ## [2.4.0]

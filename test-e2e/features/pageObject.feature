@@ -24,3 +24,6 @@ Feature: page object
 
   Scenario: top level component
     Then I expect text of 'Top Level Component > Text Element' to be equal 'text value'
+
+  Scenario: default resolver
+    Then I expect text of 'third value' to be equal 'third value'

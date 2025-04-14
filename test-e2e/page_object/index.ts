@@ -1,4 +1,6 @@
 import { locator } from '../../po';
+import { Locator } from '@playwright/test';
+
 export default class App {
     SimpleTextElement = locator('#textValue');
     SimpleTextElementTemplate = locator.template(selector => selector);
@@ -79,6 +81,10 @@ export default class App {
     SimpleTextListItemsByJS = locator('js=document.querySelectorAll("#textValueList li")');
 
     TopLevelComponent = locator.as(BodyComponent);
+
+    defaultResolver({ alias }: { alias: string }) {
+        return ({ parent }: { parent: Locator }) => parent.getByText(alias);
+    }
 }
 
 class BodyComponent {

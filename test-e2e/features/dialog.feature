@@ -1,4 +1,3 @@
-@debug
 Feature: dialog
 
   Background:
