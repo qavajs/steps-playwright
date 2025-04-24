@@ -10,8 +10,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 :microscope: - experimental
 
+## [1.0.1]
+- :pencil: update dependencies
+
 ## [1.0.0]
-- release
+- release 1.0.0
 
 ## [0.54.0]
 - :rocket: added _I save file to {string} by clicking {string}_ step
