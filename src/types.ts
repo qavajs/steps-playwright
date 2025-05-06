@@ -1,15 +1,5 @@
 import { defineParameterType } from '@cucumber/cucumber';
-import { conditionWait, conditionWaitExtractRegexp } from './conditionWait';
-import { type Locator } from '@playwright/test';
-
-export function getConditionWait(condition: string): Function {
-    const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
-    if (!match) throw new Error(`${condition} wait is not implemented`);
-    const [_, reverse, validation] = match;
-    return async function (element: Locator, timeout: number) {
-        await conditionWait(element, validation, timeout, Boolean(reverse))
-    }
-}
+import { getConditionWait } from './conditionWait';
 
 function transformString(fn: (value: string) => any) {
     return function (s1: string, s2: string) {
@@ -31,7 +21,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'playwrightCondition',
-    regexp: /((not )?to (?:be )?(present|clickable|visible|invisible|enabled|disabled|in viewport))/,
+    regexp: /((not )?to (?:be )?(?:softly )?(present|clickable|visible|invisible|enabled|disabled|in viewport))/,
     transformer: getConditionWait,
     useForSnippets: false
 });

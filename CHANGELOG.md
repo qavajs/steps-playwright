@@ -14,6 +14,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+
+## [2.6.0]
+- :rocket: added capability to perform soft validation of element condition validations
+```gherkin
+  Scenario Outline: wait for condition
+    Then I expect 'Element' to be softly present
+```
+
 ## [2.5.0]
 Breaking change:
 - :rocket: added step `I will wait for alert/dialog`

@@ -56,17 +56,6 @@ export function equalOrIncludes(value: string | string[], argument: string) {
         : value === argument;
 }
 
-export async function throwTimeoutError(fn: Function, message: string) {
-    try {
-        await fn()
-    } catch (err: any) {
-        if (err.message.includes('exceeded while waiting on the predicate')) {
-            throw new Error(message);
-        }
-        throw err
-    }
-}
-
 /**
  * Parse 'x, y' string to coordinates object
  * @param {string} coords - 'x, y' string
