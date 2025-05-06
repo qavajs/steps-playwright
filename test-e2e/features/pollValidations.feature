@@ -7,8 +7,12 @@ Feature: waits
     Then I expect '<element>' <condition>
 
     Examples:
-      | element         | condition     |
-      | Present Element | to be present |
+      | element              | condition         |
+      | Present Element      | to be present     |
+      | Detach Element       | not to be present |
+      | Not Existing Element | not to be present |
+      | Visible Element      | to be visible     |
+      | Visible Element      | to be clickable   |
 
   Scenario Outline: wait for text (<condition>)
     Then I expect text of 'Loading' <condition> '<expectation>'

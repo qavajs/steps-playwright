@@ -6,7 +6,7 @@
     "test/**/*.spec.ts"
   ],
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2022",
     "module": "node16",
     "moduleResolution": "node16",
     "outDir": "./lib",
