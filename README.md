@@ -1,11 +1,21 @@
 [![npm version](https://badge.fury.io/js/@qavajs%2Fsteps-playwright.svg)](https://badge.fury.io/js/@qavajs%2Fsteps-playwright)
 
 # @qavajs/steps-playwright
-Step library to work with playwright in qavajs framework
+**`@qavajs/steps-playwright`** provides a comprehensive set of pre-built step definitions for [qavajs](https://github.com/qavajs/qavajs), powered by [Playwright](https://playwright.dev). 
+It enables easy and efficient browser automation in a behavior-driven development (BDD) style using Cucumber syntax.
+
+## Features
+
+- ✅ Predefined steps for web automation using Playwright
+- 🔄 Seamless integration with `@qavajs/core`
+- 🧩 Support for dynamic locators and parameters
+- 🧪 Built-in assertions and synchronization steps
+- 🔧 Easily extendable for custom needs
 
 ## Installation
-
-`npm install @qavajs/steps-playwright`
+```
+npm install @qavajs/steps-playwright
+```
 
 ## Configuration
 ```typescript
@@ -24,7 +34,8 @@ export default {
             pageRefreshInterval: 2000 // refresh page for _I refresh page..._ steps
         },
         capabilities: {
-            browserName: 'chromium'
+            browserName: 'chromium',
+            headless: true
         }
     },
     pageObject: new App()
@@ -42,7 +53,7 @@ export default {
 | `this.playwright.page`    | `Page`                           | current context page                 |
 
 ## Connect to playwright server
-In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
+In order to connect to playwright server pass `wsEndpoint` property in capabilities object
 ```typescript
 export default {
     browser: {
@@ -56,7 +67,7 @@ export default {
 ```
 
 ## Connect to cdp endpoint
-In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object 
+In order to connect to CDP endpoint pass `cdpEndpoint` property in capabilities object 
 ```typescript
 export default {
     browser: {
@@ -70,7 +81,7 @@ export default {
 
 ## Screenshot strategy
 @qavajs/steps-playwright has build-in capability to take screenshot on particular event. If you need to add 
-screenshot to your report add _screenshot.event_ property to profile config.
+screenshot to your report add `screenshot.event` property to profile config.
 Supported events:
 - onFail
 - beforeStep
@@ -125,7 +136,7 @@ export default {
 ```
 
 ## reuseSession
-reuseSession flag allows to share session between tests in frames of process. But setting of this flag
+`reuseSession` flag allows to share session between tests in frames of process. But setting of this flag
 transfers session control to user.
 
 ```typescript
@@ -138,7 +149,7 @@ export default {
 ```
 
 ## restartBrowser
-restartBrowser flag allows to restart browser between tests instead of default restarting context
+`restartBrowser` flag allows to restart browser between tests instead of default restarting context
 
 ```typescript
 export default {
@@ -152,20 +163,31 @@ export default {
 
 ## Development and testing
 Install dependencies
-`npm install`
+```
+npm install
+```
 
 Install playwright browsers
-`npm install:browsers`
+```
+npm install:browsers`
+```
 
 Build lib
-`npm run build`
+```
+npm run build
+```
 
 Execute unit test (with vitest)
-`npm run test`
+```
+npm run test`
+```
 
 Execute e2e browser tests
-`npm run test:e2e`
+```
+npm run test:e2e`
+```
 
 Execute e2e electron tests
-`npm run test:e2e:electron`
-
+```
+npm run test:e2e:electron`
+```
