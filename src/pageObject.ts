@@ -127,7 +127,6 @@ export function element(this: any, path: string): Locator {
     const logger = this;
     let current = page as unknown as Locator;
     for (const item of chain) {
-        logger.log(`${item.alias} -> ${item.selector}`);
         switch (item.type) {
             case 'simple': current = item.selector ? current.locator(item.selector) : current; break;
             case 'template': current = current.locator(item.selector(item.argument)); break;
@@ -140,6 +139,7 @@ export function element(this: any, path: string): Locator {
                 argument: item.argument
             }); break;
         }
+        logger.log(`${item.alias} -> ${current}`);
     }
     return current
 }

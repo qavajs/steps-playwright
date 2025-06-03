@@ -1,5 +1,5 @@
 import { Then } from '@cucumber/cucumber';
-import { type Dialog, type Locator } from '@playwright/test';
+import { type Locator } from '@playwright/test';
 import { type MemoryValue, type Validation } from '@qavajs/core';
 
 /**
@@ -25,11 +25,10 @@ Then(
     'I expect text of {playwrightLocator} {validation} {value}',
     async function (locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
-        const elementText = () => locator.innerText();
-        await validation.poll(elementText, expectedValue, {
-            timeout: this.config.browser.timeout.value,
-            interval: this.config.browser.timeout.valueInterval
-        });
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
+        const elementText = () => locator.innerText({ timeout: interval });
+        await validation.poll(elementText, expectedValue, { timeout, interval });
     }
 );
 
@@ -45,11 +44,9 @@ Then(
     async function (locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const timeout = this.config.browser.timeout.value;
-        const actualValue = () => locator.inputValue();
-        await validation.poll(actualValue, expectedValue, {
-            timeout,
-            interval:this.config.browser.timeout.valueInterval
-        });
+        const interval = this.config.browser.timeout.valueInterval;
+        const actualValue = () => locator.inputValue({ timeout: interval });
+        await validation.poll(actualValue, expectedValue, { timeout, interval });
     }
 );
 
@@ -67,11 +64,11 @@ Then(
     async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
-        const actualValue = () => locator.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
-        await validation.poll(actualValue, expectedValue, {
-            timeout: this.config.browser.timeout.value,
-            interval: this.config.browser.timeout.valueInterval
-        });
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
+        const actualValue =
+            () => locator.evaluate((node: any, propertyName: string) => node[propertyName], propertyName, { timeout: interval });
+        await validation.poll(actualValue, expectedValue, { timeout, interval });
     }
 );
 
@@ -88,11 +85,10 @@ Then(
     async function (attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const attributeName = await attribute.value();
         const expectedValue = await expected.value();
-        const actualValue = () => locator.getAttribute(attributeName);
-        await validation.poll(actualValue, expectedValue, {
-            timeout: this.config.browser.timeout.value,
-            interval: this.config.browser.timeout.valueInterval
-        });
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
+        const actualValue = () => locator.getAttribute(attributeName, { timeout: interval });
+        await validation.poll(actualValue, expectedValue, { timeout, interval });
     }
 );
 
@@ -107,11 +103,10 @@ Then(
     'I expect current url {validation} {value}',
     async function (validation: Validation, expected: MemoryValue) {
         const expectedUrl = await expected.value();
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
         const actualUrl = () => this.playwright.page.url();
-        await validation.poll(actualUrl, expectedUrl, {
-            timeout:this.config.browser.timeout.value,
-            interval:this.config.browser.timeout.valueInterval
-        });
+        await validation.poll(actualUrl, expectedUrl, { timeout, interval });
     }
 );
 
@@ -128,11 +123,10 @@ Then(
     'I expect number of elements in {playwrightLocator} collection {validation} {value}',
     async function (locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
         const actualCount = () => locator.count();
-        await validation.poll(actualCount, expectedValue, {
-            timeout: this.config.browser.timeout.value,
-            interval: this.config.browser.timeout.valueInterval
-        });
+        await validation.poll(actualCount, expectedValue, { timeout, interval });
     }
 );
 
@@ -146,11 +140,10 @@ Then(
     'I expect page title {validation} {value}',
     async function (validation: Validation, expected: MemoryValue) {
         const expectedTitle = await expected.value();
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
         const actualTitle = () => this.playwright.page.title();
-        await validation.poll(actualTitle, expectedTitle, {
-            timeout: this.config.browser.timeout.value,
-            interval: this.config.browser.timeout.valueInterval
-        });
+        await validation.poll(actualTitle, expectedTitle, { timeout, interval });
     }
 );
 
@@ -180,9 +173,10 @@ Then(
     'I expect text of every element in {playwrightLocator} collection {validation} {value}',
     async function (locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
+        const interval = this.config.browser.timeout.valueInterval;
         for (let i = 0; i < await locator.count(); i++) {
-            const elementText = () => locator.nth(i).innerText();
-            await validation.poll(elementText, expectedValue);
+            const elementText = () => locator.nth(i).innerText({ timeout: interval });
+            await validation.poll(elementText, expectedValue, { interval });
         }
     }
 );
@@ -199,9 +193,10 @@ Then(
     async function (attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const attributeName = await attribute.value();
+        const interval = this.config.browser.timeout.valueInterval;
         for (let i = 0; i < await locator.count(); i++) {
-            const attributeValue = () => locator.nth(i).getAttribute(attributeName);
-            await validation.poll(attributeValue, expectedValue);
+            const attributeValue = () => locator.nth(i).getAttribute(attributeName, { timeout: interval });
+            await validation.poll(attributeValue, expectedValue, { interval });
         }
     }
 );
@@ -217,12 +212,15 @@ Then(
     'I expect {value} property of every element in {playwrightLocator} collection {validation} {value}',
     async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
-        const propertyName = await property.value()
+        const propertyName = await property.value();
+        const interval = this.config.browser.timeout.valueInterval;
         for (let i = 0; i < await locator.count(); i++) {
             const propertyValue = () => locator.nth(i).evaluate(
-                (node: any, property: string) => node[property], propertyName
+                (node: any, property: string) => node[property],
+                propertyName,
+                { timeout: interval },
             );
-            await validation.poll(propertyValue, expectedValue);
+            await validation.poll(propertyValue, expectedValue, { interval });
         }
     }
 );
@@ -241,14 +239,14 @@ Then(
     async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
         const actualValue = () => locator.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
-            propertyName
+            propertyName,
+            { timeout: interval }
         );
-        await validation.poll(actualValue, expectedValue, {
-            timeout: this.config.browser.timeout.value,
-            interval: this.config.browser.timeout.valueInterval
-        });
+        await validation.poll(actualValue, expectedValue, { timeout, interval });
     }
 );
 
@@ -266,16 +264,16 @@ Then(
     async function (property: MemoryValue, collection: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
         for (let i = 0; i < await collection.count(); i++) {
             const locator = collection.nth(i);
             const actualValue = () => locator.evaluate(
                 (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
-                propertyName
+                propertyName,
+                { timeout: interval }
             );
-            await validation.poll(actualValue, expectedValue, {
-                timeout: this.config.browser.timeout.value,
-                interval: this.config.browser.timeout.valueInterval
-            });
+            await validation.poll(actualValue, expectedValue, { timeout, interval });
         }
     }
 );

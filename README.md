@@ -13,7 +13,7 @@ It enables easy and efficient browser automation in a behavior-driven developmen
 - 🔧 Easily extendable for custom needs
 
 ## Installation
-```
+```bash
 npm install @qavajs/steps-playwright
 ```
 
