@@ -4,7 +4,7 @@ import App from './page_object';
 const common = {
     paths: ['test-e2e/features/*.feature'],
     require: [
-        'src/*.ts',
+        'src/steps.ts',
         './test-e2e/step-definitions/*.ts',
     ],
     browser: {

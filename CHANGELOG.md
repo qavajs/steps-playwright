@@ -14,6 +14,21 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [3.0.0]
+[Breaking Changes]
+- :rocket: moved steps exports to `steps.js`
+```typescript
+export default {
+    require: [
+        'node_modules/@qavajs/steps-playwright/steps.js'
+    ]
+}
+```
+- :rocket: moved types and utils exports to `index.js`
+```typescript
+import { locator } from '@qavajs/steps-playwright';
+```
+
 ## [2.7.0]
 - :rocket: improved logging to show resolved selectors
 - :beetle: added default interval to prevent 'not settled promise' error 

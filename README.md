@@ -22,7 +22,7 @@ npm install @qavajs/steps-playwright
 import App from './page_object'
 export default {
     require: [
-        'node_modules/@qavajs/steps-playwright/index.js'
+        'node_modules/@qavajs/steps-playwright/steps.js'
     ],
     browser: {
         timeout: {
