@@ -17,6 +17,7 @@
     "sourceMap": true,
     "types": [
       "node"
-    ]
+    ],
+    "declaration": true
   }
 }
