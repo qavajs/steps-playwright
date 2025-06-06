@@ -1,4 +1,4 @@
-import { locator } from '../../po';
+import { locator } from '../../src';
 import { Locator } from '@playwright/test';
 
 export default class App {

@@ -1,4 +1,4 @@
-import { locator } from '../po'
+import { locator } from '../src'
 import { test, expect } from 'vitest';
 test.each([
     locator,
