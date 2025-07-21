@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.8.0]
+- :rocket: improved logging to display full path
+
 ## [2.7.1]
 - :rocket: updated dependencies
 
