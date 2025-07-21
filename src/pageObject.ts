@@ -139,7 +139,7 @@ export function element(this: any, path: string): Locator {
                 argument: item.argument
             }); break;
         }
-        logger.log(`${item.alias} -> ${current}`);
     }
+    logger.log(`${path} -> ${current}`);
     return current
 }
