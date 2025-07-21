@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.7.1]
+- :rocket: updated dependencies
+
 ## [2.7.0]
 - :rocket: improved logging to show resolved selectors
 - :beetle: added default interval to prevent 'not settled promise' error 
