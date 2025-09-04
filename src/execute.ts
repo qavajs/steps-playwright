@@ -1,6 +1,5 @@
-import { When } from '@cucumber/cucumber';
-import {MemoryValue} from "@qavajs/core";
-import {Locator} from "@playwright/test";
+import { type MemoryValue, When } from '@qavajs/core';
+import { Locator } from '@playwright/test';
 
 /**
  * Execute client function

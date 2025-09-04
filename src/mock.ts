@@ -1,6 +1,5 @@
-import { When } from '@cucumber/cucumber';
 import { Route } from '@playwright/test';
-import {MemoryValue} from "@qavajs/core";
+import { type MemoryValue, When } from '@qavajs/core';
 
 /**
  * Create simple mock instance

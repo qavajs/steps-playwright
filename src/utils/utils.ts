@@ -1,7 +1,7 @@
 import { ScreenshotEvent } from './screenshotEvent';
 import { TraceEvent } from './traceEvent';
 import { VideoEvent } from './videoEvent';
-import { Status, ITestStepHookParameter, ITestCaseHookParameter } from '@cucumber/cucumber';
+import { Status, ITestStepHookParameter, ITestCaseHookParameter } from '@qavajs/core';
 import { join } from 'node:path';
 
 export function saveScreenshotAfterStep(config: any, step: ITestStepHookParameter): boolean {

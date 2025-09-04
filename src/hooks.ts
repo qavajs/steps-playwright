@@ -7,7 +7,7 @@ import {
     BeforeStep,
     ITestCaseHookParameter,
     ITestStepHookParameter
-} from '@cucumber/cucumber';
+} from '@qavajs/core';
 import defaultTimeouts from './defaultTimeouts';
 import {
     saveScreenshotAfterStep,
