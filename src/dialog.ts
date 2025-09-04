@@ -1,7 +1,5 @@
-import { When, Then } from '@cucumber/cucumber';
 import { Dialog } from '@playwright/test';
-import type {IQavajsWorld, MemoryValue, Validation} from '@qavajs/core';
-import {IQavajsPlaywrightConfig} from "./IQavajsPlaywrightConfig";
+import { type MemoryValue, type Validation, When, Then } from '@qavajs/core';
 
 class DialogHolder {
     currentDialog!: Promise<Dialog>;

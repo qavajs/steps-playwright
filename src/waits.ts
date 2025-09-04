@@ -1,6 +1,5 @@
-import {When} from '@cucumber/cucumber';
-import {Locator} from "@playwright/test";
-import {MemoryValue, Validation} from "@qavajs/core";
+import { type Locator } from '@playwright/test';
+import { type MemoryValue, type Validation, When } from '@qavajs/core';
 
 /**
  * Refresh page unless element matches condition

@@ -1,6 +1,5 @@
-import { Then } from '@cucumber/cucumber';
 import { type Locator } from '@playwright/test';
-import { type MemoryValue, type Validation } from '@qavajs/core';
+import { type MemoryValue, type Validation, Then } from '@qavajs/core';
 
 /**
  * Verify element condition

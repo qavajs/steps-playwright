@@ -1,4 +1,4 @@
-import { defineParameterType } from '@cucumber/cucumber';
+import { defineParameterType } from '@qavajs/core';
 import { getConditionWait } from './conditionWait';
 
 function transformString(fn: (value: string) => any) {

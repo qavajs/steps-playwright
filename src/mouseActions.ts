@@ -1,6 +1,5 @@
-import { When } from '@cucumber/cucumber';
 import { parseCoords } from './utils/utils';
-import { MemoryValue } from '@qavajs/core';
+import { type MemoryValue, When } from '@qavajs/core';
 
 /**
  * Press mouse key

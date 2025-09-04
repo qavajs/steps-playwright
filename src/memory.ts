@@ -1,6 +1,5 @@
-import { When } from '@cucumber/cucumber';
 import { type Locator } from '@playwright/test';
-import { type MemoryValue } from '@qavajs/core';
+import { type MemoryValue, When } from '@qavajs/core';
 
 /**
  * Save text of element to memory
