@@ -24,7 +24,7 @@ const common = {
         video: {
             event: ['onFail'],
             dir: 'video',
-            size: { width: 800, height: 600 },
+            size: {width: 800, height: 600},
             attach: true
         },
         screenshot: {
@@ -76,7 +76,7 @@ export const debug = {
         video: {
             event: ['afterScenario'],
             dir: 'video',
-            size: { width: 800, height: 600 },
+            size: {width: 800, height: 600},
             attach: true
         }
     },
@@ -94,7 +94,7 @@ export const electron = {
         },
         capabilities: {
             browserName: 'electron',
-            args: ['test-e2e/apps/electron/main.js'],
+            args: ['test-e2e/apps/electron/main.js', '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
             headless: false
         }
     },
