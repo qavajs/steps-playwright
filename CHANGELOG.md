@@ -14,6 +14,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.9.0]
+- :rocket: added capability to execute script on electron main process
+```gherkin
+Scenario: evaluate script on main process
+  When I execute '$js(async ({ app }) => app.showAboutPanel())' script on electron app
+
+Scenario: evaluate script on main process and save result to memory
+  When I execute '$js(async ({ app }) => app.getAppPath())' script on electron app and save result as 'appPath'
+  Then I expect '$appPath' memory value to contain 'test-e2e/apps/electron'
+```
+
 ## [2.8.0]
 - :rocket: improved logging to display full path
 

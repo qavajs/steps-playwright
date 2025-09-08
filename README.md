@@ -6,11 +6,11 @@ It enables easy and efficient browser automation in a behavior-driven developmen
 
 ## Features
 
-- ✅ Predefined steps for web automation using Playwright
-- 🔄 Seamless integration with `@qavajs/core`
-- 🧩 Support for dynamic locators and parameters
-- 🧪 Built-in assertions and synchronization steps
-- 🔧 Easily extendable for custom needs
+- Predefined steps for web automation using Playwright
+- Seamless integration with `@qavajs/core`
+- Support for dynamic locators and parameters
+- Built-in assertions and synchronization steps
+- Easily extendable for custom needs
 
 ## Installation
 ```bash
