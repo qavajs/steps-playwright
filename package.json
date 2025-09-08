@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest --coverage run",
-    "install:browsers": "playwright install",
+    "install:browsers": "playwright install chromium --with-deps",
     "test:e2e": "qavajs run --config test-e2e/webui.ts",
     "test:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile electron",
     "debug:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile debugElectron",

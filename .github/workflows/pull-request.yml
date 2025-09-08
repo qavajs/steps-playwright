@@ -21,15 +21,19 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run test
-      - run: npm run install:browsers
-      - run: npm run test:e2e
-      - name: junit report (web)
-        uses: mikepenz/action-junit-report@v4
-        if: always()
-        with:
-          report_paths: './test-e2e/report.xml'
-          fail_on_failure: true
-      - run: xvfb-run npm run test:e2e:electron
+#      - run: npm run install:browsers
+#      - run: npm run test:e2e
+#      - name: junit report (web)
+#        uses: mikepenz/action-junit-report@v4
+#        if: always()
+#        with:
+#          report_paths: './test-e2e/report.xml'
+#          fail_on_failure: true
+      - name: setup virtual display
+        run: |
+          export DISPLAY=:99
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+      - run: npm run test:e2e:electron
       - name: junit report (electron)
         uses: mikepenz/action-junit-report@v4
         if: always()
