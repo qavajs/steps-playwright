@@ -9,7 +9,7 @@
     "install:browsers": "playwright install",
     "test:e2e": "qavajs run --config test-e2e/webui.ts",
     "test:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile electron",
-    "debug:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile electron",
+    "debug:e2e:electron": "qavajs run --config test-e2e/webui.ts --profile debugElectron",
     "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug"
   },
   "repository": {

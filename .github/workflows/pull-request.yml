@@ -23,7 +23,14 @@ jobs:
       - run: npm run test
       - run: npm run install:browsers
       - run: npm run test:e2e
-      - name: junit report
+      - name: junit report (web)
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: './test-e2e/report.xml'
+          fail_on_failure: true
+      - run: xvfb-run npm run test:e2e:electron
+      - name: junit report (electron)
         uses: mikepenz/action-junit-report@v4
         if: always()
         with:

@@ -34,7 +34,7 @@ const common = {
     },
     format: [
         '@qavajs/console-formatter',
-        'junit:test-e2e/report.xml',
+        ['junit', 'test-e2e/report.xml'],
         ['@qavajs/html-formatter', 'test-e2e/report.html']
     ],
     formatOptions: {
@@ -87,7 +87,6 @@ export const electron = {
     ...common,
     paths: ['test-e2e/features/electron/*.feature'],
     retry: 0,
-    // tags: '@debug',
     browser: {
         logLevel: 'warn',
         timeout: {
@@ -100,4 +99,9 @@ export const electron = {
         }
     },
     parallel: 1
+}
+
+export const debugElectron = {
+    ...electron,
+    tags: '@debug',
 }
