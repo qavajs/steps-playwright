@@ -13,3 +13,4 @@ require('./lib/poDefine.js');
 require('./lib/mouseActions.js');
 require('./lib/keyboardActions.js');
 require('./lib/dialog.js');
+require('./lib/electron.js');

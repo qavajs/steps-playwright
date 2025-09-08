@@ -1,7 +1,7 @@
 {
   "name": "@qavajs/steps-playwright",
-  "version": "2.8.0",
-  "description": "steps to interact with playwright",
+  "version": "2.9.0",
+  "description": "qavajs steps to interact with playwright",
   "main": "./index.js",
   "scripts": {
     "build": "tsc",
@@ -34,7 +34,7 @@
     "@qavajs/validation": "^1.3.0",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@types/express": "^5.0.3",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.3.1",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
     "electron": "^38.0.0",
@@ -45,5 +45,31 @@
   },
   "dependencies": {
     "@playwright/test": "^1.55.0"
-  }
+  },
+  "keywords": [
+    "test",
+    "automation",
+    "testing",
+    "qa",
+    "quality-assurance",
+    "test-framework",
+    "test-runner",
+    "test-automation",
+    "e2e",
+    "end-to-end",
+    "ui-testing",
+    "integration-testing",
+    "acceptance-testing",
+    "functional-testing",
+    "browser-testing",
+    "mobile-testing",
+    "cross-browser",
+    "bdd",
+    "gherkin",
+    "assertions",
+    "continuous-delivery",
+    "automation-framework",
+    "playwright",
+    "webdriver"
+  ]
 }
