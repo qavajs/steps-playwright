@@ -24,7 +24,7 @@ const common = {
         video: {
             event: ['onFail'],
             dir: 'video',
-            size: { width: 800, height: 600 },
+            size: {width: 800, height: 600},
             attach: true
         },
         screenshot: {
@@ -34,7 +34,7 @@ const common = {
     },
     format: [
         '@qavajs/console-formatter',
-        'junit:test-e2e/report.xml',
+        ['junit', 'test-e2e/report.xml'],
         ['@qavajs/html-formatter', 'test-e2e/report.html']
     ],
     formatOptions: {
@@ -76,7 +76,7 @@ export const debug = {
         video: {
             event: ['afterScenario'],
             dir: 'video',
-            size: { width: 800, height: 600 },
+            size: {width: 800, height: 600},
             attach: true
         }
     },
@@ -87,7 +87,6 @@ export const electron = {
     ...common,
     paths: ['test-e2e/features/electron/*.feature'],
     retry: 0,
-    // tags: '@debug',
     browser: {
         logLevel: 'warn',
         timeout: {
@@ -95,9 +94,14 @@ export const electron = {
         },
         capabilities: {
             browserName: 'electron',
-            args: ['test-e2e/apps/electron/main.js'],
+            args: ['test-e2e/apps/electron/main.js', '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
             headless: false
         }
     },
     parallel: 1
+}
+
+export const debugElectron = {
+    ...electron,
+    tags: '@debug',
 }

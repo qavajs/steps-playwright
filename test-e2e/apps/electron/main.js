@@ -1,5 +1,7 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('node:path')
+const menuTemplate = require('./menuTemplate');
+const handleOpenNewWindow = require('./newWindow');
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -10,20 +12,9 @@ function createWindow () {
     }
   })
 
-  mainWindow.loadFile('index.html')
+  return mainWindow.loadFile('index.html')
 }
 
-function handleOpenNewWindow() {
-  const newWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-  })
-
-  newWindow.loadFile('newWindow.html')
-}
 app.whenReady().then(() => {
   createWindow()
 
@@ -38,6 +29,9 @@ app.whenReady().then(() => {
     }
     event.returnValue = null
   })
+
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
 })
 
 app.on('window-all-closed', function () {

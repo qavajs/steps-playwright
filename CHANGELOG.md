@@ -14,6 +14,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [Unreleased]
+- :rocket: added step to interact with electron app menu
+```gherkin
+When I click 'Test > Open Page' electron menu
+```
+
 ## [2.9.0]
 - :rocket: added capability to execute script on electron main process
 ```gherkin

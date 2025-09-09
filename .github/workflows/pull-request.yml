@@ -8,7 +8,7 @@ on:
       - v1
 
 jobs:
-  test:
+  test-web:
     strategy:
       matrix:
         version: [ 20, 22, 24 ]
@@ -23,7 +23,28 @@ jobs:
       - run: npm run test
       - run: npm run install:browsers
       - run: npm run test:e2e
-      - name: junit report
+      - name: junit report (web)
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: './test-e2e/report.xml'
+          fail_on_failure: true
+  test-electron:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test
+      - name: setup virtual display
+        run: |
+          export DISPLAY=:99
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+      - run: xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24" npm run test:e2e:electron
+      - name: junit report (electron)
         uses: mikepenz/action-junit-report@v4
         if: always()
         with:
