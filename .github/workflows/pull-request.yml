@@ -8,7 +8,7 @@ on:
       - v1
 
 jobs:
-  test:
+  test-web:
     strategy:
       matrix:
         version: [ 20, 22, 24 ]
@@ -29,6 +29,16 @@ jobs:
         with:
           report_paths: './test-e2e/report.xml'
           fail_on_failure: true
+  test-electron:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test
       - name: setup virtual display
         run: |
           export DISPLAY=:99
