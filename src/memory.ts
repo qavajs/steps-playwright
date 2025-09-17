@@ -5,7 +5,7 @@ import { type MemoryValue, When } from '@qavajs/core';
  * Save text of element to memory
  * @param {string} locator - element to get value
  * @param {string} key - key to store value
- * @example I save text of '#1 of Search Results' as 'firstSearchResult'
+ * @example I save text of 'Search Results (1)' as 'firstSearchResult'
  */
 When('I save text of {playwrightLocator} as {value}', async function (locator: Locator, key: MemoryValue) {
     key.set(await locator.innerText());
