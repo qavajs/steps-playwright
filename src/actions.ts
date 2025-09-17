@@ -16,8 +16,9 @@ When('I open {value} url', async function (url: MemoryValue): Promise<void> {
  * @param {string} alias - element to type
  * @param {string} value - value to type
  * @example I type 'wikipedia' to 'Google Input'
+ * @example I type 'wikipedia' into 'Google Input'
  */
-When('I type {value} to {playwrightLocator}', async function (value: MemoryValue, locator: Locator): Promise<void> {
+When('I type {value} (in)to {playwrightLocator}', async function (value: MemoryValue, locator: Locator): Promise<void> {
     const typeValue = await value.value()
     await locator.fill(typeValue);
 });
@@ -27,8 +28,9 @@ When('I type {value} to {playwrightLocator}', async function (value: MemoryValue
  * @param {string} alias - element to type
  * @param {string} value - value to type
  * @example I type 'wikipedia' chars to 'Google Input'
+ * @example I type 'wikipedia' chars into 'Google Input'
  */
-When('I type {value} chars to {playwrightLocator}', async function (value: MemoryValue, locator: Locator) {
+When('I type {value} chars (in)to {playwrightLocator}', async function (value: MemoryValue, locator: Locator) {
     const typeValue = await value.value();
     await locator.pressSequentially(typeValue);
 });

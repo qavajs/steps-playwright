@@ -14,11 +14,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
-## [Unreleased]
+## [2.10.0]
 - :rocket: added step to interact with electron app menu
 ```gherkin
 When I click 'Test > Open Page' electron menu
 ```
+- :rocket: added `into` preposition to type and type chars steps
 
 ## [2.9.0]
 - :rocket: added capability to execute script on electron main process

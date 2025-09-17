@@ -25,13 +25,23 @@ Feature: actions
     And I click '{$x}, {$y}' coordinates in 'Body'
     Then I expect text of 'Action' to be equal 'Button4'
 
-  Scenario: type
-    When I type 'test value' to 'Input'
+  Scenario Outline: type (<word>)
+    When I type 'test value' <word> 'Input'
     Then I expect text of 'Action' to be equal 'test value'
 
-  Scenario: type chars
-    When I type 'test value' chars to 'Input'
+    Examples:
+      | word |
+      | to   |
+      | into |
+
+  Scenario Outline: type chars (<word>)
+    When I type 'test value' chars <word> 'Input'
     Then I expect text of 'Action' to be equal 'test value'
+
+    Examples:
+      | word |
+      | to   |
+      | into |
 
   Scenario: clear
     When I type 'test value' to 'Input'
