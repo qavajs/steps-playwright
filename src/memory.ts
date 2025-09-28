@@ -1,5 +1,6 @@
 import { type Locator } from '@playwright/test';
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Save text of element to memory
@@ -7,7 +8,7 @@ import { type MemoryValue, When } from '@qavajs/core';
  * @param {string} key - key to store value
  * @example I save text of 'Search Results (1)' as 'firstSearchResult'
  */
-When('I save text of {playwrightLocator} as {value}', async function (locator: Locator, key: MemoryValue) {
+When('I save text of {playwrightLocator} as {value}', async function (this: QavajsPlaywrightWorld, locator: Locator, key: MemoryValue) {
     key.set(await locator.innerText());
 });
 
@@ -19,7 +20,7 @@ When('I save text of {playwrightLocator} as {value}', async function (locator: L
  * @example I save 'checked' property of 'Checkbox' as 'checked'
  * @example I save '$prop' property of 'Checkbox' as 'checked'
  */
-When('I save {value} property of {playwrightLocator} as {value}', async function (property: MemoryValue, locator: Locator, key: MemoryValue) {
+When('I save {value} property of {playwrightLocator} as {value}', async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, key: MemoryValue) {
     const propertyName = await property.value();
     const value = await locator.evaluate((node: any, propertyName: string) => node[propertyName], propertyName);
     key.set(value);
@@ -33,7 +34,7 @@ When('I save {value} property of {playwrightLocator} as {value}', async function
  * @example I save 'href' attribute of 'Link' as 'linkHref'
  * @example I save '$prop' attribute of 'Link' as 'linkHref'
  */
-When('I save {value} attribute of {playwrightLocator} as {value}', async function (attribute: MemoryValue, locator: Locator, key: MemoryValue) {
+When('I save {value} attribute of {playwrightLocator} as {value}', async function (this: QavajsPlaywrightWorld, attribute: MemoryValue, locator: Locator, key: MemoryValue) {
     const attributeName = await attribute.value();
     const value = await locator.getAttribute(attributeName);
     key.set(value);
@@ -45,7 +46,7 @@ When('I save {value} attribute of {playwrightLocator} as {value}', async functio
  * @param {string} key - key to store value
  * @example I save number of elements in 'Search Results' as 'numberOfSearchResults'
  */
-When('I save number of elements in {playwrightLocator} collection as {value}', async function (locator: Locator, key: MemoryValue) {
+When('I save number of elements in {playwrightLocator} collection as {value}', async function (this: QavajsPlaywrightWorld, locator: Locator, key: MemoryValue) {
     const value = await locator.count();
     key.set(value);
 });
@@ -58,7 +59,7 @@ When('I save number of elements in {playwrightLocator} collection as {value}', a
  */
 When(
     'I save text of every element of {playwrightLocator} collection as {value}',
-    async function (locator: Locator, key: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, locator: Locator, key: MemoryValue) {
         const values = await locator.evaluateAll(
             (collection: Array<any>) => collection.map(e => e.innerText)
         );
@@ -74,7 +75,7 @@ When(
  */
 When(
     'I save {value} attribute of every element of {playwrightLocator} collection as {value}',
-    async function (attribute: MemoryValue, locator: Locator, key: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, attribute: MemoryValue, locator: Locator, key: MemoryValue) {
         const values = await locator.evaluateAll(
             (collection: Array<any>, attr: string) => collection.map(e => e.attributes[attr].value),
             await attribute.value()
@@ -91,7 +92,7 @@ When(
  */
 When(
     'I save {value} property of every element of {playwrightLocator} collection as {value}',
-    async function (property: MemoryValue, locator: Locator, key: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, key: MemoryValue) {
         const values = await locator.evaluateAll(
             (collection: Array<any>, prop: string) => collection.map(e => e[prop]),
             await property.value()
@@ -105,7 +106,7 @@ When(
  * @param {string} key - key to store value
  * @example I save current url as 'currentUrl'
  */
-When('I save current url as {value}', async function (key: MemoryValue) {
+When('I save current url as {value}', async function (this: QavajsPlaywrightWorld, key: MemoryValue) {
     key.set(this.playwright.page.url());
 });
 
@@ -114,7 +115,7 @@ When('I save current url as {value}', async function (key: MemoryValue) {
  * @param {string} key - key to store value
  * @example I save page title as 'currentTitle'
  */
-When('I save page title as {value}', async function (key: MemoryValue) {
+When('I save page title as {value}', async function (this: QavajsPlaywrightWorld, key: MemoryValue) {
     key.set(await this.playwright.page.title());
 });
 
@@ -157,7 +158,7 @@ When('I save screenshot of {playwrightLocator} as {value}', async function(locat
  * @example I save 'color' css property of 'Checkbox' as 'checkboxColor'
  * @example I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
  */
-When('I save {value} css property of {playwrightLocator} as {value}', async function (property: MemoryValue, locator: Locator, key: MemoryValue) {
+When('I save {value} css property of {playwrightLocator} as {value}', async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, key: MemoryValue) {
     const propertyName = await property.value();
     const value = await locator.evaluate(
         (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
@@ -175,7 +176,7 @@ When('I save {value} css property of {playwrightLocator} as {value}', async func
  * When I save bounding rect of 'Node' as 'boundingRect'
  * Then I expect '$boundingRect.width' to equal '42'
  */
-When('I save bounding rect of {playwrightLocator} as {value}', async function (locator: Locator, key: MemoryValue) {
+When('I save bounding rect of {playwrightLocator} as {value}', async function (this: QavajsPlaywrightWorld, locator: Locator, key: MemoryValue) {
     const value = await locator.evaluate((node: Element) => node.getBoundingClientRect());
     key.set(value);
 });

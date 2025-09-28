@@ -1,5 +1,6 @@
 import { type MemoryValue, When } from '@qavajs/core';
 import { locator } from './pageObject';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Register selector as page object
@@ -9,7 +10,7 @@ import { locator } from './pageObject';
  * When I define '#someId' as 'My Button' locator
  * And I click 'My Button'
  */
-When('I define {value} as {value} locator', async function (selectorKey: MemoryValue, aliasKey: MemoryValue) {
+When('I define {value} as {value} locator', async function (this: QavajsPlaywrightWorld, selectorKey: MemoryValue, aliasKey: MemoryValue) {
     const selector = await selectorKey.value();
     const alias = (await aliasKey.value()).replace(/\s/g, '');
     const pageObjectRef = this.config.pageObject.prototype ?? this.config.pageObject;

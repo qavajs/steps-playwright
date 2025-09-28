@@ -1,5 +1,6 @@
 import { type Locator } from '@playwright/test';
 import { type MemoryValue, type Validation, Then } from '@qavajs/core';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Verify element condition
@@ -9,7 +10,7 @@ import { type MemoryValue, type Validation, Then } from '@qavajs/core';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {playwrightLocator} {playwrightCondition}', async function (locator: Locator, condition: any) {
+Then('I expect {playwrightLocator} {playwrightCondition}', async function (this: QavajsPlaywrightWorld, locator: Locator, condition: any) {
     await condition(locator, this.config.browser.timeout.page);
 });
 
@@ -22,7 +23,7 @@ Then('I expect {playwrightLocator} {playwrightCondition}', async function (locat
  */
 Then(
     'I expect text of {playwrightLocator} {validation} {value}',
-    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const timeout = this.config.browser.timeout.value;
         const interval = this.config.browser.timeout.valueInterval;
@@ -40,7 +41,7 @@ Then(
  */
 Then(
     'I expect value of {playwrightLocator} {validation} {value}',
-    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const timeout = this.config.browser.timeout.value;
         const interval = this.config.browser.timeout.valueInterval;
@@ -60,7 +61,7 @@ Then(
  */
 Then(
     'I expect {value} property of {playwrightLocator} {validation} {value}',
-    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
         const timeout = this.config.browser.timeout.value;
@@ -81,7 +82,7 @@ Then(
  */
 Then(
     'I expect {value} attribute of {playwrightLocator} {validation} {value}',
-    async function (attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const attributeName = await attribute.value();
         const expectedValue = await expected.value();
         const timeout = this.config.browser.timeout.value;
@@ -100,7 +101,7 @@ Then(
  */
 Then(
     'I expect current url {validation} {value}',
-    async function (validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, validation: Validation, expected: MemoryValue) {
         const expectedUrl = await expected.value();
         const timeout = this.config.browser.timeout.value;
         const interval = this.config.browser.timeout.valueInterval;
@@ -120,7 +121,7 @@ Then(
  */
 Then(
     'I expect number of elements in {playwrightLocator} collection {validation} {value}',
-    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const timeout = this.config.browser.timeout.value;
         const interval = this.config.browser.timeout.valueInterval;
@@ -137,7 +138,7 @@ Then(
  */
 Then(
     'I expect page title {validation} {value}',
-    async function (validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, validation: Validation, expected: MemoryValue) {
         const expectedTitle = await expected.value();
         const timeout = this.config.browser.timeout.value;
         const interval = this.config.browser.timeout.valueInterval;
@@ -153,7 +154,7 @@ Then(
  * @example I expect every element in 'Header > Links' collection to be visible
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
-Then('I expect every element in {playwrightLocator} collection {playwrightCondition}', async function (locator: Locator, condition: any) {
+Then('I expect every element in {playwrightLocator} collection {playwrightCondition}', async function (this: QavajsPlaywrightWorld, locator: Locator, condition: any) {
     const conditionWait = (element: Locator) => condition(element, this.config.browser.timeout.page);
     for (let i = 0; i < await locator.count(); i++) {
         await conditionWait(locator.nth(i));
@@ -170,7 +171,7 @@ Then('I expect every element in {playwrightLocator} collection {playwrightCondit
  */
 Then(
     'I expect text of every element in {playwrightLocator} collection {validation} {value}',
-    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const interval = this.config.browser.timeout.valueInterval;
         for (let i = 0; i < await locator.count(); i++) {
@@ -189,7 +190,7 @@ Then(
  */
 Then(
     'I expect {value} attribute of every element in {playwrightLocator} collection {validation} {value}',
-    async function (attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const attributeName = await attribute.value();
         const interval = this.config.browser.timeout.valueInterval;
@@ -209,7 +210,7 @@ Then(
  */
 Then(
     'I expect {value} property of every element in {playwrightLocator} collection {validation} {value}',
-    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const propertyName = await property.value();
         const interval = this.config.browser.timeout.valueInterval;
@@ -235,7 +236,7 @@ Then(
  */
 Then(
     'I expect {value} css property of {playwrightLocator} {validation} {value}',
-    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
         const timeout = this.config.browser.timeout.value;
@@ -260,7 +261,7 @@ Then(
  */
 Then(
     'I expect {value} css property of every element in {playwrightLocator} collection {validation} {value}',
-    async function (property: MemoryValue, collection: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, property: MemoryValue, collection: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
         const timeout = this.config.browser.timeout.value;

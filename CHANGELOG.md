@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.11.0]
+- :rocket: added export of `QavajsPlaywrightWorld` and `QavajsPlaywrightElectronWorld`
+
 ## [2.10.0]
 - :rocket: added step to interact with electron app menu
 ```gherkin

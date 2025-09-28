@@ -1,4 +1,5 @@
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsPlaywrightElectronWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Execute client function on electron process and save result into memory
@@ -7,7 +8,7 @@ import { type MemoryValue, When } from '@qavajs/core';
  * @example I execute '$fn' function and save result as 'result' // fn is function reference
  * @example I execute '$js(async ({ app }) => app.getAppPath())' function and save result as 'scroll'
  */
-When('I execute {value} function/script on electron app', async function (fn: MemoryValue) {
+When('I execute {value} function/script on electron app', async function (this: QavajsPlaywrightElectronWorld, fn: MemoryValue) {
     await this.playwright.driver.evaluate(await fn.value());
 });
 
@@ -18,7 +19,7 @@ When('I execute {value} function/script on electron app', async function (fn: Me
  * @example I execute '$fn' function and save result as 'result' // fn is function reference
  * @example I execute '$js(async ({ app }) => app.getAppPath())' function on electron app and save result as 'result'
  */
-When('I execute {value} function/script on electron app and save result as {value}', async function (fn: MemoryValue, memoryKey: MemoryValue) {
+When('I execute {value} function/script on electron app and save result as {value}', async function (this: QavajsPlaywrightElectronWorld, fn: MemoryValue, memoryKey: MemoryValue) {
     memoryKey.set(await this.playwright.driver.evaluate(await fn.value()));
 });
 
@@ -27,7 +28,7 @@ When('I execute {value} function/script on electron app and save result as {valu
  * @param {string} menuPath - menu path
  * @example I click 'File > Edit' electron menu
  */
-When('I click {value} electron menu', async function (menu: MemoryValue) {
+When('I click {value} electron menu', async function (this: QavajsPlaywrightElectronWorld, menu: MemoryValue) {
     await this.playwright.driver.evaluate(async ({ Menu }: { Menu: any }, { menuPath }: { menuPath: string }) => {
         const path = menuPath.split(/\s*>\s*/) as string[];
         const menu = Menu.getApplicationMenu();

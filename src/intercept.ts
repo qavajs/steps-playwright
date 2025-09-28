@@ -1,4 +1,5 @@
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Create interception for url or predicate function
@@ -7,7 +8,7 @@ import { type MemoryValue, When } from '@qavajs/core';
  * @example I create interception for '**\/api/qavajs' as 'intercept'
  * @example I create interception for '$interceptHandler' as 'intercept' // if you need to pass function as interception handler
  */
-When('I create interception for {value} as {value}', async function (predicate: MemoryValue, key: MemoryValue) {
+When('I create interception for {value} as {value}', async function (this: QavajsPlaywrightWorld, predicate: MemoryValue, key: MemoryValue) {
     key.set(this.playwright.page.waitForResponse(await predicate.value()))
 });
 
@@ -16,7 +17,7 @@ When('I create interception for {value} as {value}', async function (predicate: 
  * @param {string} interception - key of saved interception promise
  * @example I wait for '$interception' response
  */
-When('I wait for {value} response', async function (interception: MemoryValue) {
+When('I wait for {value} response', async function (this: QavajsPlaywrightWorld, interception: MemoryValue) {
     const interceptionPromise = await interception.value();
     await interceptionPromise;
 });
@@ -26,7 +27,7 @@ When('I wait for {value} response', async function (interception: MemoryValue) {
  * @param {string} interception - key of saved interception promise
  * @example I save '$interception' response as 'response'
  */
-When('I save {value} response as {value}', async function (interception: MemoryValue, key: MemoryValue) {
+When('I save {value} response as {value}', async function (this: QavajsPlaywrightWorld, interception: MemoryValue, key: MemoryValue) {
     const interceptionPromise = await interception.value();
     key.set(await interceptionPromise);
 });

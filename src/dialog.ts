@@ -1,5 +1,6 @@
 import { Dialog } from '@playwright/test';
 import { type MemoryValue, type Validation, When, Then } from '@qavajs/core';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 class DialogHolder {
     currentDialog!: Promise<Dialog>;
@@ -18,7 +19,7 @@ function checkIfListening(isListening: boolean) {
  * Start listen for alert
  * @example I will wait for dialog
  */
-When('I will wait for alert/dialog', async function () {
+When('I will wait for alert/dialog', async function (this: QavajsPlaywrightWorld) {
     dialogHolder.isListening = true;
     dialogHolder.currentDialog = new Promise(resolve => this.playwright.page.once('dialog', resolve));
 });
@@ -27,7 +28,7 @@ When('I will wait for alert/dialog', async function () {
  * Accept alert
  * @example I accept alert
  */
-When('I accept alert/dialog', async function () {
+When('I accept alert/dialog', async function (this: QavajsPlaywrightWorld) {
     checkIfListening(dialogHolder.isListening);
     const dialog = await dialogHolder.currentDialog;
     await dialog.accept();
@@ -38,7 +39,7 @@ When('I accept alert/dialog', async function () {
  * Playwright automatically dismisses all dialogs. This step is just to make it implicitly.
  * @example I dismiss alert
  */
-When('I dismiss alert/dialog', async function () {
+When('I dismiss alert/dialog', async function (this: QavajsPlaywrightWorld) {
     checkIfListening(dialogHolder.isListening);
     const dialog = await dialogHolder.currentDialog;
     await dialog.dismiss();
@@ -48,7 +49,7 @@ When('I dismiss alert/dialog', async function () {
  * I type {string} to alert
  * @example I type 'coffee' to alert
  */
-When('I type {value} to alert/dialog', async function (value: MemoryValue) {
+When('I type {value} to alert/dialog', async function (this: QavajsPlaywrightWorld, value: MemoryValue) {
     checkIfListening(dialogHolder.isListening);
     const typeValue = await value.value();
     const dialog = await dialogHolder.currentDialog;
@@ -63,7 +64,7 @@ When('I type {value} to alert/dialog', async function (value: MemoryValue) {
  */
 Then(
     'I expect text of alert/dialog {validation} {value}',
-    async function (validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, validation: Validation, expected: MemoryValue) {
         checkIfListening(dialogHolder.isListening);
         const dialog = await dialogHolder.currentDialog;
         const message = dialog.message();

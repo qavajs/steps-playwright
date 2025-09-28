@@ -1,13 +1,14 @@
 import { type Page, type Locator } from '@playwright/test';
 import { parseCoords, parseCoordsAsObject, sleep } from './utils/utils';
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Opens provided url
  * @param {string} url - url to navigate
  * @example I open 'https://google.com'
  */
-When('I open {value} url', async function (url: MemoryValue): Promise<void> {
+When('I open {value} url', async function (this: QavajsPlaywrightWorld, url: MemoryValue): Promise<void> {
     await this.playwright.page.goto(await url.value());
 });
 
@@ -18,7 +19,7 @@ When('I open {value} url', async function (url: MemoryValue): Promise<void> {
  * @example I type 'wikipedia' to 'Google Input'
  * @example I type 'wikipedia' into 'Google Input'
  */
-When('I type {value} (in)to {playwrightLocator}', async function (value: MemoryValue, locator: Locator): Promise<void> {
+When('I type {value} (in)to {playwrightLocator}', async function (this: QavajsPlaywrightWorld, value: MemoryValue, locator: Locator): Promise<void> {
     const typeValue = await value.value()
     await locator.fill(typeValue);
 });
@@ -30,7 +31,7 @@ When('I type {value} (in)to {playwrightLocator}', async function (value: MemoryV
  * @example I type 'wikipedia' chars to 'Google Input'
  * @example I type 'wikipedia' chars into 'Google Input'
  */
-When('I type {value} chars (in)to {playwrightLocator}', async function (value: MemoryValue, locator: Locator) {
+When('I type {value} chars (in)to {playwrightLocator}', async function (this: QavajsPlaywrightWorld, value: MemoryValue, locator: Locator) {
     const typeValue = await value.value();
     await locator.pressSequentially(typeValue);
 });
@@ -40,7 +41,7 @@ When('I type {value} chars (in)to {playwrightLocator}', async function (value: M
  * @param {string} alias - element to click
  * @example I click 'Google Button'
  */
-When('I click {playwrightLocator}', async function (locator: Locator) {
+When('I click {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     await locator.click();
 });
 
@@ -49,7 +50,7 @@ When('I click {playwrightLocator}', async function (locator: Locator) {
  * @param {string} alias - element to click
  * @example I force click 'Google Button'
  */
-When('I force click {playwrightLocator}', async function (locator: Locator) {
+When('I force click {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     await locator.evaluate((e: HTMLElement) => e.click());
 });
 
@@ -58,7 +59,7 @@ When('I force click {playwrightLocator}', async function (locator: Locator) {
  * @param {string} alias - element to right click
  * @example I right click 'Google Button'
  */
-When('I right click {playwrightLocator}', async function (locator: Locator) {
+When('I right click {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     await locator.click({ button: 'right' });
 });
 
@@ -67,7 +68,7 @@ When('I right click {playwrightLocator}', async function (locator: Locator) {
  * @param {string} alias - double element to click
  * @example I double click 'Google Button'
  */
-When('I double click {playwrightLocator}', async function (locator: Locator) {
+When('I double click {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     await locator.dblclick();
 });
 
@@ -76,7 +77,7 @@ When('I double click {playwrightLocator}', async function (locator: Locator) {
  * @param {string} alias - element to clear
  * @example I clear 'Google Input'
  */
-When('I clear {playwrightLocator}', async function (locator: Locator) {
+When('I clear {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     await locator.fill('');
 });
 
@@ -85,7 +86,7 @@ When('I clear {playwrightLocator}', async function (locator: Locator) {
  * @param {number} index - index to switch
  * @example I switch to 2 window
  */
-When('I switch to {int} window', async function (index: number) {
+When('I switch to {int} window', async function (this: QavajsPlaywrightWorld, index: number) {
     await this.playwright.expect.poll(
         () => this.playwright.context.pages().length,
         { timeout:this.config.browser.timeout.page }
@@ -99,7 +100,7 @@ When('I switch to {int} window', async function (index: number) {
  * @param {string} matcher - url or title of window to switch
  * @example I switch to 'google' window
  */
-When('I switch to {value} window', async function (matcher: MemoryValue) {
+When('I switch to {value} window', async function (this: QavajsPlaywrightWorld, matcher: MemoryValue) {
     const urlOrTitle = await matcher.value();
     const poll = async () => {
         const pages = this.playwright.context.pages();
@@ -125,7 +126,7 @@ When('I switch to {value} window', async function (matcher: MemoryValue) {
  * Refresh current page
  * @example I refresh page
  */
-When('I refresh page', async function () {
+When('I refresh page', async function (this: QavajsPlaywrightWorld, ) {
     await this.playwright.page.reload();
 });
 
@@ -135,7 +136,7 @@ When('I refresh page', async function () {
  * @example I press 'Enter' key
  * @example I press 'Control+C' keys
  */
-When('I press {string} key(s)', async function (key: string) {
+When('I press {string} key(s)', async function (this: QavajsPlaywrightWorld, key: string) {
     await this.playwright.page.press('body', key);
 });
 
@@ -146,7 +147,7 @@ When('I press {string} key(s)', async function (key: string) {
  * @example I press 'Enter' key 5 times
  * @example I press 'Control+V' keys 5 times
  */
-When('I press {string} key(s) {int} time(s)', async function (key: string, num: number) {
+When('I press {string} key(s) {int} time(s)', async function (this: QavajsPlaywrightWorld, key: string, num: number) {
     for (let i: number = 0; i < num; i++) {
         await this.playwright.page.keyboard.press(key);
     }
@@ -157,7 +158,7 @@ When('I press {string} key(s) {int} time(s)', async function (key: string, num: 
  * @param {string} alias - element to hover over
  * @example I hover over 'Google Button'
  */
-When('I hover over {playwrightLocator}', async function (locator: Locator) {
+When('I hover over {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     await locator.hover();
 });
 
@@ -168,7 +169,7 @@ When('I hover over {playwrightLocator}', async function (locator: Locator) {
  * @example I select '1900' option from 'Registration Form > Date Of Birth'
  * @example I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
  */
-When('I select {value} option from {playwrightLocator} dropdown', async function (option: MemoryValue, locator: Locator) {
+When('I select {value} option from {playwrightLocator} dropdown', async function (this: QavajsPlaywrightWorld, option: MemoryValue, locator: Locator) {
     await locator.selectOption({ label: await option.value() });
 });
 
@@ -178,7 +179,7 @@ When('I select {value} option from {playwrightLocator} dropdown', async function
  * @param {string} alias - alias of select
  * @example I select 1 option from 'Registration Form > Date Of Birth' dropdown
  */
-When('I select {int}(st|nd|rd|th) option from {playwrightLocator} dropdown', async function (optionIndex: number, locator: Locator) {
+When('I select {int}(st|nd|rd|th) option from {playwrightLocator} dropdown', async function (this: QavajsPlaywrightWorld, optionIndex: number, locator: Locator) {
     await locator.selectOption({ index: optionIndex - 1 });
 });
 
@@ -202,7 +203,7 @@ When(
  * @example
  * When I scroll by '0, 100'
  */
-When('I scroll by {value}', async function (offset: MemoryValue) {
+When('I scroll by {value}', async function (this: QavajsPlaywrightWorld, offset: MemoryValue) {
     const [x, y] = parseCoords(await offset.value());
     await this.playwright.page.mouse.wheel(x, y);
 });
@@ -212,7 +213,7 @@ When('I scroll by {value}', async function (offset: MemoryValue) {
  * @param {string} alias - alias of element
  * @example I scroll to 'Element'
  */
-When('I scroll to {playwrightLocator}', async function (locator: Locator) {
+When('I scroll to {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     await locator.scrollIntoViewIfNeeded();
 });
 
@@ -223,7 +224,7 @@ When('I scroll to {playwrightLocator}', async function (locator: Locator) {
  * @example
  * When I scroll by '0, 100' in 'Overflow Container'
  */
-When('I scroll by {value} in {playwrightLocator}', async function (offset: MemoryValue, locator: Locator) {
+When('I scroll by {value} in {playwrightLocator}', async function (this: QavajsPlaywrightWorld, offset: MemoryValue, locator: Locator) {
     const [x, y] = parseCoords(await offset.value());
     await locator.hover();
     await this.playwright.page.mouse.wheel(x, y);
@@ -235,7 +236,7 @@ When('I scroll by {value} in {playwrightLocator}', async function (offset: Memor
  * @example
  * When I scroll until 'Row 99' to be visible
  */
-When('I scroll until {playwrightLocator} to be visible', async function (locator: Locator) {
+When('I scroll until {playwrightLocator} to be visible', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     const isVisible = async () => await locator.isVisible();
     while (!await isVisible()) {
         await this.playwright.page.mouse.wheel(0, 100);
@@ -250,7 +251,7 @@ When('I scroll until {playwrightLocator} to be visible', async function (locator
  * @example
  * When I scroll in 'List' until 'Row 99' to be visible
  */
-When('I scroll in {playwrightLocator} until {playwrightLocator} to be visible', async function (scrollLocator: Locator, targetLocator: Locator) {
+When('I scroll in {playwrightLocator} until {playwrightLocator} to be visible', async function (this: QavajsPlaywrightWorld, scrollLocator: Locator, targetLocator: Locator) {
     await scrollLocator.hover();
     const isVisible = async () => await targetLocator.isVisible();
     while (!await isVisible()) {
@@ -265,7 +266,7 @@ When('I scroll in {playwrightLocator} until {playwrightLocator} to be visible', 
  * @param {string} initiatorAlias - alias of an element triggering downloading process
  * @example I save file to './folder/file.pdf' by clicking 'Download Button'
  */
-When('I save file to {value} by clicking {playwrightLocator}', async function (path: MemoryValue, locator: Locator) {
+When('I save file to {value} by clicking {playwrightLocator}', async function (this: QavajsPlaywrightWorld, path: MemoryValue, locator: Locator) {
     const downloadPromise = this.playwright.page.waitForEvent('download');
     await locator.click();
     const download = await downloadPromise;
@@ -278,7 +279,7 @@ When('I save file to {value} by clicking {playwrightLocator}', async function (p
  * @param {string} value - file path
  * @example I upload '/folder/file.txt' to 'File Input'
  */
-When('I upload {value} file to {playwrightLocator}', async function (filePath: MemoryValue, locator: Locator) {
+When('I upload {value} file to {playwrightLocator}', async function (this: QavajsPlaywrightWorld, filePath: MemoryValue, locator: Locator) {
     await locator.setInputFiles(await filePath.value());
 });
 
@@ -288,7 +289,7 @@ When('I upload {value} file to {playwrightLocator}', async function (filePath: M
  * @param {string} value - file path
  * @example I upload '/folder/file.txt' by clicking 'Upload Button'
  */
-When('I upload {value} file by clicking {playwrightLocator}', async function (filePath: MemoryValue, locator: Locator) {
+When('I upload {value} file by clicking {playwrightLocator}', async function (this: QavajsPlaywrightWorld, filePath: MemoryValue, locator: Locator) {
     const fileChooserPromise = this.playwright.page.waitForEvent('filechooser');
     await locator.click();
     const fileChooser = await fileChooserPromise;
@@ -301,7 +302,7 @@ When('I upload {value} file by clicking {playwrightLocator}', async function (fi
  * @param {string} targetAlias - target
  * @example I drag and drop 'Bishop' to 'E4'
  */
-When('I drag and drop {playwrightLocator} to {playwrightLocator}', async function (locator: Locator, target: Locator) {
+When('I drag and drop {playwrightLocator} to {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator, target: Locator) {
     await locator.dragTo(target);
 });
 
@@ -309,7 +310,7 @@ When('I drag and drop {playwrightLocator} to {playwrightLocator}', async functio
  * Open new browser tab
  * @example I open new tab
  */
-When('I open new tab', async function () {
+When('I open new tab', async function (this: QavajsPlaywrightWorld, ) {
     await this.playwright.page.evaluate(() => { window.open('about:blank', '_blank') });
 });
 
@@ -318,7 +319,7 @@ When('I open new tab', async function () {
  * @example
  * Then I close current tab
  */
-When('I close current tab', async function () {
+When('I close current tab', async function (this: QavajsPlaywrightWorld, ) {
     await this.playwright.page.close();
     const page = this.playwright.context.pages().at(0);
     if (page) {
@@ -333,7 +334,7 @@ When('I close current tab', async function () {
  * @param {string} alias - element to click
  * @example When I click '0, 20' coordinates in 'Element'
  */
-When('I click {value} coordinates in {playwrightLocator}', async function (coords: MemoryValue, locator: Locator) {
+When('I click {value} coordinates in {playwrightLocator}', async function (this: QavajsPlaywrightWorld, coords: MemoryValue, locator: Locator) {
     const coordinates = await coords.value();
     const coordsObject = typeof coordinates === 'string' ? parseCoordsAsObject(coordinates) : coordinates;
     await locator.click({position: coordsObject});
@@ -344,7 +345,7 @@ When('I click {value} coordinates in {playwrightLocator}', async function (coord
  * @param {string} size - desired size
  * @example I set window size '1366,768'
  */
-When('I set window size {value}', async function (viewPort: MemoryValue) {
+When('I set window size {value}', async function (this: QavajsPlaywrightWorld, viewPort: MemoryValue) {
     const {x, y} = parseCoordsAsObject(await viewPort.value());
     await this.playwright.page.setViewportSize({width: x, height: y});
 });
@@ -355,7 +356,7 @@ When('I set window size {value}', async function (viewPort: MemoryValue) {
  * @example I click back button
  * @example I click forward button
  */
-When('I click {playwrightBrowserButton} button', async function (button: 'back' | 'forward') {
+When('I click {playwrightBrowserButton} button', async function (this: QavajsPlaywrightWorld, button: 'back' | 'forward') {
     if (button === 'back') return this.playwright.page.goBack();
     if (button === 'forward') return this.playwright.page.goForward();
 });
@@ -365,7 +366,7 @@ When('I click {playwrightBrowserButton} button', async function (button: 'back' 
  * @param {string} alias - element to tap
  * @example I tap 'Google Button'
  */
-When('I tap {playwrightLocator}', async function (locator: Locator) {
+When('I tap {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
     await locator.tap();
 });
 
@@ -375,14 +376,14 @@ When('I tap {playwrightLocator}', async function (locator: Locator) {
  * @example I grant 'geolocation' permission
  * Permissions documentation can be found here https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions-option-permissions
  */
-When('I grant {value} permission', async function (permission: MemoryValue) {
+When('I grant {value} permission', async function (this: QavajsPlaywrightWorld, permission: MemoryValue) {
     await this.playwright.context.grantPermissions([await permission.value()]);
 });
 
 /**
  * Clears all permission overrides for the browser this.playwright.context.
  */
-When('I revoke browser permissions', async function () {
+When('I revoke browser permissions', async function (this: QavajsPlaywrightWorld, ) {
     await this.playwright.context.clearPermissions();
 });
 
@@ -393,6 +394,6 @@ When('I revoke browser permissions', async function () {
  * where '$minsk' is memory alias of location object { latitude: 53.53, longitude: 27.34 };
  * Passing null or undefined emulates position unavailable.
  */
-When('I set {value} geolocation', async function (geolocation: MemoryValue) {
+When('I set {value} geolocation', async function (this: QavajsPlaywrightWorld, geolocation: MemoryValue) {
     await this.playwright.context.setGeolocation(await geolocation.value());
 });

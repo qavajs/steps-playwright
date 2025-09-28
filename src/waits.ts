@@ -1,5 +1,6 @@
 import { type Locator } from '@playwright/test';
 import { type MemoryValue, type Validation, When } from '@qavajs/core';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Refresh page unless element matches condition
@@ -12,7 +13,7 @@ import { type MemoryValue, type Validation, When } from '@qavajs/core';
  */
 When(
     'I refresh page until {playwrightLocator} {playwrightCondition}( ){playwrightTimeout}',
-    async function (locator: Locator, condition: any, timeoutValue: number | null) {
+    async function (this: QavajsPlaywrightWorld, locator: Locator, condition: any, timeoutValue: number | null) {
         const timeout = timeoutValue ?? this.config.browser.timeout.value;
         await this.playwright.expect(async () => {
             await this.playwright.page.reload()
@@ -33,7 +34,7 @@ When(
  */
 When(
     'I refresh page until text of {playwrightLocator} {validation} {value}( ){playwrightTimeout}',
-    async function (locator: Locator, validation: Validation, expected: MemoryValue, timeoutValue?: number) {
+    async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue, timeoutValue?: number) {
         const expectedValue = await expected.value();
         await validation.poll(async () => {
             await this.playwright.page.reload();
@@ -57,7 +58,7 @@ When(
  */
 When(
     'I click {playwrightLocator} until text of {playwrightLocator} {validation} {value}( ){playwrightTimeout}',
-    async function (
+    async function (this: QavajsPlaywrightWorld, 
         locatorToClick: Locator,
         locatorToCheck: Locator,
         validation: Validation,
@@ -91,7 +92,7 @@ When(
  */
 When(
     'I click {playwrightLocator} until value of {playwrightLocator} {validation} {value}( ){playwrightTimeout}',
-    async function (
+    async function (this: QavajsPlaywrightWorld, 
         locatorToClick: Locator,
         locatorToCheck: Locator,
         validation: Validation,
@@ -118,7 +119,7 @@ When(
  * @param {number} ms - milliseconds
  * @example I wait 1000 ms
  */
-When('I wait {int} ms', async function (ms) {
+When('I wait {int} ms', async function (this: QavajsPlaywrightWorld, ms) {
     await new Promise((resolve: Function): void => {
         setTimeout(() => resolve(), ms)
     });
@@ -129,7 +130,7 @@ When('I wait {int} ms', async function (ms) {
  * @param {number} timeout - wait condition
  * @example I wait for network idle for 1000 ms
  */
-When('I wait for network idle {playwrightTimeout}', async function (timeoutValue: number | null) {
+When('I wait for network idle {playwrightTimeout}', async function (this: QavajsPlaywrightWorld, timeoutValue: number | null) {
     const timeout = timeoutValue ?? this.config.browser.timeout.networkIdle ?? 500
     return new Promise((resolve) => {
         let timerId: any = setTimeout(() => {
