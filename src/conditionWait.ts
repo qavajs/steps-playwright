@@ -1,4 +1,4 @@
-import { Locator, expect } from '@playwright/test';
+import { type Locator, expect } from '@playwright/test';
 
 class SoftAssertionError extends Error {
     name = 'SoftAssertionError';

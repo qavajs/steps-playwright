@@ -19,12 +19,13 @@ import { createJSEngine } from './selectorEngines';
 import playwright from './playwright';
 import tracingManager from './utils/tracingManager';
 import { element } from './pageObject';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 BeforeAll(async function () {
     await createJSEngine();
 });
 
-Before({ name: 'Init playwright driver' }, async function () {
+Before({ name: 'Init playwright driver' }, async function (this: QavajsPlaywrightWorld) {
     const driverConfig = this.config.browser ?? this.config.driver;
     driverConfig.isElectron = driverConfig.capabilities.browserName === 'electron';
     driverConfig.timeout = {
@@ -42,7 +43,7 @@ Before({ name: 'Init playwright driver' }, async function () {
     this.element = element;
 });
 
-BeforeStep(async function (step) {
+BeforeStep(async function (this: QavajsPlaywrightWorld, step) {
     try {
         if (tracingManager.isTracingStarted) {
             await tracingManager.tracing.group(step.pickleStep.text);
@@ -57,7 +58,7 @@ BeforeStep(async function (step) {
     }
 });
 
-AfterStep(async function (step: ITestStepHookParameter) {
+AfterStep(async function (this: QavajsPlaywrightWorld, step: ITestStepHookParameter) {
     try {
         if (tracingManager.isTracingStarted) {
             await tracingManager.tracing.groupEnd();
@@ -72,7 +73,7 @@ AfterStep(async function (step: ITestStepHookParameter) {
     }
 });
 
-After({ name: 'Shutdown playwright driver' }, async function (scenario: ITestCaseHookParameter) {
+After({ name: 'Shutdown playwright driver' }, async function (this: QavajsPlaywrightWorld, scenario: ITestCaseHookParameter) {
     await tracingManager.stop(this.config.driverConfig, this, scenario);
     await this.playwright.teardown({
         reuseSession:this.config.driverConfig.reuseSession,

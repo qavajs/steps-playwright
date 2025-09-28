@@ -1,5 +1,6 @@
 import { Route } from '@playwright/test';
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Create simple mock instance
@@ -8,7 +9,7 @@ import { type MemoryValue, When } from '@qavajs/core';
  * @example When I create mock for '/yourservice/**' as 'mock1'
  * @example When I create mock for '$mockUrlTemplate' as 'mock1'
  */
-When('I create mock for {value} as {value}', async function (urlTemplate: MemoryValue, memoryKey: MemoryValue) {
+When('I create mock for {value} as {value}', async function (this: QavajsPlaywrightWorld, urlTemplate: MemoryValue, memoryKey: MemoryValue) {
     const url = await urlTemplate.value();
     memoryKey.set(url);
 });
@@ -60,7 +61,7 @@ When('I set {value} mock to respond {value} with {string}', respondWith);
  * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to abort with 'Failed' reason
  */
-When('I set {value} mock to abort with {value} reason', async function (mockKey: MemoryValue, reason: MemoryValue) {
+When('I set {value} mock to abort with {value} reason', async function (this: QavajsPlaywrightWorld, mockKey: MemoryValue, reason: MemoryValue) {
     const mockUrl: string = await mockKey.value();
     const errorCode: string = await reason.value();
     await this.playwright.page.route(mockUrl, async (route: Route) => {
@@ -73,7 +74,7 @@ When('I set {value} mock to abort with {value} reason', async function (mockKey:
  * @param {string} mockKey - memory key to get mock instance
  * @example When I restore '$myServiceMock'
  */
-When('I restore {value} mock', async function (mockKey: MemoryValue) {
+When('I restore {value} mock', async function (this: QavajsPlaywrightWorld, mockKey: MemoryValue) {
     const mockUrl: string = await mockKey.value();
     await this.playwright.page.unroute(mockUrl);
 });
@@ -82,6 +83,6 @@ When('I restore {value} mock', async function (mockKey: MemoryValue) {
  * Restore all mocks
  * @example When I restore all mocks
  */
-When('I restore all mocks', async function () {
-   this.playwright.page._routes = [];
+When('I restore all mocks', async function (this: QavajsPlaywrightWorld) {
+   (this.playwright.page as any)._routes = [];
 });

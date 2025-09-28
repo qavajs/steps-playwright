@@ -1,5 +1,6 @@
 import { type MemoryValue, When } from '@qavajs/core';
 import { Locator } from '@playwright/test';
+import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Execute client function
@@ -7,7 +8,7 @@ import { Locator } from '@playwright/test';
  * @example I execute '$fn' function // fn is function reference
  * @example I execute 'window.scrollBy(0, 100)' function
  */
-When('I execute {value} function/script', async function (fn: MemoryValue) {
+When('I execute {value} function/script', async function (this: QavajsPlaywrightWorld, fn: MemoryValue) {
     await this.playwright.page.evaluate(await fn.value());
 });
 
@@ -18,7 +19,7 @@ When('I execute {value} function/script', async function (fn: MemoryValue) {
  * @example I execute '$fn' function and save result as 'result' // fn is function reference
  * @example I execute 'window.scrollY' function and save result as 'scroll'
  */
-When('I execute {value} function/script and save result as {value}', async function (fn: MemoryValue, memoryKey: MemoryValue) {
+When('I execute {value} function/script and save result as {value}', async function (this: QavajsPlaywrightWorld, fn: MemoryValue, memoryKey: MemoryValue) {
     memoryKey.set(await this.playwright.page.evaluate(await fn.value()));
 });
 
@@ -29,7 +30,7 @@ When('I execute {value} function/script and save result as {value}', async funct
  * @example I execute '$fn' function on 'Component > Element' // fn is function reference
  * @example I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
  */
-When('I execute {value} function/script on {playwrightLocator}', async function (fnKey: MemoryValue, locator: Locator) {
+When('I execute {value} function/script on {playwrightLocator}', async function (this: QavajsPlaywrightWorld, fnKey: MemoryValue, locator: Locator) {
     let fn = await fnKey.value();
     if (typeof fn === 'string') {
         fn = new Function('return ' + fn)
@@ -46,7 +47,7 @@ When('I execute {value} function/script on {playwrightLocator}', async function 
  */
 When(
     'I execute {value} function/script on {playwrightLocator} and save result as {value}',
-    async function (fnKey: MemoryValue, locator: Locator, memoryKey: MemoryValue) {
+    async function (this: QavajsPlaywrightWorld, fnKey: MemoryValue, locator: Locator, memoryKey: MemoryValue) {
         let fn = await fnKey.value();
         if (typeof fn === 'string') {
             fn = new Function('return ' + fn)
