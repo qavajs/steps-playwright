@@ -30,4 +30,4 @@ Feature: mock
     When I create mock for '**/users' as 'usersService'
     And I set '$usersService' mock to abort with 'failed' reason
     And I open '$mockPage' url
-    Then I expect text of 'User (1)' to be equal 'Failed to load!'
+    Then I expect text of 'User (1)' to contain 'Failed to load!'

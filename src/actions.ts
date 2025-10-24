@@ -20,7 +20,7 @@ When('I open {value} url', async function (this: QavajsPlaywrightWorld, url: Mem
  * @example I type 'wikipedia' into 'Google Input'
  */
 When('I type {value} (in)to {playwrightLocator}', async function (this: QavajsPlaywrightWorld, value: MemoryValue, locator: Locator): Promise<void> {
-    const typeValue = await value.value()
+    const typeValue = await value.value();
     await locator.fill(typeValue);
 });
 
@@ -78,7 +78,7 @@ When('I double click {playwrightLocator}', async function (this: QavajsPlaywrigh
  * @example I clear 'Google Input'
  */
 When('I clear {playwrightLocator}', async function (this: QavajsPlaywrightWorld, locator: Locator) {
-    await locator.fill('');
+    await locator.clear();
 });
 
 /**

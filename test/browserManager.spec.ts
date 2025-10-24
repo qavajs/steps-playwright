@@ -182,13 +182,13 @@ describe('context', () => {
 
     test('launch new context if not driver launched', async () => {
         const browserManager = new Playwright(driverProvider as any);
-        expect(() => browserManager.launchContext('newContext',{})).rejects.toThrow('No active drivers launched')
+        await expect(() => browserManager.launchContext('newContext',{})).rejects.toThrow('No active drivers launched')
     });
 
     test('switch to not existing context', async () => {
         const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
-        expect(() => browserManager.switchContext('context2')).rejects.toThrow(`Context 'context2' was not found`)
+        await expect(() => browserManager.switchContext('context2')).rejects.toThrow(`Context 'context2' was not found`)
     });
 
 });
@@ -228,7 +228,7 @@ describe('switch driver', () => {
     test('switch to not existing driver', async () => {
         const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
-        expect(() => browserManager.switchDriver('chrome')).rejects.toThrow(`Driver 'chrome' was not found`)
+        await expect(() => browserManager.switchDriver('chrome')).rejects.toThrow(`Driver 'chrome' was not found`)
     });
 
 });
@@ -293,7 +293,7 @@ describe('teardown', () => {
     test('close not existing driver', async () => {
         const browserManager = new Playwright(driverProvider as any);
         await browserManager.launchDriver('default', { browserName: 'chrome', isElectron: false });
-        expect(() => browserManager.closeDriver('chrome')).rejects.toThrow(`Driver 'chrome' was not found`)
+        await expect(() => browserManager.closeDriver('chrome')).rejects.toThrow(`Driver 'chrome' was not found`)
     });
 
     test('reuse session browser', async () => {

@@ -22,7 +22,7 @@
         })
       } catch (err) {
         const li = document.createElement('li');
-        li.innerText = 'Failed to load!';
+        li.innerText = `Failed to load!\n${err}`;
         list.appendChild(li);
       }
     }

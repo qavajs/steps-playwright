@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.11.1]
+- :rocket: updated dependencies
+
 ## [2.11.0]
 - :rocket: added export of `QavajsPlaywrightWorld` and `QavajsPlaywrightElectronWorld`
 
