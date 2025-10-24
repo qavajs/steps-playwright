@@ -32,7 +32,7 @@ class TracingManager {
                     world.attach(zipBuffer.toString('base64'), 'base64:application/zip');
                 }
             } catch (err) {
-                console.warn('Trace was not recorded');
+                console.warn(`Trace was not recorded\n${err}`);
             }
         }
     }
