@@ -1,5 +1,6 @@
 import { driverProvider } from './driverProvider';
 import { Browser, BrowserContext, ElectronApplication, Page, expect } from '@playwright/test';
+import timeout from './defaultTimeouts';
 
 type BrowserDict = {
     [key: string]: Browser;
@@ -44,6 +45,7 @@ export class Playwright {
             this.setPage(page);
         }
         (this.context as NamedContext).name = 'default';
+        this.context.setDefaultTimeout(driverConfig?.timeout?.action ?? timeout.action);
     }
 
     async launchContext(key: string, contextConfig: any) {

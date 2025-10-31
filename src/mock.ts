@@ -1,4 +1,4 @@
-import { Route } from '@playwright/test';
+import type { Route } from '@playwright/test';
 import { type MemoryValue, When } from '@qavajs/core';
 import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
