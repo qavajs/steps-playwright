@@ -10,6 +10,7 @@ const common = {
     browser: {
         logLevel: 'warn',
         timeout: {
+            action: 10000,
             page: 5000
         },
         capabilities: {
@@ -47,7 +48,8 @@ const common = {
     pageObject: new App(),
     parallel: 4,
     retry: 1,
-    tags: 'not @skip'
+    tags: 'not @skip',
+    defaultTimeout: 15000,
 }
 
 export default common;
@@ -76,7 +78,7 @@ export const debug = {
         video: {
             event: ['afterScenario'],
             dir: 'video',
-            size: {width: 800, height: 600},
+            size: { width: 800, height: 600 },
             attach: true
         }
     },

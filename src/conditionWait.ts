@@ -90,7 +90,7 @@ export async function conditionWait(
 
 export function getConditionWait(condition: string): Function {
     const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
-    if (!match) throw new Error(`${condition} wait is not implemented`);
+    if (!match) throw new Error(`${condition} condition is not implemented`);
     const [_, reverse, soft, validation] = match;
     return async function (element: Locator, timeout: number) {
         try {

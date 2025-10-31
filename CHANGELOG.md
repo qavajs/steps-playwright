@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.11.2]
+- :rocket: added `action` timeout as default for all playwright methods (https://playwright.dev/docs/api/class-browsercontext#browser-context-set-default-timeout)
+
 ## [2.11.1]
 - :rocket: updated dependencies
 

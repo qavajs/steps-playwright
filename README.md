@@ -26,12 +26,13 @@ export default {
     ],
     browser: {
         timeout: {
+            action: 10000, // playwright action timeout
             present: 10000,
             visible: 20000,
             page: 10000,
             value: 5000, // expect value timeout
             valueInterval: 500, // expect value interval
-            pageRefreshInterval: 2000 // refresh page for _I refresh page..._ steps
+            pageRefreshInterval: 2000 // refresh page for 'I refresh page...' steps
         },
         capabilities: {
             browserName: 'chromium',
