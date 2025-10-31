@@ -25,6 +25,10 @@ class Context {
     pages() {
         return this._pages;
     }
+
+    setDefaultTimeout(timeout: number) {
+
+    }
 }
 
 class Driver {
