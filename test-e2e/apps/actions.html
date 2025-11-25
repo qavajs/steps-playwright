@@ -10,7 +10,7 @@
 <button id="buttonTap">Tap Me!</button>
 <button id="buttonHover">Hover Me!</button>
 <label for="input"></label><input type="text" id="input"/>
-<input type="file" id="fileInput"/>
+<input type="file" id="fileInput" multiple/>
 <button class="button">Button1</button>
 <button class="button">Button2</button>
 <button class="button">Button3</button>
@@ -130,7 +130,7 @@
     });
 
     fileInput.addEventListener('input', function () {
-        action.innerText = 'file:' + fileInput.value;
+        action.innerText = 'file:' + Object.values(fileInput.files).map(file => file.name).join(';');
     });
 
     buttons.forEach(b => {

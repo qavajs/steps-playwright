@@ -1,6 +1,6 @@
 import { type Locator } from '@playwright/test';
 import { type MemoryValue, type Validation, When } from '@qavajs/core';
-import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
+import { type QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Refresh page unless element matches condition
