@@ -1,8 +1,9 @@
 import { ScreenshotEvent } from './screenshotEvent';
 import { TraceEvent } from './traceEvent';
 import { VideoEvent } from './videoEvent';
-import { Status, ITestStepHookParameter, ITestCaseHookParameter } from '@qavajs/core';
+import { Status, type ITestStepHookParameter, type ITestCaseHookParameter, type DataTable } from '@qavajs/core';
 import { join } from 'node:path';
+import type { QavajsPlaywrightWorld } from '../QavajsPlaywrightWorld';
 
 export function saveScreenshotAfterStep(config: any, step: ITestStepHookParameter): boolean {
     const screenshotEvent = getEventValue(config?.driverConfig?.screenshot);
@@ -74,4 +75,14 @@ function getEventValue(entity: any) {
     return entity?.event
         ? entity.event
         : entity;
+}
+
+/**
+ * Transform key-value data table to array
+ * @param ctx
+ * @param dataTable
+ * @return {any[]}
+ */
+export function dataTable2Array(ctx: QavajsPlaywrightWorld, dataTable: DataTable): Promise<any[]> {
+    return Promise.all(dataTable.raw().map(([value]) => ctx.getValue(value)));
 }

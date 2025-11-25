@@ -1,6 +1,6 @@
 import { type Page, type Locator } from '@playwright/test';
-import { parseCoords, parseCoordsAsObject, sleep } from './utils/utils';
-import { type MemoryValue, When } from '@qavajs/core';
+import { dataTable2Array, parseCoords, parseCoordsAsObject, sleep } from './utils/utils';
+import { type DataTable, type MemoryValue, When } from '@qavajs/core';
 import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
@@ -281,6 +281,22 @@ When('I save file to {value} by clicking {playwrightLocator}', async function (t
  */
 When('I upload {value} file to {playwrightLocator}', async function (this: QavajsPlaywrightWorld, filePath: MemoryValue, locator: Locator) {
     await locator.setInputFiles(await filePath.value());
+});
+
+/**
+ * Provide multiple file urls to file chooser
+ * @param {string} alias - element that invokes upload file chooser
+ * @param {string} value - file path
+ * @example I upload files by clicking 'Upload Button':
+ * | path1 |
+ * | path2 |
+ */
+When('I upload files by clicking {playwrightLocator}:', async function (this: QavajsPlaywrightWorld, locator: Locator, dataTable: DataTable) {
+    const fileChooserPromise = this.playwright.page.waitForEvent('filechooser');
+    await locator.click();
+    const fileChooser = await fileChooserPromise;
+    const filesArray = await dataTable2Array(this, dataTable)
+    await fileChooser.setFiles(filesArray);
 });
 
 /**

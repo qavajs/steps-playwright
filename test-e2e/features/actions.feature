@@ -130,11 +130,17 @@ Feature: actions
 
   Scenario: upload file
     When I upload '$uploadFile' file to 'File Input'
-    Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
+    Then I expect text of 'Action' to be equal 'file:actions.html'
 
   Scenario: upload file via file chooser
     When I upload '$uploadFile' file by clicking 'File Input'
-    Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
+    Then I expect text of 'Action' to be equal 'file:actions.html'
+
+  Scenario: upload multiple files via file chooser
+    When I upload files by clicking 'File Input':
+      | $uploadFile |
+      | $uploadFile |
+    Then I expect text of 'Action' to be equal 'file:actions.html;actions.html'
 
   Scenario: close current browser tab
     When I expect current url to contain 'actions.html'

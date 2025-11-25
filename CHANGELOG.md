@@ -14,6 +14,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.12.0]
+- :rocket: added step for uploading multiple files 
+```Gherkin
+When I upload files by clicking 'File Input':
+  | $uploadFile  |
+  | $uploadFile2 |
+```
+
 ## [2.11.2]
 - :rocket: added `action` timeout as default for all playwright methods (https://playwright.dev/docs/api/class-browsercontext#browser-context-set-default-timeout)
 
