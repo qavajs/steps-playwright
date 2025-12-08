@@ -3,16 +3,19 @@ Feature: waits
   Background:
     When I open '$waitsPage' url
 
-  Scenario Outline: wait for condition
+    @debug
+  Scenario Outline: wait for condition (<condition>)
     Then I expect '<element>' <condition>
 
     Examples:
-      | element              | condition         |
-      | Present Element      | to be present     |
-      | Detach Element       | not to be present |
-      | Not Existing Element | not to be present |
-      | Visible Element      | to be visible     |
-      | Visible Element      | to be clickable   |
+      | element              | condition               |
+      | Present Element      | to be present           |
+      | Detach Element       | not to be present       |
+      | Not Existing Element | not to be present       |
+      | Visible Element      | to be visible           |
+      | Visible Element      | to be clickable         |
+      | Visible Element      | to be in viewport       |
+      | Visible Element      | to be fully in viewport |
 
   Scenario Outline: wait for text (<condition>)
     Then I expect text of 'Loading' <condition> '<expectation>'
