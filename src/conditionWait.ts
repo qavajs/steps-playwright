@@ -10,6 +10,7 @@ export const conditionValidations = {
     VISIBLE: 'visible',
     INVISIBLE: 'invisible',
     IN_VIEWPORT: 'in viewport',
+    FULLY_IN_VIEWPORT: 'fully in viewport',
     ENABLED: 'enabled',
     DISABLED: 'disabled'
 }
@@ -50,6 +51,12 @@ const waits = {
         timeout: number,
         timeoutMsg: string
     ) => makeExpect(element, reverse, timeoutMsg).toBeInViewport({ timeout }),
+    [conditionValidations.FULLY_IN_VIEWPORT]: (
+        element: Locator,
+        reverse: boolean,
+        timeout: number,
+        timeoutMsg: string
+    ) => makeExpect(element, reverse, timeoutMsg).toBeInViewport({ ratio: 1, timeout }),
     [conditionValidations.ENABLED]: (
         element: Locator,
         reverse: boolean,
