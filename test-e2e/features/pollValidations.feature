@@ -3,7 +3,6 @@ Feature: waits
   Background:
     When I open '$waitsPage' url
 
-    @debug
   Scenario Outline: wait for condition (<condition>)
     Then I expect '<element>' <condition>
 
