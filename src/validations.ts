@@ -52,7 +52,7 @@ Then(
 
 /**
  * Verify that property of element satisfies condition
- * @param {string} property - element to verify
+ * @param {string} property - property to verify
  * @param {string} alias - element to verify
  * @param {string} validationType - validation
  * @param {string} value - expected value
@@ -88,6 +88,28 @@ Then(
         const timeout = this.config.browser.timeout.value;
         const interval = this.config.browser.timeout.valueInterval;
         const actualValue = () => locator.getAttribute(attributeName, { timeout: interval });
+        await validation.poll(actualValue, expectedValue, { timeout, interval });
+    }
+);
+
+/**
+ * Verify that custom property (script result) of element satisfies condition
+ * @param {string} propertyGetter - function/script to get value
+ * @param {string} alias - element to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect '$shadowText' custom property of 'Search Input' to be equal 'text'
+ * @example I expect '$js(node => node.shadowRoot.textContent)' custom property of 'Label' to contain '<b>'
+ */
+Then(
+    'I expect {value} custom property of {playwrightLocator} {validation} {value}',
+    async function (this: QavajsPlaywrightWorld, propertyGetter: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const script: () => any = await propertyGetter.value();
+        const expectedValue = await expected.value();
+        const timeout = this.config.browser.timeout.value;
+        const interval = this.config.browser.timeout.valueInterval;
+        const actualValue =
+            () => locator.evaluate(script, { timeout: interval });
         await validation.poll(actualValue, expectedValue, { timeout, interval });
     }
 );
@@ -202,7 +224,8 @@ Then(
 );
 
 /**
- * Verify that all particular properties in collection satisfy condition
+ * Verify that properties of all elements in collection satisfy condition
+ * @param {string} property - property to verify
  * @param {string} alias - collection to get props
  * @param {string} validationType - validation
  * @param {string} value - expected result
@@ -218,6 +241,30 @@ Then(
             const propertyValue = () => locator.nth(i).evaluate(
                 (node: any, property: string) => node[property],
                 propertyName,
+                { timeout: interval },
+            );
+            await validation.poll(propertyValue, expectedValue, { interval });
+        }
+    }
+);
+
+/**
+ * Verify that custom property (script result) of all elements in collection satisfy condition
+ * @param {string} propertyGetter - function/script to get value
+ * @param {string} alias - collection to get props
+ * @param {string} validationType - validation
+ * @param {string} value - expected result
+ * @example I expect '$shadowText' custom property of every element in 'Search Results' collection to contain 'google'
+ */
+Then(
+    'I expect {value} custom property of every element in {playwrightLocator} collection {validation} {value}',
+    async function (this: QavajsPlaywrightWorld, propertyGetter: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const script: () => any = await propertyGetter.value();
+        const interval = this.config.browser.timeout.valueInterval;
+        for (let i = 0; i < await locator.count(); i++) {
+            const propertyValue = () => locator.nth(i).evaluate(
+                script,
                 { timeout: interval },
             );
             await validation.poll(propertyValue, expectedValue, { interval });

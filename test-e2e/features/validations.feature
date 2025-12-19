@@ -33,6 +33,11 @@ Feature: validations
     Then I expect 'name' attribute of 'Simple Text Input' not to be equal 'textInput'
     Then I expect 'name' attribute of 'Simple Text Input' to contain 'textInputName'
 
+  Scenario: element custom property
+    Then I expect '$js(e => e.value)' custom property of 'Simple Text Input' to be equal '123'
+    Then I expect '$js(e => e.value)' custom property of 'Simple Text Input' not to be equal '1234'
+    Then I expect '$js(e => e.value)' custom property of 'Simple Text Input' to contain '12'
+
   Scenario: current url
     Then I expect current url not to be equal 'https://qavajs.github.io/'
     Then I expect current url to contain 'values'
@@ -53,6 +58,10 @@ Feature: validations
   Scenario: collection property of elements
     Then I expect 'nodeName' property of every element in 'Simple Text List Items' collection to equal 'LI'
     Then I expect 'nodeName' property of every element in 'Simple Text List Items' collection not to contain 'A'
+
+  Scenario: collection custom property of elements
+    Then I expect '$js(element => element.nodeName)' custom property of every element in 'Simple Text List Items' collection to equal 'LI'
+    Then I expect '$js(element => element.nodeName)' custom property of every element in 'Simple Text List Items' collection not to contain 'A'
 
   Scenario: element css property
     Then I expect 'background-color' css property of 'Simple Text Input' to be equal 'rgb(95, 158, 160)'

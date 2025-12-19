@@ -14,6 +14,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.14.0]
+- :rocket: added steps to work with custom properties (script results) in memory and validations
+```gherkin
+When I save '$js(element => element.value)' custom property of 'Element' as 'value'
+Then I expect '$js(element => element.value)' custom property of 'Element' to be equal '123'
+When I save '$js(element => element.nodeName)' custom property of every element of 'Collection' collection as 'nodeNames'
+Then I expect '$js(element => element.nodeName)' custom property of every element in 'Collection' collection to equal 'LI'
+```
+
 ## [2.13.0]
 - :rocket: added `fully in viewport` locator matcher
 ```gherkin

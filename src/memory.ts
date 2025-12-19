@@ -40,6 +40,24 @@ When('I save {value} attribute of {playwrightLocator} as {value}', async functio
     key.set(value);
 });
 
+
+/**
+ * Save custom property (script result) of element to memory
+ * @param {string} propertyGetter - property to store
+ * @param {string} locator - element to get value
+ * @param {string} key - key to store value
+ * @example I save 'checked' property of 'Checkbox' as 'checked'
+ * @example I save '$prop' property of 'Checkbox' as 'checked'
+ */
+When('I save {value} custom property of {playwrightLocator} as {value}',
+    async function (this: QavajsPlaywrightWorld, propertyGetter: MemoryValue, locator: Locator, key: MemoryValue) {
+        const script: () => any = await propertyGetter.value();
+        const value = await locator.evaluate(script);
+        key.set(value);
+    }
+);
+
+
 /**
  * Save number of elements in collection to memory
  * @param {string} locator - collection to get value
@@ -85,7 +103,8 @@ When(
 );
 
 /**
- * Save array of property of collection to memory
+ * Save array of properties of all element in collection to memory
+ * @param {string} property - property to store
  * @param {string} locator - collection to get values
  * @param {string} key - key to store value
  * @example I save 'href' property of every element of 'Search > Links' collection as 'hrefs'
@@ -97,6 +116,25 @@ When(
             (collection: Array<any>, prop: string) => collection.map(e => e[prop]),
             await property.value()
         );
+        key.set(values);
+    }
+);
+
+/**
+ * Save array of custom properties of all elements in collection to memory
+ * @param {string} propertyGetter - property to store
+ * @param {string} locator - collection to get values
+ * @param {string} key - key to store value
+ * @example I save 'href' property of every element of 'Search > Links' collection as 'hrefs'
+ */
+When(
+    'I save {value} custom property of every element of {playwrightLocator} collection as {value}',
+    async function (this: QavajsPlaywrightWorld, propertyGetter: MemoryValue, collection: Locator, key: MemoryValue) {
+        const script: () => any = propertyGetter.value();
+        const values = [];
+        for (const locator of await collection.all()) {
+            values.push(await locator.evaluate(script));
+        }
         key.set(values);
     }
 );
