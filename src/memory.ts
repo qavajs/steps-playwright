@@ -4,12 +4,22 @@ import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
 
 /**
  * Save text of element to memory
- * @param {string} locator - element to get value
+ * @param {string} locator - element to get text
  * @param {string} key - key to store value
  * @example I save text of 'Search Results (1)' as 'firstSearchResult'
  */
 When('I save text of {playwrightLocator} as {value}', async function (this: QavajsPlaywrightWorld, locator: Locator, key: MemoryValue) {
     key.set(await locator.innerText());
+});
+
+/**
+ * Save value of element to memory
+ * @param {string} locator - element to get value
+ * @param {string} key - key to store value
+ * @example I save value of 'Search Input' as 'searchInput'
+ */
+When('I save value of {playwrightLocator} as {value}', async function (this: QavajsPlaywrightWorld, locator: Locator, key: MemoryValue) {
+    key.set(await locator.inputValue());
 });
 
 /**

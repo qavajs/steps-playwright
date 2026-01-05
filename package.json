@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-playwright",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "description": "qavajs steps to interact with playwright",
   "main": "./index.js",
   "scripts": {
@@ -26,14 +26,14 @@
   },
   "homepage": "https://github.com/qavajs/steps-playwright#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^12.4.0",
+    "@cucumber/cucumber": "^12.5.0",
     "@qavajs/console-formatter": "^1.1.1",
     "@qavajs/core": "^2.12.0",
     "@qavajs/html-formatter": "^1.0.0",
     "@qavajs/memory": "^1.10.3",
     "@qavajs/validation": "^1.6.1",
     "@types/express": "^5.0.6",
-    "@types/node": "^24.10.4",
+    "@types/node": "^25.0.3",
     "@vitest/coverage-v8": "^4.0.16",
     "@vitest/ui": "^4.0.16",
     "electron": "^39.2.7",
