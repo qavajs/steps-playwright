@@ -50,7 +50,7 @@ BeforeStep(async function (this: QavajsPlaywrightWorld, step) {
         }
         if (saveScreenshotBeforeStep(this.config)) {
             this.attach(await this.playwright.page.screenshot({
-                    fullPage: this.config.driverConfig?.screenshot?.fullPage
+                fullPage: this.config.driverConfig?.screenshot?.fullPage
             }), 'image/png');
         }
     } catch (err) {
@@ -76,8 +76,8 @@ AfterStep(async function (this: QavajsPlaywrightWorld, step: ITestStepHookParame
 After({ name: 'Shutdown playwright driver' }, async function (this: QavajsPlaywrightWorld, scenario: ITestCaseHookParameter) {
     await tracingManager.stop(this.config.driverConfig, this, scenario);
     await this.playwright.teardown({
-        reuseSession:this.config.driverConfig.reuseSession,
-        restartBrowser:this.config.driverConfig.restartBrowser,
+        reuseSession: this.config.driverConfig.reuseSession,
+        restartBrowser: this.config.driverConfig.restartBrowser,
     });
     if (saveVideo(this.config.driverConfig, scenario)) {
         if (this.config.driverConfig?.video.attach) {
