@@ -13,7 +13,7 @@ Then('I expect {value} memory value {validation} {value}', async function (this:
 
 Then('I expect viewport size to equal {value}', async function (this: QavajsPlaywrightWorld, expectedSize: MemoryValue) {
     const actualValue = this.playwright.page.viewportSize();
-    expect(actualValue).toEqual(await expectedSize.value());
+    expect(actualValue).toDeepEqual(await expectedSize.value());
 })
 
 Then('I set {int} ms delayed mock for {string} request', async function (this: QavajsPlaywrightWorld, delay: number, glob: string) {
