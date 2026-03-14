@@ -1,7 +1,8 @@
-import { expect, Route } from '@playwright/test';
+import { Route } from '@playwright/test';
 import { existsSync } from 'node:fs';
 import { Then, type MemoryValue, type Validation } from '@qavajs/core';
 import { QavajsPlaywrightWorld } from '../../index';
+import { expect } from '@qavajs/validation';
 
 Then('I expect {value} memory value {validation} {value}', async function (this: QavajsPlaywrightWorld, actual: MemoryValue, validation: Validation, expected: MemoryValue) {
     validation(
@@ -12,7 +13,7 @@ Then('I expect {value} memory value {validation} {value}', async function (this:
 
 Then('I expect viewport size to equal {value}', async function (this: QavajsPlaywrightWorld, expectedSize: MemoryValue) {
     const actualValue = this.playwright.page.viewportSize();
-    expect(actualValue).toEqual(await expectedSize.value());
+    expect(actualValue).toDeepEqual(await expectedSize.value());
 })
 
 Then('I set {int} ms delayed mock for {string} request', async function (this: QavajsPlaywrightWorld, delay: number, glob: string) {
@@ -36,3 +37,9 @@ Then(
         key.set(await value.value());
     }
 );
+
+Then('I extract element tree', async function (this: QavajsPlaywrightWorld) {
+    const result = await this.playwright.getElementTree();
+    expect(result).toContain('test-e2e/apps/actions.html');
+    expect(result).toContain('button "Click Me!"');
+});

@@ -201,3 +201,6 @@ Feature: actions
   Scenario: save file
     When I save file to '$downloadPath' by clicking 'Download Button'
     When I expect file '$downloadPath' to exist
+
+  Scenario: element tree
+    When I extract element tree

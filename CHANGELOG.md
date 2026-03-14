@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.15.0]
+- :rocket: added `getElementTree()` helper to collect ARIA tree snapshots for page and top-level frames
+
 ## [2.14.1]
 - :rocket: implement missing `I save value of...` step
 
