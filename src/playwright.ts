@@ -166,6 +166,17 @@ export class Playwright {
         this.page = page;
     }
 
+    async getElementTree() {
+        const frames = this.page.frames().filter(frame => frame.parentFrame() === this.page.mainFrame());
+        let tree = `Page URL: ${this.page.url()}\n`;
+        tree += await this.page.locator('body').ariaSnapshot() + '\n';
+        for (const frame of frames) {
+            tree += `Frame URL: ${frame.url()}\n`;
+            tree += await frame.locator('body').ariaSnapshot() + '\n';
+        }
+        return tree;
+    }
+
 }
 
 export default new Playwright(driverProvider);

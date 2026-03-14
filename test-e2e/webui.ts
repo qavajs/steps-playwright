@@ -5,7 +5,7 @@ const common = {
     paths: ['test-e2e/features/*.feature'],
     require: [
         'src/*.ts',
-        './test-e2e/step-definitions/*.ts',
+        './test-e2e/step_definitions/*.ts',
     ],
     browser: {
         logLevel: 'warn',

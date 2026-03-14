@@ -47,7 +47,6 @@ Feature: memory
     Then I save 'nodeName' property of every element of 'Simple Text List Items' collection as 'memory'
     Then I expect '$memory' memory value to deeply equal '$js(["LI", "LI", "LI"])'
 
-  @debug
   Scenario: collection custom property of elements
     Then I save '$js(element => element.nodeName)' custom property of every element of 'Simple Text List Items' collection as 'memory'
     Then I expect '$memory' memory value to deeply equal '$js(["LI", "LI", "LI"])'
