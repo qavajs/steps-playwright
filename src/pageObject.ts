@@ -2,6 +2,14 @@ import { type Browser, type BrowserContext, type Page, Locator, FrameLocator } f
 
 type SelectorDefinition = string | ((argument: string) => string) | ((argument: any) => any) | null;
 
+/**
+ * Represents a selector definition with optional type and component binding.
+ * @example
+ * class App {
+ *   Button = locator('button[type="submit"]');
+ *   ButtonByIndex = locator.template(idx => `#list li:nth-child(${idx})`);
+ * }
+ */
 export class Selector {
     selector: SelectorDefinition;
     component!: Function;
@@ -17,6 +25,11 @@ export class Selector {
     /**
      * Define current locator as component
      * @param { new () => void } component
+     * @example
+     * class BodyComponent { TextElement = locator('#textValue'); }
+     * class App {
+     *   BodyComponent = locator('body').as(BodyComponent);
+     * }
      */
     as(component: new () => void) {
         this.component = component;
@@ -24,17 +37,37 @@ export class Selector {
     }
 }
 
+/**
+ * Parameters passed to native selector functions, providing access to
+ * the full Playwright browser hierarchy and the current parent locator.
+ */
 export type NativeSelectorParams = {
+    /** The Playwright Browser instance (alias for `browser`) */
     driver: Browser;
+    /** The Playwright Browser instance */
     browser: Browser;
+    /** The active BrowserContext */
     context: BrowserContext;
+    /** The active Page */
     page: Page;
+    /** The parent Locator to scope the selector within */
     parent: Locator;
+    /** The runtime argument passed to the selector, if any */
     argument: string;
 };
 
 /**
  * Define selector
+ * @example
+ * class BodyComponent { TextElement = locator('#textValue'); }
+ * class App {
+ *   Button = locator('button[type="submit"]');
+ *   ButtonByText = locator.template(text => `//button[.="${text}"]`);
+ *   ButtonNative = locator.native(({ page }) => page.getByRole('button'));
+ *   BodyComponent = locator('body').as(BodyComponent);
+ *   BodyNative = locator.native(({ page }) => page.locator('body')).as(BodyComponent);
+ *   TopLevelComponent = locator.as(BodyComponent);
+ * }
  */
 export interface LocatorDefinition {
     (selector: any): Selector;
@@ -42,18 +75,34 @@ export interface LocatorDefinition {
     /**
      * Define selector as a template
      * @param {(argument: string) => string} selector - selector template
+     * @example
+     * class App {
+     *   ItemByIndex = locator.template(idx => `#list li:nth-child(${idx})`);
+     *   ItemByText = locator.template(text => `//ul/li[contains(., "${text}")]`);
+     * }
      */
     template: (selector: (argument: string) => string) => Selector;
 
     /**
-     * Define selector using native playwright API
-     * @param {(argument: string) => string} selector - selector function
+     * Define selector using native Playwright API
+     * @param {(params: NativeSelectorParams) => Locator | FrameLocator} selector - selector function
+     * @example
+     * class App {
+     *   Dialog = locator.native(({ page }) => page.getByRole('dialog'));
+     *   ActiveRow = locator.native(({ parent }) => parent.locator('tr.active'));
+     *   IframeContent = locator.native(({ page }) => page.frameLocator('#my-iframe').locator('.content'));
+     * }
      */
     native: (selector: (params: NativeSelectorParams) => Locator | FrameLocator) => Selector;
 
     /**
      * Define component
      * @param { new () => void } component
+     * @example
+     * class BodyComponent { TextElement = locator('#textValue'); }
+     * class App {
+     *   TopLevelComponent = locator.as(BodyComponent);
+     * }
      */
     as: (component: new () => void) => Selector;
 }
@@ -76,10 +125,22 @@ locator.as = function (component: new () => void) {
     return selector;
 }
 
+/**
+ * Represents a single resolved step in a page-object traversal chain.
+ * Produced by {@link query} and consumed by {@link element}.
+ * @example
+ * // Given App with: User = locator.template(idx => `#users > li:nth-child(${idx})`)
+ * // query(App, 'User(2)') returns:
+ * // [ChainItem { alias: 'User', selector: fn, type: 'template', argument: '2' }]
+ */
 export class ChainItem {
+    /** The alias name for this step (whitespace stripped) */
     alias: string;
+    /** The runtime argument extracted from the alias path, e.g. `'John'` from `Row(John)` */
     argument?: string;
+    /** The raw selector value: a string, template function, or native locator function */
     selector: any;
+    /** The selector type: `'simple'`, `'template'`, or `'native'` */
     type: string;
 
     constructor({ alias, argument, selector, type }: { alias: string, argument?: string, selector?: string, type: string }) {
@@ -90,6 +151,34 @@ export class ChainItem {
     }
 }
 
+/**
+ * Resolve a `>` delimited alias path against a page-object root and return the
+ * ordered list of {@link ChainItem}s needed to locate the element.
+ *
+ * Path syntax: `"Alias > ChildAlias > TemplateAlias(argument)"`
+ *
+ * @param root - A page-object class constructor or instance that acts as the traversal root.
+ * @param path - A `>` delimited string of alias names, optionally with a single argument in parentheses.
+ * @returns {ChainItem[]} Ordered chain of resolved selectors.
+ * @throws {Error} When an alias is not found on the current component and no `defaultResolver` is defined.
+ * @example
+ * class BodyComponent { TextElement = locator('#textValue'); }
+ * class App {
+ *   BodyComponent = locator('body').as(BodyComponent);
+ *   User = locator.template(idx => `#users > li:nth-child(${idx})`);
+ * }
+ *
+ * query(App, 'BodyComponent > TextElement');
+ * // => [
+ * //   ChainItem { alias: 'BodyComponent', selector: 'body',       type: 'simple' },
+ * //   ChainItem { alias: 'TextElement',   selector: '#textValue', type: 'simple' },
+ * // ]
+ *
+ * query(App, 'User(3)');
+ * // => [
+ * //   ChainItem { alias: 'User', selector: fn, type: 'template', argument: '3' },
+ * // ]
+ */
 export function query(root: any, path: string) {
     const elements = path.split(/\s*>\s*/);
     const tokens = [];
@@ -121,6 +210,17 @@ export function query(root: any, path: string) {
     return tokens;
 }
 
+/**
+ * Resolves an alias path to a Playwright {@link Locator} by walking the page object chain.
+ * Intended to be called with a `this` context that provides `this.config.pageObject`,
+ * `this.playwright` (with `driver`, `browser`, `context`, `page`), and a `this.log` method.
+ *
+ * @param {string} path - A `>`-separated alias path (see {@link query} for syntax)
+ * @returns {Locator} The fully resolved Playwright Locator for the given path
+ * @example
+ * element.call(world, 'Header > SubmitButton')
+ * element.call(world, 'Table > Row(John) > EditButton')
+ */
 export function element(this: any, path: string): Locator {
     const chain = query(this.config.pageObject, path);
     const page = this.playwright.page as Page;
