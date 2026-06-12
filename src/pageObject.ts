@@ -17,9 +17,7 @@ export class Selector {
 
     constructor(selector: SelectorDefinition, type?: string) {
         this.selector = selector;
-        if (type) {
-            this.type = type;
-        }
+        this.type = type ?? 'simple';
     }
 
     /**
