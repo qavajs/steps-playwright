@@ -14,6 +14,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.16.0]
+- :pencil: added JSDoc documentation to page object exports (`Selector`, `LocatorDefinition`, `ChainItem`, `NativeSelectorParams`, `query`, `element`)
+- :pencil: updated dependencies (playwright to 1.59.1, typescript to 6.0.2)
+
 ## [2.15.0]
 - :rocket: added `getElementTree()` helper to collect ARIA tree snapshots for page and top-level frames
 
