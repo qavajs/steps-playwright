@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.17.0]
+- :beetle: fixed `ReferenceError: __name is not defined` thrown by `I click ... electron menu` step by removing a named function expression inside the `evaluate()` callback that triggered esbuild's `keepNames` wrapping
+
 ## [2.16.0]
 - :pencil: added JSDoc documentation to page object exports (`Selector`, `LocatorDefinition`, `ChainItem`, `NativeSelectorParams`, `query`, `element`)
 - :pencil: updated dependencies (playwright to 1.59.1, typescript to 6.0.2)
