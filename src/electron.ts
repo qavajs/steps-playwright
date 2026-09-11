@@ -34,12 +34,11 @@ When('I click {value} electron menu', async function (this: QavajsPlaywrightElec
         const menu = Menu.getApplicationMenu();
         if (!menu) throw new Error('Menu is not set');
         const firstMenu = path.shift() as string;
-        const findItemPredicate = (item: string) => (menu: any) => menu.label === item || menu.role === item;
-        let currentMenu = menu.items.find(findItemPredicate(firstMenu));
+        let currentMenu = menu.items.find((item: any) => item.label === firstMenu || item.role === firstMenu);
         if (!currentMenu) throw new Error(`Menu '${firstMenu}' is not found`);
         for (const pathItem of path) {
             if (!currentMenu?.submenu) throw new Error(`Menu '${pathItem}' does not have submenu`);
-            currentMenu = currentMenu.submenu.items.find(findItemPredicate(pathItem));
+            currentMenu = currentMenu.submenu.items.find((item: any) => item.label === pathItem || item.role === pathItem);
             if (!currentMenu) throw new Error(`Menu '${pathItem}' is not found`);
         }
         currentMenu.click()
