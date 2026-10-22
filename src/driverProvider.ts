@@ -1,20 +1,22 @@
 import { chromium, firefox, webkit, _electron as electron, Browser, BrowserType } from '@playwright/test';
-const browsers: any = { chromium, firefox, webkit, electron };
+import type { ResolvedDriverConfig } from './IQavajsPlaywrightConfig';
 
-export async function driverProvider(driverConfig: any): Promise<Browser> {
-    const browserName: string = driverConfig?.capabilities?.browserName ?? 'chromium';
-    const browserType: BrowserType = browsers[browserName];
-    if (driverConfig?.capabilities?.wsEndpoint) {
-        return browserType.connect(
-            driverConfig?.capabilities?.wsEndpoint,
-            driverConfig.capabilities
-        );
+const browsers: Record<string, BrowserType> = { chromium, firefox, webkit };
+
+export async function driverProvider(driverConfig: ResolvedDriverConfig): Promise<Browser> {
+    const capabilities = driverConfig.capabilities;
+    const browserName = capabilities.browserName ?? 'chromium';
+    if (browserName === 'electron') {
+        // electron application is used through Browser-like API, see Playwright class
+        return electron.launch(capabilities as Parameters<typeof electron.launch>[0]) as unknown as Promise<Browser>;
     }
-    if (driverConfig?.capabilities?.cdpEndpoint) {
-        return browserType.connectOverCDP(
-            driverConfig?.capabilities?.cdpEndpoint,
-            driverConfig.capabilities
-        );
+    const browserType = browsers[browserName];
+    if (!browserType) throw new Error(`Browser '${browserName}' is not supported`);
+    if (capabilities.wsEndpoint) {
+        return browserType.connect(capabilities.wsEndpoint, capabilities);
     }
-    return browserType.launch(driverConfig.capabilities);
+    if (capabilities.cdpEndpoint) {
+        return browserType.connectOverCDP(capabilities.cdpEndpoint, capabilities);
+    }
+    return browserType.launch(capabilities);
 }

@@ -26,7 +26,7 @@ const makeExpect = (element: Locator, reverse: boolean, message: string) => {
     const eMessage = expect(element, message);
     return reverse ? eMessage.not : eMessage;
 }
-const waits = {
+const waits: Record<string, (element: Locator, reverse: boolean, timeout: number, timeoutMsg: string) => Promise<void>> = {
     [conditionValidations.PRESENT]: (
         element: Locator,
         reverse: boolean,
@@ -74,7 +74,10 @@ const waits = {
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => makeExpect(element, reverse, timeoutMsg).toBeEnabled({ timeout }),
+    ) => expect.poll(async () => {
+        if (!await element.isVisible()) return false;
+        return element.isEnabled({ timeout }).catch(() => false);
+    }, { message: timeoutMsg, timeout }).toBe(!reverse),
 }
 /**
  * Wait for condition
@@ -92,10 +95,13 @@ export async function conditionWait(
 ): Promise<void> {
     const timeoutMsg: string = `Element is${reverse ? '' : ' not'} ${validationType}`;
     const waitFn = waits[validationType];
+    if (!waitFn) throw new Error(`${validationType} condition is not implemented`);
     await waitFn(element, reverse, timeout, timeoutMsg);
 }
 
-export function getConditionWait(condition: string): Function {
+export type ConditionWait = (element: Locator, timeout: number) => Promise<void>;
+
+export function getConditionWait(condition: string): ConditionWait {
     const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
     if (!match) throw new Error(`${condition} condition is not implemented`);
     const [_, reverse, soft, validation] = match;

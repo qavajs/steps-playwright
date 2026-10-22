@@ -1,6 +1,7 @@
 import { type Locator } from '@playwright/test';
 import { type MemoryValue, type Validation, Then } from '@qavajs/core';
 import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
+import type { ConditionWait } from './conditionWait';
 
 /**
  * Verify element condition
@@ -10,8 +11,8 @@ import { QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {playwrightLocator} {playwrightCondition}', async function (this: QavajsPlaywrightWorld, locator: Locator, condition: any) {
-    await condition(locator, this.config.browser.timeout.page);
+Then('I expect {playwrightLocator} {playwrightCondition}', async function (this: QavajsPlaywrightWorld, locator: Locator, condition: ConditionWait) {
+    await condition(locator, this.config.driverConfig.timeout.page);
 });
 
 /**
@@ -25,8 +26,8 @@ Then(
     'I expect text of {playwrightLocator} {validation} {value}',
     async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const elementText = () => locator.innerText({ timeout: interval });
         await validation.poll(elementText, expectedValue, { timeout, interval });
     }
@@ -43,8 +44,8 @@ Then(
     'I expect value of {playwrightLocator} {validation} {value}',
     async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const actualValue = () => locator.inputValue({ timeout: interval });
         await validation.poll(actualValue, expectedValue, { timeout, interval });
     }
@@ -64,8 +65,8 @@ Then(
     async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const actualValue =
             () => locator.evaluate((node: any, propertyName: string) => node[propertyName], propertyName, { timeout: interval });
         await validation.poll(actualValue, expectedValue, { timeout, interval });
@@ -85,8 +86,8 @@ Then(
     async function (this: QavajsPlaywrightWorld, attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const attributeName = await attribute.value();
         const expectedValue = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const actualValue = () => locator.getAttribute(attributeName, { timeout: interval });
         await validation.poll(actualValue, expectedValue, { timeout, interval });
     }
@@ -106,8 +107,8 @@ Then(
     async function (this: QavajsPlaywrightWorld, propertyGetter: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const script: () => any = await propertyGetter.value();
         const expectedValue = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const actualValue =
             () => locator.evaluate(script, { timeout: interval });
         await validation.poll(actualValue, expectedValue, { timeout, interval });
@@ -125,8 +126,8 @@ Then(
     'I expect current url {validation} {value}',
     async function (this: QavajsPlaywrightWorld, validation: Validation, expected: MemoryValue) {
         const expectedUrl = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const actualUrl = () => this.playwright.page.url();
         await validation.poll(actualUrl, expectedUrl, { timeout, interval });
     }
@@ -145,8 +146,8 @@ Then(
     'I expect number of elements in {playwrightLocator} collection {validation} {value}',
     async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const actualCount = () => locator.count();
         await validation.poll(actualCount, expectedValue, { timeout, interval });
     }
@@ -162,8 +163,8 @@ Then(
     'I expect page title {validation} {value}',
     async function (this: QavajsPlaywrightWorld, validation: Validation, expected: MemoryValue) {
         const expectedTitle = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const actualTitle = () => this.playwright.page.title();
         await validation.poll(actualTitle, expectedTitle, { timeout, interval });
     }
@@ -176,8 +177,8 @@ Then(
  * @example I expect every element in 'Header > Links' collection to be visible
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
-Then('I expect every element in {playwrightLocator} collection {playwrightCondition}', async function (this: QavajsPlaywrightWorld, locator: Locator, condition: any) {
-    const conditionWait = (element: Locator) => condition(element, this.config.browser.timeout.page);
+Then('I expect every element in {playwrightLocator} collection {playwrightCondition}', async function (this: QavajsPlaywrightWorld, locator: Locator, condition: ConditionWait) {
+    const conditionWait = (element: Locator) => condition(element, this.config.driverConfig.timeout.page);
     for (let i = 0; i < await locator.count(); i++) {
         await conditionWait(locator.nth(i));
     }
@@ -195,7 +196,7 @@ Then(
     'I expect text of every element in {playwrightLocator} collection {validation} {value}',
     async function (this: QavajsPlaywrightWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
-        const interval = this.config.browser.timeout.valueInterval;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         for (let i = 0; i < await locator.count(); i++) {
             const elementText = () => locator.nth(i).innerText({ timeout: interval });
             await validation.poll(elementText, expectedValue, { interval });
@@ -215,7 +216,7 @@ Then(
     async function (this: QavajsPlaywrightWorld, attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const attributeName = await attribute.value();
-        const interval = this.config.browser.timeout.valueInterval;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         for (let i = 0; i < await locator.count(); i++) {
             const attributeValue = () => locator.nth(i).getAttribute(attributeName, { timeout: interval });
             await validation.poll(attributeValue, expectedValue, { interval });
@@ -236,7 +237,7 @@ Then(
     async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const propertyName = await property.value();
-        const interval = this.config.browser.timeout.valueInterval;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         for (let i = 0; i < await locator.count(); i++) {
             const propertyValue = () => locator.nth(i).evaluate(
                 (node: any, property: string) => node[property],
@@ -261,7 +262,7 @@ Then(
     async function (this: QavajsPlaywrightWorld, propertyGetter: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const script: () => any = await propertyGetter.value();
-        const interval = this.config.browser.timeout.valueInterval;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         for (let i = 0; i < await locator.count(); i++) {
             const propertyValue = () => locator.nth(i).evaluate(
                 script,
@@ -286,8 +287,8 @@ Then(
     async function (this: QavajsPlaywrightWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         const actualValue = () => locator.evaluate(
             (node: Element, propertyName: string) => getComputedStyle(node).getPropertyValue(propertyName),
             propertyName,
@@ -311,8 +312,8 @@ Then(
     async function (this: QavajsPlaywrightWorld, property: MemoryValue, collection: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
-        const timeout = this.config.browser.timeout.value;
-        const interval = this.config.browser.timeout.valueInterval;
+        const timeout = this.config.driverConfig.timeout.value;
+        const interval = this.config.driverConfig.timeout.valueInterval;
         for (let i = 0; i < await collection.count(); i++) {
             const locator = collection.nth(i);
             const actualValue = () => locator.evaluate(

@@ -1,8 +1,39 @@
 {
   "name": "@qavajs/steps-playwright",
-  "version": "2.17.0",
+  "version": "2.18.0",
   "description": "qavajs steps to interact with playwright",
   "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./index.js": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./po": {
+      "types": "./po.d.ts",
+      "default": "./po.js"
+    },
+    "./po.js": {
+      "types": "./po.d.ts",
+      "default": "./po.js"
+    },
+    "./lib/*.js": "./lib/*.js",
+    "./lib/*": "./lib/*.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "index.js",
+    "index.d.ts",
+    "po.js",
+    "po.d.ts",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "vitest --coverage run",
@@ -26,24 +57,23 @@
   },
   "homepage": "https://github.com/qavajs/steps-playwright#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^13.2.1",
+    "@cucumber/cucumber": "^13.3.0",
     "@qavajs/console-formatter": "^1.2.1",
     "@qavajs/core": "^2.17.0",
     "@qavajs/html-formatter": "^1.3.0",
     "@qavajs/memory": "^1.11.0",
     "@qavajs/validation": "^1.6.3",
     "@types/express": "^5.0.6",
-    "@types/node": "^26.1.1",
-    "@vitest/coverage-v8": "^5.0.0",
-    "@vitest/ui": "^5.0.0",
-    "electron": "^44.3.0",
-    "express": "^5.2.1",
-    "ts-node": "^10.9.2",
+    "@types/node": "^26.6.5",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vitest/ui": "^5.0.5",
+    "electron": "^45.0.0",
+    "express": "^5.3.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.5"
   },
   "dependencies": {
-    "@playwright/test": "^1.63.0"
+    "@playwright/test": "^1.64.1"
   },
   "keywords": [
     "test",
@@ -70,5 +100,8 @@
     "automation-framework",
     "playwright",
     "webdriver"
-  ]
+  ],
+  "peerDependencies": {
+    "@qavajs/core": "^2.0.0"
+  }
 }

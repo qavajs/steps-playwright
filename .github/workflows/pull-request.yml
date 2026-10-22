@@ -4,6 +4,9 @@ permissions:
   contents: read
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -17,8 +20,8 @@ jobs:
         version: [ 22, 24, 26 ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.version }}
       - run: npm ci
@@ -27,7 +30,7 @@ jobs:
       - run: npm run install:browsers
       - run: npm run test:e2e
       - name: junit report (web)
-        uses: mikepenz/action-junit-report@v4
+        uses: mikepenz/action-junit-report@v6
         if: always()
         with:
           report_paths: './test-e2e/report.xml'
@@ -35,20 +38,16 @@ jobs:
   test-electron:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - run: npm ci
       - run: npm run build
       - run: npm run test
-      - name: setup virtual display
-        run: |
-          export DISPLAY=:99
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
       - run: xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24" npm run test:e2e:electron
       - name: junit report (electron)
-        uses: mikepenz/action-junit-report@v4
+        uses: mikepenz/action-junit-report@v6
         if: always()
         with:
           report_paths: './test-e2e/report.xml'

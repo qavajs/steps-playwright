@@ -1,4 +1,5 @@
 import { type Browser, type BrowserContext, type Page, Locator, FrameLocator } from '@playwright/test';
+import type { Playwright } from './playwright';
 
 type SelectorDefinition = string | ((argument: string) => string) | ((argument: any) => any) | null;
 
@@ -177,22 +178,29 @@ export class ChainItem {
  * //   ChainItem { alias: 'User', selector: fn, type: 'template', argument: '3' },
  * // ]
  */
-export function query(root: any, path: string) {
+export function query(root: any, path: string): ChainItem[] {
     const elements = path.split(/\s*>\s*/);
-    const tokens = [];
+    const tokens: ChainItem[] = [];
     let currentComponent = typeof root === 'function' ? new root() : root;
     let currentAlias = 'page object root';
     for (const element of elements) {
-        const groups = element.match(/^(?<alias>.+?)(?:\((?<argument>.+)\))?$/)?.groups as { alias: string, argument: string };
+        const groups = element.match(/^(?<alias>.+?)(?:\((?<argument>.+)\))?$/)?.groups as { alias: string, argument: string } | undefined;
+        if (!groups) {
+            throw new Error(`Empty alias in '${path}' path`);
+        }
         const alias = groups.alias.replace(/\s/g, '');
+        if (!currentComponent) {
+            throw new Error(`Alias '${alias}' has not been found in '${currentAlias}', because '${currentAlias}' is not a component`);
+        }
         let currentElement = currentComponent[alias];
-        if (!currentElement && (!currentComponent.defaultResolver || typeof currentComponent.defaultResolver !== 'function')) {
+        if (!currentElement && typeof currentComponent.defaultResolver !== 'function') {
             throw new Error(`Alias '${alias}' has not been found in '${currentAlias}'`);
         }
-        if (!currentElement && currentComponent.defaultResolver) {
-            currentElement = {};
-            currentElement.selector = currentComponent.defaultResolver({ alias: groups.alias, argument: groups.argument });
-            currentElement.type = 'native';
+        if (!currentElement) {
+            currentElement = {
+                selector: currentComponent.defaultResolver({ alias: groups.alias, argument: groups.argument }),
+                type: 'native'
+            };
         }
         currentAlias = groups.alias;
         currentComponent = currentElement.component ? new currentElement.component() : null;
@@ -219,7 +227,13 @@ export function query(root: any, path: string) {
  * element.call(world, 'Header > SubmitButton')
  * element.call(world, 'Table > Row(John) > EditButton')
  */
-export function element(this: any, path: string): Locator {
+export type ElementContext = {
+    config: { pageObject: any };
+    playwright: Playwright;
+    log(message: string): void;
+};
+
+export function element(this: ElementContext, path: string): Locator {
     const chain = query(this.config.pageObject, path);
     const page = this.playwright.page as Page;
     const logger = this;

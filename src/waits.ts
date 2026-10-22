@@ -1,6 +1,7 @@
 import { type Locator } from '@playwright/test';
 import { type MemoryValue, type Validation, When } from '@qavajs/core';
 import { type QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
+import type { ConditionWait } from './conditionWait';
 
 /**
  * Refresh page unless element matches condition
@@ -13,12 +14,12 @@ import { type QavajsPlaywrightWorld } from './QavajsPlaywrightWorld';
  */
 When(
     'I refresh page until {playwrightLocator} {playwrightCondition}( ){playwrightTimeout}',
-    async function (this: QavajsPlaywrightWorld, locator: Locator, condition: any, timeoutValue: number | null) {
-        const timeout = timeoutValue ?? this.config.browser.timeout.value;
+    async function (this: QavajsPlaywrightWorld, locator: Locator, condition: ConditionWait, timeoutValue: number | null) {
+        const timeout = timeoutValue ?? this.config.driverConfig.timeout.value;
         await this.playwright.expect(async () => {
             await this.playwright.page.reload()
-            await condition(locator, this.config.browser.timeout.pageRefreshInterval);
-        }).toPass({timeout, intervals: [this.config.browser.timeout.pageRefreshInterval]});
+            await condition(locator, this.config.driverConfig.timeout.pageRefreshInterval);
+        }).toPass({timeout, intervals: [this.config.driverConfig.timeout.pageRefreshInterval]});
     }
 );
 
@@ -40,8 +41,8 @@ When(
             await this.playwright.page.reload();
             return await locator.innerText();
         }, expectedValue, {
-            timeout: timeoutValue ?? this.config.browser.timeout.value,
-            interval: this.config.browser.timeout.pageRefreshInterval
+            timeout: timeoutValue ?? this.config.driverConfig.timeout.value,
+            interval: this.config.driverConfig.timeout.pageRefreshInterval
         });
     }
 );
@@ -73,8 +74,8 @@ When(
             },
             expectedText,
             {
-                timeout: timeoutValue ?? this.config.browser.timeout.value,
-                interval: this.config.browser.timeout.actionInterval
+                timeout: timeoutValue ?? this.config.driverConfig.timeout.value,
+                interval: this.config.driverConfig.timeout.actionInterval
             },
         );
     },
@@ -107,8 +108,8 @@ When(
             },
             expectedValue,
             {
-                timeout: timeoutValue ?? this.config.browser.timeout.value,
-                interval: this.config.browser.timeout.actionInterval
+                timeout: timeoutValue ?? this.config.driverConfig.timeout.value,
+                interval: this.config.driverConfig.timeout.actionInterval
             },
         );
     },
@@ -127,32 +128,38 @@ When('I wait {int} ms', async function (this: QavajsPlaywrightWorld, ms) {
 
 /**
  * Wait for absence of network activity during specified period of time
+ * Fails if network is not idle within page timeout
  * @param {number} timeout - wait condition
- * @example I wait for network idle for 1000 ms
+ * @example I wait for network idle
+ * @example I wait for network idle (timeout: 1000)
  */
 When('I wait for network idle {playwrightTimeout}', async function (this: QavajsPlaywrightWorld, timeoutValue: number | null) {
-    const timeout = timeoutValue ?? this.config.browser.timeout.networkIdle ?? 500
-    return new Promise((resolve) => {
-        let timerId: any = setTimeout(() => {
-            cleanupAndResolve();
-        }, timeout);
+    const idleTimeout = timeoutValue ?? this.config.driverConfig.timeout.networkIdle;
+    const maxTimeout = Math.max(this.config.driverConfig.timeout.page, idleTimeout);
+    const page = this.playwright.page;
+    return new Promise<void>((resolve, reject) => {
+        let idleTimerId = setTimeout(() => cleanup(resolve), idleTimeout);
+        const maxTimerId = setTimeout(
+            () => cleanup(() => reject(new Error(`Network was not idle for ${idleTimeout} ms within ${maxTimeout} ms`))),
+            maxTimeout
+        );
 
         const resetTimer = () => {
-            clearTimeout(timerId);
-            timerId = setTimeout(() => {
-                cleanupAndResolve();
-            }, timeout);
+            clearTimeout(idleTimerId);
+            idleTimerId = setTimeout(() => cleanup(resolve), idleTimeout);
         };
 
-        this.playwright.page.on('request', resetTimer);
-        this.playwright.page.on('requestfinished', resetTimer);
-        this.playwright.page.on('requestfailed', resetTimer);
-
-        const cleanupAndResolve = () => {
-            this.playwright.page.removeListener('request', resetTimer);
-            this.playwright.page.removeListener('requestfinished', resetTimer);
-            this.playwright.page.removeListener('requestfailed', resetTimer);
-            resolve(0);
+        const cleanup = (done: () => void) => {
+            clearTimeout(idleTimerId);
+            clearTimeout(maxTimerId);
+            page.removeListener('request', resetTimer);
+            page.removeListener('requestfinished', resetTimer);
+            page.removeListener('requestfailed', resetTimer);
+            done();
         };
+
+        page.on('request', resetTimer);
+        page.on('requestfinished', resetTimer);
+        page.on('requestfailed', resetTimer);
     });
-})
+});
