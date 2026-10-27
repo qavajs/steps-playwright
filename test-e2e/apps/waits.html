@@ -57,7 +57,10 @@
     });
 
     randomTextDiv.innerText = text;
-    if (randomBoolean) {
+    // button is disabled for the first 2 page loads to require at least one refresh retry
+    const loadCount = Number(sessionStorage.getItem('loadCount') ?? 0) + 1;
+    sessionStorage.setItem('loadCount', String(loadCount));
+    if (loadCount <= 2) {
         const button = document.querySelector('#isDisabledButton');
         button.setAttribute('disabled', 'true');
     }

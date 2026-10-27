@@ -84,5 +84,5 @@ When('I restore {value} mock', async function (this: QavajsPlaywrightWorld, mock
  * @example When I restore all mocks
  */
 When('I restore all mocks', async function (this: QavajsPlaywrightWorld) {
-   (this.playwright.page as any)._routes = [];
+    await this.playwright.page.unrouteAll({ behavior: 'ignoreErrors' });
 });

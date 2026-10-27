@@ -89,7 +89,7 @@ When('I clear {playwrightLocator}', async function (this: QavajsPlaywrightWorld,
 When('I switch to {int} window', async function (this: QavajsPlaywrightWorld, index: number) {
     await this.playwright.expect.poll(
         () => this.playwright.context.pages().length,
-        { timeout:this.config.browser.timeout.page }
+        { timeout: this.config.driverConfig.timeout.page }
     ).toBeGreaterThan(index - 1);
     this.playwright.setPage(this.playwright.context.pages().at(index - 1) as Page)
     await this.playwright.page.bringToFront();
@@ -113,7 +113,7 @@ When('I switch to {value} window', async function (this: QavajsPlaywrightWorld, 
     await this.playwright.expect.poll(
         poll,
         {
-            timeout: this.config.browser.timeout.page,
+            timeout: this.config.driverConfig.timeout.page,
             message: `Page matching ${urlOrTitle} was not found`
         }
     ).toBeDefined();

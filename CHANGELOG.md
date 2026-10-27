@@ -14,6 +14,22 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.18.0]
+- :rocket: extended `IQavajsPlaywrightConfig` type with all supported options (`capabilities`, `screenshot`, `trace`, `video`, `reuseSession`, `restartBrowser`, `driver` alias)
+- :rocket: added `exports`, `types` and `engines` to package.json, `@qavajs/core` is declared as peer dependency
+- :rocket: `I wait for network idle` step fails if network is not idle within `page` timeout instead of hanging
+- :rocket: `clickable` condition checks that element is both visible and enabled
+- :rocket: videos that do not match `video.event` are removed after scenario
+- :beetle: fixed steps failing when config is provided via `driver` property instead of `browser`
+- :beetle: fixed trace chunk not being stopped for scenarios that do not match `trace.event` in `reuseSession` mode
+- :beetle: `I restore all mocks` uses public `page.unrouteAll()` instead of private API
+- :beetle: improved page object errors for empty aliases and aliases of non-component elements
+- :pencil: user config is no longer mutated by driver initialization; steps read resolved config from `this.config.driverConfig` (custom steps reading defaulted timeouts from `this.config.browser.timeout` should switch to `this.config.driverConfig.timeout`)
+- :pencil: added unit tests for page object, utils and conditions; fixed vitest coverage thresholds
+- :pencil: CI runs on push to main, tests run before publish, package is published with provenance
+- :pencil: updated dependencies (playwright to 1.64.1, electron to 45.0.0)
+- :pencil: made `refresh page until element state` e2e test deterministic
+
 ## [2.17.0]
 - :beetle: fixed `ReferenceError: __name is not defined` thrown by `I click ... electron menu` step by removing a named function expression inside the `evaluate()` callback that triggered esbuild's `keepNames` wrapping
 

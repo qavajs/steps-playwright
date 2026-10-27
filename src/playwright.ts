@@ -1,6 +1,7 @@
 import { driverProvider } from './driverProvider';
-import { Browser, BrowserContext, ElectronApplication, Page, expect } from '@playwright/test';
+import { Browser, BrowserContext, BrowserContextOptions, ElectronApplication, Page, expect } from '@playwright/test';
 import timeout from './defaultTimeouts';
+import type { ResolvedDriverConfig } from './IQavajsPlaywrightConfig';
 
 type BrowserDict = {
     [key: string]: Browser;
@@ -8,6 +9,12 @@ type BrowserDict = {
 
 interface NamedContext extends BrowserContext {
     name?: string;
+}
+
+type LaunchDriverConfig = Partial<Pick<ResolvedDriverConfig, 'isElectron' | 'reuseSession' | 'capabilities' | 'timeout'>>;
+
+function isElectronApp(driver: unknown): driver is ElectronApplication {
+    return typeof (driver as ElectronApplication)?.firstWindow === 'function';
 }
 
 export class Playwright {
@@ -23,15 +30,15 @@ export class Playwright {
         this.driverProvider = driverProvider;
     }
 
-    async launchDriver(key: string, driverConfig: any) {
+    async launchDriver(key: string, driverConfig: LaunchDriverConfig) {
         const driverInstance = (key === 'default' && this.drivers.default)
             ? this.drivers.default
             : await this.driverProvider(driverConfig);
         this.drivers[key] = driverInstance;
         this.setDriver(driverInstance);
-        if (driverConfig.isElectron) {
-            this.setContext((driverInstance as any as ElectronApplication).context());
-            this.setPage(await (driverInstance as any as ElectronApplication).firstWindow())
+        if (driverConfig.isElectron && isElectronApp(driverInstance)) {
+            this.setContext(driverInstance.context());
+            this.setPage(await driverInstance.firstWindow());
         } else {
             const firstContext = driverInstance.contexts()[0];
             const context = driverConfig.reuseSession && firstContext
@@ -48,7 +55,7 @@ export class Playwright {
         this.context.setDefaultTimeout(driverConfig?.timeout?.action ?? timeout.action);
     }
 
-    async launchContext(key: string, contextConfig: any) {
+    async launchContext(key: string, contextConfig?: BrowserContextOptions) {
         if (!this.driver) throw new Error('No active drivers launched');
         const newContext: NamedContext = await this.driver.newContext(contextConfig);
         newContext.name = key;
@@ -105,11 +112,11 @@ export class Playwright {
         this.setDriver(this.drivers['default']);
         if (reuseSession) return;
         for (const driverKey in this.drivers) {
-            const driverInstance = this.drivers[driverKey] as any;
-            if (driverInstance.firstWindow) {
+            const driverInstance: unknown = this.drivers[driverKey];
+            if (isElectronApp(driverInstance)) {
                 await this.electronTeardown(driverInstance, driverKey);
             } else {
-                await this.browserTeardown(driverInstance, driverKey, restartBrowser);
+                await this.browserTeardown(driverInstance as Browser, driverKey, restartBrowser);
             }
         }
     }
@@ -127,31 +134,34 @@ export class Playwright {
     }
 
     async electronTeardown(driverInstance: ElectronApplication, driverKey: string) {
-        await driverInstance.evaluate((main: any) => { main.app.exit(0) });
+        await driverInstance.evaluate((main) => { main.app.exit(0) });
         delete this.drivers[driverKey];
     }
 
     async close() {
         for (const driverKey in this.drivers) {
-            const driverInstance = this.drivers[driverKey] as any;
-            if (driverInstance.firstWindow) {
+            const driverInstance: unknown = this.drivers[driverKey];
+            if (isElectronApp(driverInstance)) {
                 await this.electronTeardown(driverInstance, driverKey);
             } else {
-                await driverInstance.close();
+                await (driverInstance as Browser).close();
             }
             delete this.drivers[driverKey];
         }
     };
 
     getDefaultContext(): BrowserContext {
-        const currentDriver: any = this.driver;
-        return currentDriver.context ? currentDriver.context() : currentDriver.contexts().at(0);
+        const currentDriver: unknown = this.driver;
+        return isElectronApp(currentDriver)
+            ? currentDriver.context()
+            : this.driver.contexts().at(0) as BrowserContext;
     }
 
     async getFirstPage(): Promise<Page> {
-        const currentDriver: any = this.driver;
-        const currentContext: any = this.context;
-        return currentDriver.firstWindow ? await currentDriver.firstWindow() : currentContext.pages().at(0);
+        const currentDriver: unknown = this.driver;
+        return isElectronApp(currentDriver)
+            ? await currentDriver.firstWindow()
+            : this.context.pages().at(0) as Page;
     }
 
     setDriver(driver: Browser) {

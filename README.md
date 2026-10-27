@@ -32,7 +32,9 @@ export default {
             page: 10000,
             value: 5000, // expect value timeout
             valueInterval: 500, // expect value interval
-            pageRefreshInterval: 2000 // refresh page for 'I refresh page...' steps
+            actionInterval: 1000, // interval for 'I click ... until ...' steps
+            pageRefreshInterval: 2000, // refresh page for 'I refresh page...' steps
+            networkIdle: 500 // default period of network inactivity for 'I wait for network idle' step
         },
         capabilities: {
             browserName: 'chromium',
@@ -42,6 +44,24 @@ export default {
     pageObject: new App()
 }
 ```
+
+`driver` property can be used as an alias of `browser`.
+
+Config is described by `IQavajsPlaywrightConfig` type, so it can be used to get autocompletion and type checking:
+```typescript
+import type { IQavajsPlaywrightConfig } from '@qavajs/steps-playwright';
+
+const config: IQavajsPlaywrightConfig = {
+    browser: {
+        capabilities: { browserName: 'chromium' }
+    }
+};
+```
+
+Resolved config (with default timeouts applied) is available in custom steps as `this.config.driverConfig`.
+
+## Element conditions
+`I expect ... to be clickable` checks that element is both visible and enabled.
 
 ## Context variables
 @qavajs/steps-playwright exposes following to step context
@@ -130,11 +150,12 @@ export default {
             event: ['onFail'], // Events to save video. Possible value onFail or afterScenario 
             dir: 'dirToStoreVideo', // Dir to store video. Default is video/
             size: { width: 640, height: 480 }, // Video resolution
-            attach: true // Define if trace need to be attached to cucumber report. Default false
+            attach: true // Define if video need to be attached to cucumber report. Default false
         }
     }
 }
 ```
+Videos of scenarios that do not match `event` are removed after scenario (except `reuseSession` mode).
 
 ## reuseSession
 `reuseSession` flag allows to share session between tests in frames of process. But setting of this flag
@@ -170,7 +191,7 @@ npm install
 
 Install playwright browsers
 ```
-npm install:browsers`
+npm run install:browsers
 ```
 
 Build lib
@@ -180,15 +201,15 @@ npm run build
 
 Execute unit test (with vitest)
 ```
-npm run test`
+npm run test
 ```
 
 Execute e2e browser tests
 ```
-npm run test:e2e`
+npm run test:e2e
 ```
 
 Execute e2e electron tests
 ```
-npm run test:e2e:electron`
+npm run test:e2e:electron
 ```
